@@ -46,17 +46,22 @@ loadShader('invert', null);
 loadSprite('duck', './img/duck.png', {
     sliceX: 4,
     anims: {
-        idle: {
-            from: 0,
-            to: 0,
-            speed: 6,
-            loop: true,
-        },
-        run: {
+        'idle': {
             from: 1,
             to: 0,
             speed: 6,
             loop: true,
+        },
+        'run': {
+            from: 1,
+            to: 0,
+            speed: 6,
+            loop: true,
+        },
+        'win': {
+            from: 3,
+            to: 3,
+            loop: false,
         },
     },
 });
@@ -64,13 +69,13 @@ loadSprite('duck', './img/duck.png', {
 loadSprite('enemy', './img/enemy.png', {
     sliceX: 2,
     anims: {
-        idle: {
+        'idle': {
             from: 0,
-            to: 0,
+            to: 1,
             speed: 6,
             loop: true,
         },
-        run: {
+        'run': {
             from: 0,
             to: 1,
             speed: 6,
@@ -82,29 +87,29 @@ loadSprite('enemy', './img/enemy.png', {
 loadSprite('titleScreen', './img/title-screen.png', {
     sliceX: 0,
     anims: {
-        blink: {
+        'blink': {
             from: 0,
             to: 0,
             speed: 2,
             loop: true,
         },
-    },
+    }
 });
 
 function addButton(texte, posX, posY) {
     function addButton(txt, f) {
         const btn = k.add([
-            rect(280, 80, { radius: 8 }),
+            rect(320, 96, { radius: 8 }),
             pos(posX, posY),
             area(),
             scale(1),
             anchor('center'),
-            outline(4, Color.fromHex('#3C5AA5')),
+            outline(6, Color.fromHex('#3C5AA5')),
             color(219, 249, 255),
         ]);
 
         btn.add([
-            text(txt),
+            text(txt, { size: 80, font: 'jersey' }),
             anchor('center'),
             color(Color.fromHex('#3C5AA5')),
         ]);
@@ -127,6 +132,17 @@ function addButton(texte, posX, posY) {
     addButton(texte, () => {
         go('game');
     });
+}
+
+//RECANGLES
+function addRect(width, height, posX, posY) {
+    k.add([
+        rect(width, height),
+        pos(posX, posY),
+        area(),
+        color(0, 0, 0),
+        body({ isStatic: true }),
+    ]);
 }
 
 /****************/
@@ -160,4 +176,4 @@ scene('menu', () => {
     ]);
 });
 
-export { k, gameState, SPEED, addButton };
+export { k, gameState, SPEED, addRect, addButton };

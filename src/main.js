@@ -1,20 +1,8 @@
-import { k, gameState, SPEED, addButton } from './appInit.js';
-
-/****************/
-/*     GAME     */
-/****************/
+import { k, gameState, SPEED, addRect } from './appInit.js';
+import { createPlayer } from './player.js';
 
 scene('game', () => {
-    //RECANGLES
-    function addRect(width, height, posX, posY) {
-        k.add([
-            rect(width, height),
-            pos(posX, posY),
-            area(),
-            color(0, 0, 0),
-            body({ isStatic: true }),
-        ]);
-    }
+
     //HAUT
     addRect(5760, 1080, -1920, -1180);
     //BAS
@@ -24,11 +12,8 @@ scene('game', () => {
     //GAUCHE
     addRect(1920, 3240, 2020, -1080);
 
-    //SCORE
-    gameState.item = 0;
-
     const score = add([
-        text('Score ' + 0, {
+        text(' ' + 0, {
             font: 'jersey',
             size: 100,
         }),
@@ -40,32 +25,17 @@ scene('game', () => {
         { value: 0 },
     ]);
 
-    // SCALEOBJECT
-    function scaleObject(param1) {
-        param1.scale = vec2(1.4);
+    // bump
+    function bump(param1) {
+        param1.scale = vec2(1.15);
         wait(0.2, () => {
-            param1.scale = vec2(1.25);
+            param1.scale = vec2(1);
         });
     }
 
-    //THREE
-    const three = k.add([
-        sprite('three'),
-        pos(1080, 256),
-        scale(1),
-        anchor('center'),
-        area(),
-        body({ mass: 30 }),
-        'three',
-    ]);
-
-    k.onCollide('duck', 'three', () => {
-        scaleObject(three);
-    });
-
     //ENEMY
-    let SPEED_enemy = 10;
-    let SIZE_enemy = 2;
+    let SPEED_enemy = 20;
+    let SIZE_enemy = 1;
     const SOUND_enemy = play('roomba');
 
     const enemy = add([
@@ -90,8 +60,12 @@ scene('game', () => {
     });
 
     enemy.onStateEnter('move', async () => {
-        await wait(2);
-        enemy.enterState('idle');
+        wait(1, () => {
+            enemy.enterState('idle');
+        });
+        wait(2.5, () => {
+            enemy.enterState('move');
+        });
     });
 
     enemy.onStateUpdate('move', () => {
@@ -100,64 +74,21 @@ scene('game', () => {
         enemy.move(dir.scale(SPEED_enemy));
     });
 
-    k.onCollide('duck', 'enemy', () => {
-        destroy(player);
-        SOUND_enemy.paused = !SOUND_enemy.paused;
-        play('lose');
-
-        gameState.scoreEnregistré = score.value;
-        go('lose');
-    });
-
     // PLAYER
-    const player = k.add([
-        sprite('duck'),
-        pos(center()),
-        scale(2),
-        anchor('center'),
-        area({ scale: 1 }),
-        body(),
-        shader('invert', () => ({
-            u_time: time(),
-        })),
-        state('move', ['idle', 'run']),
-        'duck',
-    ]);
-
-    player.onUpdate(() => {
-        setCamPos(player.pos);
-        setCamScale(1);
-    });
-
-    // CONTROLS
-    onKeyDown('left', () => {
-        player.move(-SPEED, 0);
-    });
-    onKeyDown('right', () => {
-        player.move(SPEED, 0);
-    });
-    onKeyDown('up', () => {
-        player.move(0, -SPEED);
-    });
-    onKeyDown('down', () => {
-        player.move(0, SPEED);
-    });
-
-    onKeyPress('left', () => {
-        player.flipX = true;
-    });
-    onKeyPress('right', () => {
-        player.flipX = false;
-    });
-
-    onKeyPress(['left', 'right', 'up', 'down'], () => {
-        player.play('run');
-    });
-    onKeyRelease(['left', 'right', 'up', 'down'], () => {
-        player.play('idle');
-    });
+    const player = createPlayer();
 
     //OBJETS
+    //THREE
+    const three = k.add([
+        sprite('three'),
+        pos(1080, 256),
+        scale(1),
+        anchor('center'),
+        area(),
+        body({ mass: 30 }),
+        'three',
+    ]);
+
     const pear = sprite('pear');
     const banana = sprite('banana');
     const tomato = sprite('tomato');
@@ -184,22 +115,21 @@ scene('game', () => {
         ]);
     }
 
+    //GAME LOGIC
+    gameState.item = 0;
+
     for (let i = 0; i < 10; i++) {
         appear('objet');
     }
 
-    //LOOT
+    player.onCollide('three', () => {
+        bump(three);
+    });    
+
     player.onCollide('objet', (objet) => {
         destroy(objet);
-        scaleObject(player);
+        bump(player);
         appear('objet');
-
-        function colChange(couleur) {
-            score.color = couleur;
-            wait(0.5, () => {
-                score.color = WHITE;
-            });
-        }
 
         if (objet.sprite == 'pear') {
             score.value += 20;
@@ -224,19 +154,27 @@ scene('game', () => {
 
         if (enemy.exists() === true) {
             enemy.scale = vec2(SIZE_enemy);
-            SIZE_enemy += 0.01;
+            SIZE_enemy += 0.1;
             SPEED_enemy += 5;
         }
 
-        scaleObject(score);
+        bump(score);
+        score.text = score.value;
+    });
 
-        score.text = '€ ' + score.value;
+    enemy.onCollide('duck', () => {
+        destroy(player);
+        SOUND_enemy.paused = !SOUND_enemy.paused;
+        play('lose');
+
+        gameState.scoreEnregistré = score.value;
+        go('lose');
     });
 
     enemy.onCollide('objet', (objet) => {
-        if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
+        //if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
             destroy(objet);
-        }
+        //}
     });
 
     // STAR
@@ -256,7 +194,7 @@ scene('game', () => {
             starBonus.angle += 120 * dt();
         });
 
-        k.onCollide('duck', 'star', (star) => {
+        player.onCollide('star', () => {
             score.text = '€ ' + score.value;
             destroy(starBonus);
 
@@ -269,55 +207,13 @@ scene('game', () => {
             destroy(starBonus);
         });
     });
-});
 
-/****************/
-/*    ENDING    */
-/****************/
 
-scene('lose', () => {
-    function scorePersonnalisé(param1, param2) {
-        add([
-            sprite(param1),
-            pos(width() / 5, height() / 2 - 80),
-            scale(1.5),
-            anchor('center'),
-        ]);
-        add([
-            text(param2, {
-                font: 'jersey',
-                size: 56,
-            }),
-            pos(width() / 2, height() / 2 - 160),
-            anchor('center'),
-        ]);
-    }
-
-    if (gameState.scoreEnregistré > 0) {
-        scorePersonnalisé('duck', 'Fin °1 : Bien joué !');
-    } else if (gameState.scoreEnregistré <= 0) {
-        scorePersonnalisé('duck', "Fin n°2 : C'est mal joué :(");
-    }
-
-    // display score
-    add([
-        text(0 + gameState.scoreEnregistré + ' score'),
-        pos(width() / 2, height() / 2 - 80),
-        scale(1),
-        anchor('center'),
-    ]);
-
-    add([
-        text(0 + gameState.item + ' virus'),
-        pos(width() / 2, height() / 2),
-        scale(1),
-        anchor('center'),
-    ]);
-
-    addButton('Mieux faire', width() / 2, height() / 2 + 180);
+    
 });
 
 
-go('menu');
+
+import './endingScreen.js';
 
 
