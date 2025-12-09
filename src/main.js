@@ -10,13 +10,13 @@ const k = kaplay({
     letterbox: true,
 });
 
-debug.inspect = true;
+//debug.inspect = true;
 
 // SOUNDS
 loadSound('ring', './sound/ring.mp3');
 loadSound('debuff', './sound/glou.mp3');
 loadSound('fumer', './sound/fumer.mp3');
-loadSound('badGuy', './sound/roomba.mp3');
+loadSound('roomba', './sound/roomba.mp3');
 loadSound('lose', './sound/lose.mp3');
 loadSound("OtherworldlyFoe", "./sound/OtherworldlyFoe.mp3");
 play("OtherworldlyFoe", { loop: true, paused: false, });
@@ -40,49 +40,55 @@ loadSprite('star', './img/star.png');
 loadSprite('three', './img/three.png');
 loadShader("invert", null);
 
-loadSprite('duck', './img/duck.png', {  sliceX: 4,
-anims: {
-    'idle': {
-        from: 0,
-        to: 0,
-        speed: 6,
-        loop: true,
-    },
-    'run': {
-        from: 0,
-        to: 1,
-        speed: 6,
-        loop: true,
+loadSprite('duck', './img/duck.png', {
+    sliceX: 4,
+    anims: {
+        'idle': {
+            from: 0,
+            to: 0,
+            speed: 6,
+            loop: true,
+        },
+        'run': {
+            from: 1,
+            to: 0,
+            speed: 6,
+            loop: true,
+        }
     }
-}});
+});
 
-loadSprite('badGuy', './img/badguy.png', { sliceX: 2,
-anims: {
-    'idle': {
-        from: 0,
-        to: 0,
-        speed: 6,
-        loop: true,
-    },
-    'run': {
-        from: 0,
-        to: 1,
-        speed: 6,
-        loop: true,
+loadSprite('enemy', './img/enemy.png', {
+    sliceX: 2,
+    anims: {
+        'idle': {
+            from: 0,
+            to: 0,
+            speed: 6,
+            loop: true,
+        },
+        'run': {
+            from: 0,
+            to: 1,
+            speed: 6,
+            loop: true,
+        }
     }
-}});
+});
 
-loadSprite('titleScreen', './img/title-screen.png', { sliceX: 0,
-anims: {
-    'blink': {
-        from: 0,
-        to: 0,
-        speed: 2,
-        loop: true,
+loadSprite('titleScreen', './img/title-screen.png', {
+    sliceX: 0,
+    anims: {
+        'blink': {
+            from: 0,
+            to: 0,
+            speed: 2,
+            loop: true,
+        }
     }
-}});
+});
 
-function ajouterBouton(texte, posX, posY) {
+function addButton(texte, posX, posY) {
     function addButton(txt, f) {
 
         const btn = k.add([
@@ -121,13 +127,6 @@ function ajouterBouton(texte, posX, posY) {
 
 }
 
-function animJoueur(param1) {
-    param1.scale = vec2(1.4);
-    wait(0.2, () => {
-        param1.scale = vec2(1.25);
-    });
-}
-
 /****************/
 /*     MENU     */
 /****************/
@@ -137,13 +136,13 @@ scene('menu', () => {
     const titleScreen = add([
         sprite('titleScreen'),
         pos(width() / 2, height() / 2 - 192),
-        scale(1.25),
+        scale(1),
         anchor('center'),
     ]);
 
     titleScreen.play('blink');
 
-    ajouterBouton('Commencer', width() / 2, height() / 2 + 64);
+    addButton('Start', width() / 2, height() / 2 + 64);
 
     add([
         sprite('rules'),
@@ -167,8 +166,6 @@ scene('menu', () => {
 
 scene('game', () => {
 
-    item = 0;
-
     //RECANGLES
     function addRect(width, height, posX, posY) {
         k.add([
@@ -179,7 +176,6 @@ scene('game', () => {
             body({ isStatic: true })
         ]);
     }
-
     //HAUT
     addRect(5760, 1080, -1920, -1180)
     //BAS
@@ -190,8 +186,10 @@ scene('game', () => {
     addRect(1920, 3240, 2020, -1080)
 
     //SCORE
+    item = 0;
+
     let score = add([
-        text('score ' + 0, {
+        text('Score ' + 0, {
             font: 'jersey',
             size: 100
         }),
@@ -203,7 +201,15 @@ scene('game', () => {
         { value: 0 },
     ]);
 
-    //three
+    // SCALEOBJECT
+    function scaleObject(param1) {
+        param1.scale = vec2(1.4);
+        wait(0.2, () => {
+            param1.scale = vec2(1.25);
+        });
+    }
+
+    //THREE
     const three = k.add([
         sprite('three'),
         pos(1080, 256),
@@ -215,49 +221,58 @@ scene('game', () => {
     ]);
 
     k.onCollide('duck', 'three', () => {
-        burp();
-        animJoueur(three);
+        scaleObject(three);
     });
 
-    //badGuy  
-    let VITESSE_badGuy = 10;
-    let taillebadGuy = 2;
-    const bruitbadGuy = play('badGuy');
+    //ENEMY  
+    let SPEED_enemy = 10;
+    let SIZE_enemy = 2;
+    const SOUND_enemy = play('roomba');
 
-    const badGuy = add([
-        sprite('badGuy'),
+    const enemy = add([
+        sprite('enemy'),
         pos(width() + 80, height() + 80),
         area({ scale: .75 }),
         body(),
-        scale(taillebadGuy),
+        scale(SIZE_enemy),
         anchor('center'),
         state('move', ['idle', 'move']),
-        'badGuy',
+        'enemy',
     ]);
 
-    badGuy.onStateEnter('run', async () => {
-        // Don't do anything if joueur doesn't exist anymore
-        if (joueur.exists()) {
-            // const dir = joueur.pos.sub(badGuy.pos).unit();
-            bruitbadGuy;
+    enemy.onStateEnter('run', async () => {
+        // Don't do anything if player doesn't exist anymore
+        if (player.exists()) {
+            // const dir = player.pos.sub(enemy.pos).unit();
+            SOUND_enemy;
         }
         await wait(1);
-        badGuy.enterState('move');
+        enemy.enterState('move');
     });
 
-    badGuy.onStateEnter('move', async () => {
+    enemy.onStateEnter('move', async () => {
         await wait(2);
-        badGuy.enterState('idle');
+        enemy.enterState('idle');
     });
 
-    badGuy.onStateUpdate('move', () => {
-        if (!joueur.exists()) return;
-        const dir = joueur.pos.sub(badGuy.pos).unit();
-        badGuy.move(dir.scale(VITESSE_badGuy));
+    enemy.onStateUpdate('move', () => {
+        if (!player.exists()) return;
+        const dir = player.pos.sub(enemy.pos).unit();
+        enemy.move(dir.scale(SPEED_enemy));
     });
 
-    //JOUEUR duck
-    const joueur = k.add([
+    k.onCollide('duck', 'enemy', () => {
+        destroy(player);
+        SOUND_enemy.paused = !SOUND_enemy.paused;
+        play('lose');
+
+        scoreEnregistré = score.value;
+        go('lose');
+    });
+
+
+    // PLAYER
+    const player = k.add([
         sprite('duck'),
         pos(center()),
         scale(2),
@@ -267,53 +282,29 @@ scene('game', () => {
         shader("invert", () => ({
             "u_time": time(),
         })),
+        state('move', ['idle', 'run']),
         'duck'
     ]);
 
-    joueur.play('idle');
-    joueur.onClick(() => { play('ring'); animJoueur(joueur); });
-
-    joueur.onUpdate(() => {
-        camPos(joueur.pos);
-        camScale(1);
+    player.onUpdate(() => {
+        setCamPos(player.pos);
+        setCamScale(1);
     });
 
-    onKeyDown('left', () => { joueur.move(-SPEED, 0); });
-    onKeyDown('q', () => { joueur.move(-SPEED, 0); });
-    onKeyDown('right', () => { joueur.move(SPEED, 0); });
-    onKeyDown('d', () => { joueur.move(SPEED, 0); });
-    onKeyDown('up', () => { joueur.move(0, -SPEED); });
-    onKeyDown('z', () => { joueur.move(0, -SPEED); });
-    onKeyDown('down', () => { joueur.move(0, SPEED); });
-    onKeyDown('s', () => { joueur.move(0, SPEED); });
-
-    onKeyDown("left", () => {
-        joueur.flipX = true;
+    // CONTROLS
+    onKeyDown('left', () => { player.move(-SPEED, 0); });
+    onKeyDown('right', () => { player.move(SPEED, 0); });
+    onKeyDown('up', () => { player.move(0, -SPEED); });
+    onKeyDown('down', () => { player.move(0, SPEED); });
+    
+    onKeyPress("left", () => { player.flipX = true; });
+    onKeyPress("right", () => { player.flipX = false; });
+    
+    onKeyPress(["left", "right", "up", "down"], () => {
+        player.play('run');
     });
-    onKeyDown("right", () => {
-        joueur.flipX = false;
-    });
-
-    onKeyDown("q", () => {
-        joueur.flipX = true;
-    });
-    onKeyDown("d", () => {
-        joueur.flipX = false;
-    });
-
-
-    onKeyPress('space', () => {
-        play('ring');
-        animJoueur(joueur);
-    });
-
-    k.onCollide('duck', 'badGuy', () => {
-        destroy(joueur);
-        bruitbadGuy.paused = !bruitbadGuy.paused;
-        play('lose');
-
-        scoreEnregistré = score.value;
-        go('lose');
+    onKeyRelease(["left", "right", "up", "down"], () => {
+        player.play('idle');
     });
 
     //OBJETS
@@ -335,7 +326,7 @@ scene('game', () => {
             objets[random],
             pos(x, y),
             area(),
-            rotate(x),
+            //rotate(x),
             scale(1),
             body({ mass: .3 }),
             param1,
@@ -348,10 +339,10 @@ scene('game', () => {
     }
 
     //LOOT
-    joueur.onCollide('objet', (objet) => {
+    player.onCollide('objet', (objet) => {
 
         destroy(objet);
-        animJoueur(joueur);
+        scaleObject(player);
         appear('objet');
 
         function colChange(couleur) {
@@ -382,20 +373,20 @@ scene('game', () => {
             item++;
         }
 
-        if (badGuy.exists() == true) {
-            badGuy.scale = vec2(taillebadGuy);
-            taillebadGuy += 0.01;
-            VITESSE_badGuy += 5;
+        if (enemy.exists() == true) {
+            enemy.scale = vec2(SIZE_enemy);
+            SIZE_enemy += 0.01;
+            SPEED_enemy += 5;
         }
 
-        animJoueur(score);
+        scaleObject(score);
 
         score.text = '€ ' + score.value;
 
     });
 
 
-    badGuy.onCollide('objet', (objet) => {
+    enemy.onCollide('objet', (objet) => {
 
         if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
             destroy(objet);
@@ -485,7 +476,7 @@ scene('lose', () => {
         anchor('center'),
     ]);
 
-    ajouterBouton('Mieux faire', width() / 2, height() / 2 + 180);
+    addButton('Mieux faire', width() / 2, height() / 2 + 180);
 
 });
 
