@@ -1,171 +1,10 @@
-import kaplay from 'kaplay';
-import 'kaplay/global';
-const k = kaplay({
-    // without specifying "width" and "height", kaboom will size to the container (document.body by default)
-    width: 1920,
-    height: 1080,
-    // "stretch" stretches the defined width and height to fullscreen
-    // stretch: true,
-    // "letterbox" makes stretching keeps aspect ratio (leaves black bars on empty spaces), have no effect without "stretch"
-    letterbox: true,
-});
-
-//debug.inspect = true;
-
-// SOUNDS
-loadSound('ring', './sound/ring.mp3');
-loadSound('debuff', './sound/glou.mp3');
-loadSound('fumer', './sound/fumer.mp3');
-loadSound('roomba', './sound/roomba.mp3');
-loadSound('lose', './sound/lose.mp3');
-loadSound("OtherworldlyFoe", "./sound/OtherworldlyFoe.mp3");
-play("OtherworldlyFoe", { loop: true, paused: false, });
-
-// ASSETS
-loadFont("jersey", "./font/jersey.ttf");
-loadSprite('rules', './img/rules.png');
-k.setBackground(200, 200, 200);
-let scoreEnregistré = '';
-let item = '';
-const SPEED = 600;
-
-// SPRITES
-loadSprite('tomato', './img/tomato.png');
-loadSprite('pear', './img/pear.png');
-loadSprite('banana', './img/banana.png');
-loadSprite('virusBlue', './img/virus-blue.png');
-loadSprite('virusPurple', './img/virus-purple.png');
-loadSprite('virusBrown', './img/virus-brown.png');
-loadSprite('star', './img/star.png');
-loadSprite('three', './img/three.png');
-loadShader("invert", null);
-
-loadSprite('duck', './img/duck.png', {
-    sliceX: 4,
-    anims: {
-        'idle': {
-            from: 0,
-            to: 0,
-            speed: 6,
-            loop: true,
-        },
-        'run': {
-            from: 1,
-            to: 0,
-            speed: 6,
-            loop: true,
-        }
-    }
-});
-
-loadSprite('enemy', './img/enemy.png', {
-    sliceX: 2,
-    anims: {
-        'idle': {
-            from: 0,
-            to: 0,
-            speed: 6,
-            loop: true,
-        },
-        'run': {
-            from: 0,
-            to: 1,
-            speed: 6,
-            loop: true,
-        }
-    }
-});
-
-loadSprite('titleScreen', './img/title-screen.png', {
-    sliceX: 0,
-    anims: {
-        'blink': {
-            from: 0,
-            to: 0,
-            speed: 2,
-            loop: true,
-        }
-    }
-});
-
-function addButton(texte, posX, posY) {
-    function addButton(txt, f) {
-
-        const btn = k.add([
-            rect(280, 80, { radius: 8 }),
-            pos(posX, posY),
-            area(),
-            scale(1),
-            anchor("center"),
-            outline(4, Color.fromHex("#3C5AA5")),
-            color(219, 249, 255),
-        ]);
-
-        btn.add([
-            text(txt),
-            anchor("center"),
-            color(Color.fromHex("#3C5AA5")),
-        ]);
-
-        btn.onHoverUpdate(() => {
-            const t = time() * 10;
-            btn.color = hsl2rgb((t / 10) % 1, 0.6, 0.7);
-            btn.scale = vec2(1.1);
-            setCursor("pointer");
-        });
-
-        btn.onHoverEnd(() => {
-            btn.scale = vec2(1);
-            btn.color = rgb(219, 249, 255);
-        });
-
-        btn.onClick(f);
-
-    }
-
-    addButton(texte, () => { go('game'); });
-
-}
-
-/****************/
-/*     MENU     */
-/****************/
-
-scene('menu', () => {
-
-    const titleScreen = add([
-        sprite('titleScreen'),
-        pos(width() / 2, height() / 2 - 192),
-        scale(1),
-        anchor('center'),
-    ]);
-
-    titleScreen.play('blink');
-
-    addButton('Start', width() / 2, height() / 2 + 64);
-
-    add([
-        sprite('rules'),
-        pos(width() / 2, height() / 2 + 360),
-        anchor('center'),
-    ]);
-
-    add([
-        text('V 0.8', { size: 32 }),
-        color(219, 249, 255),
-        pos(width() - 40, 40),
-        anchor('center'),
-        anchor('right'),
-    ]);
-
-});
+import { k, gameState, SPEED, addButton } from './appInit.js';
 
 /****************/
 /*     GAME     */
 /****************/
 
 scene('game', () => {
-
     //RECANGLES
     function addRect(width, height, posX, posY) {
         k.add([
@@ -173,25 +12,25 @@ scene('game', () => {
             pos(posX, posY),
             area(),
             color(0, 0, 0),
-            body({ isStatic: true })
+            body({ isStatic: true }),
         ]);
     }
     //HAUT
-    addRect(5760, 1080, -1920, -1180)
+    addRect(5760, 1080, -1920, -1180);
     //BAS
-    addRect(5760, 1080, -1920, 1180)
+    addRect(5760, 1080, -1920, 1180);
     //GAUCHE
-    addRect(1920, 3240, -2020, -1080)
+    addRect(1920, 3240, -2020, -1080);
     //GAUCHE
-    addRect(1920, 3240, 2020, -1080)
+    addRect(1920, 3240, 2020, -1080);
 
     //SCORE
-    item = 0;
+    gameState.item = 0;
 
-    let score = add([
+    const score = add([
         text('Score ' + 0, {
             font: 'jersey',
-            size: 100
+            size: 100,
         }),
         pos(64, 72),
         fixed(),
@@ -224,7 +63,7 @@ scene('game', () => {
         scaleObject(three);
     });
 
-    //ENEMY  
+    //ENEMY
     let SPEED_enemy = 10;
     let SIZE_enemy = 2;
     const SOUND_enemy = play('roomba');
@@ -232,7 +71,7 @@ scene('game', () => {
     const enemy = add([
         sprite('enemy'),
         pos(width() + 80, height() + 80),
-        area({ scale: .75 }),
+        area({ scale: 0.75 }),
         body(),
         scale(SIZE_enemy),
         anchor('center'),
@@ -266,10 +105,9 @@ scene('game', () => {
         SOUND_enemy.paused = !SOUND_enemy.paused;
         play('lose');
 
-        scoreEnregistré = score.value;
+        gameState.scoreEnregistré = score.value;
         go('lose');
     });
-
 
     // PLAYER
     const player = k.add([
@@ -279,11 +117,11 @@ scene('game', () => {
         anchor('center'),
         area({ scale: 1 }),
         body(),
-        shader("invert", () => ({
-            "u_time": time(),
+        shader('invert', () => ({
+            u_time: time(),
         })),
         state('move', ['idle', 'run']),
-        'duck'
+        'duck',
     ]);
 
     player.onUpdate(() => {
@@ -292,18 +130,30 @@ scene('game', () => {
     });
 
     // CONTROLS
-    onKeyDown('left', () => { player.move(-SPEED, 0); });
-    onKeyDown('right', () => { player.move(SPEED, 0); });
-    onKeyDown('up', () => { player.move(0, -SPEED); });
-    onKeyDown('down', () => { player.move(0, SPEED); });
-    
-    onKeyPress("left", () => { player.flipX = true; });
-    onKeyPress("right", () => { player.flipX = false; });
-    
-    onKeyPress(["left", "right", "up", "down"], () => {
+    onKeyDown('left', () => {
+        player.move(-SPEED, 0);
+    });
+    onKeyDown('right', () => {
+        player.move(SPEED, 0);
+    });
+    onKeyDown('up', () => {
+        player.move(0, -SPEED);
+    });
+    onKeyDown('down', () => {
+        player.move(0, SPEED);
+    });
+
+    onKeyPress('left', () => {
+        player.flipX = true;
+    });
+    onKeyPress('right', () => {
+        player.flipX = false;
+    });
+
+    onKeyPress(['left', 'right', 'up', 'down'], () => {
         player.play('run');
     });
-    onKeyRelease(["left", "right", "up", "down"], () => {
+    onKeyRelease(['left', 'right', 'up', 'down'], () => {
         player.play('idle');
     });
 
@@ -328,9 +178,9 @@ scene('game', () => {
             area(),
             //rotate(x),
             scale(1),
-            body({ mass: .3 }),
+            body({ mass: 0.3 }),
             param1,
-            move(SPEED, 0)
+            move(SPEED, 0),
         ]);
     }
 
@@ -340,14 +190,13 @@ scene('game', () => {
 
     //LOOT
     player.onCollide('objet', (objet) => {
-
         destroy(objet);
         scaleObject(player);
         appear('objet');
 
         function colChange(couleur) {
             score.color = couleur;
-            wait(.5, () => {
+            wait(0.5, () => {
                 score.color = WHITE;
             });
         }
@@ -362,18 +211,18 @@ scene('game', () => {
         } else if (objet.sprite == 'virusPurple') {
             score.value -= 3;
             play('debuff');
-            item++;
+            gameState.item++;
         } else if (objet.sprite == 'virusBlue') {
             score.value -= 5;
             play('debuff');
-            item++;
+            gameState.item++;
         } else if (objet.sprite == 'virusBrown') {
             score.value -= 15;
             play('debuff');
-            item++;
+            gameState.item++;
         }
 
-        if (enemy.exists() == true) {
+        if (enemy.exists() === true) {
             enemy.scale = vec2(SIZE_enemy);
             SIZE_enemy += 0.01;
             SPEED_enemy += 5;
@@ -382,23 +231,16 @@ scene('game', () => {
         scaleObject(score);
 
         score.text = '€ ' + score.value;
-
     });
 
-
     enemy.onCollide('objet', (objet) => {
-
         if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
             destroy(objet);
         }
-
     });
 
-
     // STAR
-
     loop(5, () => {
-
         const starBonus = add([
             star,
             pos(rand(vec2(0), vec2(width(), height()))),
@@ -407,7 +249,7 @@ scene('game', () => {
             anchor('center'),
             area(),
             body(),
-            'star'
+            'star',
         ]);
 
         starBonus.onUpdate(() => {
@@ -426,9 +268,7 @@ scene('game', () => {
         wait(3, () => {
             destroy(starBonus);
         });
-
     });
-
 });
 
 /****************/
@@ -436,7 +276,6 @@ scene('game', () => {
 /****************/
 
 scene('lose', () => {
-
     function scorePersonnalisé(param1, param2) {
         add([
             sprite(param1),
@@ -447,37 +286,35 @@ scene('lose', () => {
         add([
             text(param2, {
                 font: 'jersey',
-                size: 56
+                size: 56,
             }),
             pos(width() / 2, height() / 2 - 160),
-            anchor('center')
+            anchor('center'),
         ]);
     }
 
-    if (scoreEnregistré > 0) {
+    if (gameState.scoreEnregistré > 0) {
         scorePersonnalisé('duck', 'Fin °1 : Bien joué !');
-    }
-    else if (scoreEnregistré <= 0) {
-        scorePersonnalisé('duck', 'Fin n°2 : C\'est mal joué :(');
+    } else if (gameState.scoreEnregistré <= 0) {
+        scorePersonnalisé('duck', "Fin n°2 : C'est mal joué :(");
     }
 
     // display score
     add([
-        text(0 + scoreEnregistré + ' score'),
+        text(0 + gameState.scoreEnregistré + ' score'),
         pos(width() / 2, height() / 2 - 80),
         scale(1),
         anchor('center'),
     ]);
 
     add([
-        text(0 + item + ' virus'),
+        text(0 + gameState.item + ' virus'),
         pos(width() / 2, height() / 2),
         scale(1),
         anchor('center'),
     ]);
 
     addButton('Mieux faire', width() / 2, height() / 2 + 180);
-
 });
 
 
