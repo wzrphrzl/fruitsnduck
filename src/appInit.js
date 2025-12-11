@@ -21,7 +21,7 @@ loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
 play('OtherworldlyFoe', { loop: true, paused: false });
 
 // ASSETS
-loadFont('jersey', './font/jersey.ttf');
+loadFont('Nunito', './font/Nunito-SemiBold.ttf');
 loadSprite('rules', './img/rules.png');
 k.setBackground(200, 200, 200);
 
@@ -71,14 +71,13 @@ loadSprite('enemy', './img/enemy.png', {
     anims: {
         'idle': {
             from: 0,
-            to: 1,
-            speed: 6,
-            loop: true,
+            to: 0,
+            loop: false,
         },
         'run': {
-            from: 0,
-            to: 1,
-            speed: 6,
+            from: 1,
+            to: 0,
+            speed: 3.5,
             loop: true,
         },
     },
@@ -109,7 +108,7 @@ function addButton(texte, posX, posY) {
         ]);
 
         btn.add([
-            text(txt, { size: 80, font: 'jersey' }),
+            text(txt, { size: 64, font: 'Nunito' }),
             anchor('center'),
             color(Color.fromHex('#3C5AA5')),
         ]);

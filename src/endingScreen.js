@@ -6,38 +6,49 @@ import { gameState, addButton } from './appInit.js';
 
 scene('lose', () => {
     function scorePersonnalisé(param1, param2) {
-        add([
+
+        const statusEnding = add([
             sprite(param1),
             pos(width() / 5, height() / 2 - 80),
             scale(1.5),
             anchor('center'),
         ]);
+
+        statusEnding.play('win');
+
         add([
             text(param2, {
-                font: 'jersey',
+                font: 'Nunito',
                 size: 56,
             }),
             pos(width() / 2, height() / 2 - 160),
             anchor('center'),
         ]);
+
     }
 
     if (gameState.scoreEnregistré > 0) {
-        scorePersonnalisé('duck', 'Fin °1 : Bien joué !');
+        scorePersonnalisé('duck', 'Bien joué !');
     } else if (gameState.scoreEnregistré <= 0) {
-        scorePersonnalisé('duck', "Fin n°2 : C'est mal joué :(");
+        scorePersonnalisé('duck', "Mal joué...");
     }
 
     // display score
     add([
-        text(0 + gameState.scoreEnregistré + ' score'),
+        text('Score total : ' + 0 + gameState.scoreEnregistré, {
+                font: 'Nunito',
+                size: 56,
+        }),
         pos(width() / 2, height() / 2 - 80),
         scale(1),
         anchor('center'),
     ]);
 
     add([
-        text(0 + gameState.item + ' virus'),
+        text('Virus absorbés : ' + 0 + gameState.item, {
+                font: 'Nunito',
+                size: 56,
+        }),
         pos(width() / 2, height() / 2),
         scale(1),
         anchor('center'),
@@ -46,4 +57,3 @@ scene('lose', () => {
     addButton('Restart', width() / 2, height() / 2 + 180);
 });
 
-go('menu');

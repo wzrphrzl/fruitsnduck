@@ -1,17 +1,15 @@
 import { k, SPEED } from './appInit.js';
 
 export function createPlayer() {
+ 
+  
     // PLAYER
     const player = k.add([
         sprite('duck'),
         pos(center()),
-        scale(2),
         anchor('center'),
-        area({ scale: 1 }),
+        area({ scale: .9 }),
         body(),
-        shader('invert', () => ({
-            u_time: time(),
-        })),
         state('move', ['idle', 'run']),
         'duck',
     ]);

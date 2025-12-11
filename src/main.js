@@ -1,31 +1,27 @@
 import { k, gameState, SPEED, addRect } from './appInit.js';
 import { createPlayer } from './player.js';
+import { createEnemy } from './enemy.js';
 
 scene('game', () => {
 
-    //HAUT
-    addRect(5760, 1080, -1920, -1180);
-    //BAS
-    addRect(5760, 1080, -1920, 1180);
-    //GAUCHE
-    addRect(1920, 3240, -2020, -1080);
-    //GAUCHE
-    addRect(1920, 3240, 2020, -1080);
+    /*HAUT*/   addRect(5760, 1080, -1920, -1180);
+    /*BAS*/    addRect(5760, 1080, -1920, 1180);
+    /*GAUCHE*/ addRect(1920, 3240, -2020, -1080);
+    /*DROITE*/ addRect(1920, 3240, 2020, -1080);
 
     const score = add([
         text(' ' + 0, {
-            font: 'jersey',
+            font: 'Nunito',
             size: 100,
         }),
         pos(64, 72),
         fixed(),
         anchor('left'),
-        scale(1),
         z(100),
         { value: 0 },
     ]);
 
-    // bump
+    //BUMP
     function bump(param1) {
         param1.scale = vec2(1.15);
         wait(0.2, () => {
@@ -33,52 +29,13 @@ scene('game', () => {
         });
     }
 
-    //ENEMY
-    let SPEED_enemy = 20;
-    let SIZE_enemy = 1;
-    const SOUND_enemy = play('roomba');
-
-    const enemy = add([
-        sprite('enemy'),
-        pos(width() + 80, height() + 80),
-        area({ scale: 0.75 }),
-        body(),
-        scale(SIZE_enemy),
-        anchor('center'),
-        state('move', ['idle', 'move']),
-        'enemy',
-    ]);
-
-    enemy.onStateEnter('run', async () => {
-        // Don't do anything if player doesn't exist anymore
-        if (player.exists()) {
-            // const dir = player.pos.sub(enemy.pos).unit();
-            SOUND_enemy;
-        }
-        await wait(1);
-        enemy.enterState('move');
-    });
-
-    enemy.onStateEnter('move', async () => {
-        wait(1, () => {
-            enemy.enterState('idle');
-        });
-        wait(2.5, () => {
-            enemy.enterState('move');
-        });
-    });
-
-    enemy.onStateUpdate('move', () => {
-        if (!player.exists()) return;
-        const dir = player.pos.sub(enemy.pos).unit();
-        enemy.move(dir.scale(SPEED_enemy));
-    });
-
     // PLAYER
     const player = createPlayer();
 
+    //ENEMY
+    const { enemy, enemyStats } = createEnemy(player, score);
+
     //OBJETS
-    //THREE
     const three = k.add([
         sprite('three'),
         pos(1080, 256),
@@ -100,8 +57,8 @@ scene('game', () => {
     const objets = [banana, pear, tomato, virusPurple, virusBlue, virusBrown];
 
     function appear(param1) {
-        const x = rand(0, width() - 140);
-        const y = rand(0, height() - 140);
+        const x = rand(0, width());
+        const y = rand(0, height());
         const random = Math.floor(Math.random() * objets.length);
         k.add([
             objets[random],
@@ -124,13 +81,16 @@ scene('game', () => {
 
     player.onCollide('three', () => {
         bump(three);
-    });    
+    });
 
     player.onCollide('objet', (objet) => {
         destroy(objet);
         bump(player);
-        appear('objet');
 
+        if (objet.sprite == 'tomato') {
+            score.value += 20;
+            play('ring');
+        }
         if (objet.sprite == 'pear') {
             score.value += 20;
             play('ring');
@@ -139,42 +99,26 @@ scene('game', () => {
             score.value += 20;
             play('ring');
         } else if (objet.sprite == 'virusPurple') {
-            score.value -= 3;
-            play('debuff');
-            gameState.item++;
-        } else if (objet.sprite == 'virusBlue') {
             score.value -= 5;
             play('debuff');
             gameState.item++;
+        } else if (objet.sprite == 'virusBlue') {
+            score.value -= 10;
+            play('debuff');
+            gameState.item++;
         } else if (objet.sprite == 'virusBrown') {
-            score.value -= 15;
+            score.value -= 20;
             play('debuff');
             gameState.item++;
         }
 
         if (enemy.exists() === true) {
-            enemy.scale = vec2(SIZE_enemy);
-            SIZE_enemy += 0.1;
-            SPEED_enemy += 5;
+            enemy.scale = vec2(enemyStats.size);
+            enemyStats.size += 0.1;
+            enemyStats.speed += 10;
         }
-
         bump(score);
         score.text = score.value;
-    });
-
-    enemy.onCollide('duck', () => {
-        destroy(player);
-        SOUND_enemy.paused = !SOUND_enemy.paused;
-        play('lose');
-
-        gameState.scoreEnregistré = score.value;
-        go('lose');
-    });
-
-    enemy.onCollide('objet', (objet) => {
-        //if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
-            destroy(objet);
-        //}
     });
 
     // STAR
@@ -209,11 +153,9 @@ scene('game', () => {
     });
 
 
-    
 });
 
+ import './endingScreen.js';
 
-
-import './endingScreen.js';
-
+go('lose');
 
