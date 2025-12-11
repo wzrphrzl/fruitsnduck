@@ -35,7 +35,7 @@ scene('lose', () => {
 
     // display score
     add([
-        text('Score total : ' + 0 + gameState.scoreEnregistré, {
+        text('Score total : ' + gameState.scoreEnregistré, {
                 font: 'Nunito',
                 size: 56,
         }),
@@ -45,7 +45,7 @@ scene('lose', () => {
     ]);
 
     add([
-        text('Virus absorbés : ' + 0 + gameState.item, {
+        text('Virus absorbés : ' + gameState.item, {
                 font: 'Nunito',
                 size: 56,
         }),

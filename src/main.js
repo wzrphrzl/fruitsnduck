@@ -157,5 +157,5 @@ scene('game', () => {
 
  import './endingScreen.js';
 
-go('lose');
+go('menu');
 
