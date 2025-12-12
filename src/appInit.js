@@ -11,6 +11,8 @@ const k = kaplay({
     letterbox: true,
 });
 
+setLayers(['bg', 'game', 'ui'], 'game');
+
 // SOUNDS
 loadSound('ring', './sound/ring.mp3');
 loadSound('debuff', './sound/glou.mp3');
@@ -23,7 +25,6 @@ play('OtherworldlyFoe', { loop: true, paused: false });
 // ASSETS
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
 loadSprite('rules', './img/rules.png');
-k.setBackground(200, 200, 200);
 
 const gameState = {
     scoreEnregistré: '',
@@ -47,7 +48,7 @@ loadSprite('duck', './img/duck.png', {
     sliceX: 4,
     anims: {
         'idle': {
-            from: 1,
+            from: 0,
             to: 0,
             speed: 6,
             loop: true,
@@ -61,6 +62,11 @@ loadSprite('duck', './img/duck.png', {
         'win': {
             from: 3,
             to: 3,
+            loop: false,
+        },
+        'lose': {
+            from: 2,
+            to: 2,
             loop: false,
         },
     },
@@ -95,22 +101,26 @@ loadSprite('titleScreen', './img/title-screen.png', {
     }
 });
 
+const fontStyle = { size: 56, font: 'Nunito' };
+
 function addButton(texte, posX, posY) {
     function addButton(txt, f) {
         const btn = k.add([
-            rect(320, 96, { radius: 8 }),
+            rect(296, 96, { radius: 8 }),
             pos(posX, posY),
             area(),
             scale(1),
             anchor('center'),
             outline(6, Color.fromHex('#3C5AA5')),
             color(219, 249, 255),
+            layer('ui'),
         ]);
 
         btn.add([
-            text(txt, { size: 64, font: 'Nunito' }),
+            text(txt, fontStyle),
             anchor('center'),
             color(Color.fromHex('#3C5AA5')),
+            layer('ui'),
         ]);
 
         btn.onHoverUpdate(() => {
@@ -134,45 +144,17 @@ function addButton(texte, posX, posY) {
 }
 
 //RECANGLES
-function addRect(width, height, posX, posY) {
+function addRect(width, height, posX, posY, colorName, layerName) {
     k.add([
         rect(width, height),
         pos(posX, posY),
+        anchor('topleft'),
+        fixed(),
         area(),
-        color(0, 0, 0),
+        color(colorName),
         body({ isStatic: true }),
+        layer(layerName),
     ]);
 }
 
-/****************/
-/*     MENU     */
-/****************/
-
-scene('menu', () => {
-    const titleScreen = add([
-        sprite('titleScreen'),
-        pos(width() / 2, height() / 2 - 192),
-        scale(1),
-        anchor('center'),
-    ]);
-
-    titleScreen.play('blink');
-
-    addButton('Start', width() / 2, height() / 2 + 64);
-
-    add([
-        sprite('rules'),
-        pos(width() / 2, height() / 2 + 360),
-        anchor('center'),
-    ]);
-
-    add([
-        text('V 0.8', { size: 32 }),
-        color(219, 249, 255),
-        pos(width() - 40, 40),
-        anchor('center'),
-        anchor('right'),
-    ]);
-});
-
-export { k, gameState, SPEED, addRect, addButton };
+export { k, gameState, SPEED, addRect, addButton, fontStyle };

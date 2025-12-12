@@ -16,13 +16,13 @@ export function createEnemy(player, score) {
         body(),
         scale(enemyStats.size),
         state('idle', ['idle', 'run']),
+        layer('game'),
         'enemy',
     ]);
 
     enemy.onStateEnter('idle', async () => {
         enemy.play('idle');
         await wait(3)
-        console.log('ça attend');
         enemy.enterState('run');
     });
 
@@ -30,7 +30,6 @@ export function createEnemy(player, score) {
         enemy.play('run');
         await wait(2);
         enemy.enterState('idle');
-        console.log('ça court');
     });
 
     enemy.onStateUpdate('run', async () => {
@@ -39,9 +38,6 @@ export function createEnemy(player, score) {
             SOUND_enemy;
             const dir = player.pos.sub(enemy.pos).unit();
             enemy.move(dir.scale(enemyStats.speed));
-
-            console.log('enemy is moving');
-
         }  
         if (!player.exists()) return;
     });

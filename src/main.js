@@ -1,24 +1,33 @@
-import { k, gameState, SPEED, addRect } from './appInit.js';
+import { k, gameState, SPEED, addRect, fontStyle } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 
+import './menu.js';
+
 scene('game', () => {
 
-    /*HAUT*/   addRect(5760, 1080, -1920, -1180);
-    /*BAS*/    addRect(5760, 1080, -1920, 1180);
-    /*GAUCHE*/ addRect(1920, 3240, -2020, -1080);
-    /*DROITE*/ addRect(1920, 3240, 2020, -1080);
+    setBackground('#134C4C');
+
+    /*HAUT   
+    addRect(5760, 1080, -1920, -1180, '#000000', 'game'); 
+    BAS
+    addRect(5760, 1080, -1920, 1180, '#000000', 'game');
+    GAUCHE
+    addRect(1920, 3240, -2020, -1080, '#000000', 'game')
+    DROITE
+    addRect(1920, 3240, 2020, -1080, '#000000', 'game');
+    */
+
+    addRect(5760,1080,-1920,-1180, '#0000FF', 'ui');
 
     const score = add([
-        text(' ' + 0, {
-            font: 'Nunito',
-            size: 100,
-        }),
+        text(' ' + 0, fontStyle),
         pos(64, 72),
         fixed(),
         anchor('left'),
         z(100),
         { value: 0 },
+        layer('ui'),
     ]);
 
     //BUMP
@@ -43,6 +52,7 @@ scene('game', () => {
         anchor('center'),
         area(),
         body({ mass: 30 }),
+        layer('game'),
         'three',
     ]);
 
@@ -67,6 +77,7 @@ scene('game', () => {
             //rotate(x),
             scale(1),
             body({ mass: 0.3 }),
+            layer('game'),
             param1,
             move(SPEED, 0),
         ]);
@@ -75,12 +86,11 @@ scene('game', () => {
     //GAME LOGIC
     gameState.item = 0;
 
-    for (let i = 0; i < 10; i++) {
-        appear('objet');
-    }
-
     player.onCollide('three', () => {
         bump(three);
+        for (let i = 0; i < 10; i++) {
+            appear('objet');
+        }
     });
 
     player.onCollide('objet', (objet) => {
@@ -131,6 +141,7 @@ scene('game', () => {
             anchor('center'),
             area(),
             body(),
+            layer('game'),
             'star',
         ]);
 
@@ -155,7 +166,7 @@ scene('game', () => {
 
 });
 
- import './endingScreen.js';
+import './endingScreen.js';
 
-go('menu');
+go('game');
 

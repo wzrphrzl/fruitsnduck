@@ -1,4 +1,4 @@
-import { gameState, addButton } from './appInit.js';
+import { gameState, addButton, fontStyle } from './appInit.js';
 
 /****************/
 /*    ENDING    */
@@ -8,50 +8,45 @@ scene('lose', () => {
     function scorePersonnalisé(param1, param2) {
 
         const statusEnding = add([
-            sprite(param1),
+            sprite('duck'),
             pos(width() / 5, height() / 2 - 80),
             scale(1.5),
             anchor('center'),
+            layer('ui'),
         ]);
 
-        statusEnding.play('win');
+        statusEnding.play(param1);
 
         add([
-            text(param2, {
-                font: 'Nunito',
-                size: 56,
-            }),
+            text(param2, fontStyle),
             pos(width() / 2, height() / 2 - 160),
             anchor('center'),
+            layer('ui'),
         ]);
 
     }
 
     if (gameState.scoreEnregistré > 0) {
-        scorePersonnalisé('duck', 'Bien joué !');
+        scorePersonnalisé('win', 'Bien joué !');
     } else if (gameState.scoreEnregistré <= 0) {
-        scorePersonnalisé('duck', "Mal joué...");
+        scorePersonnalisé('lose', "Mal joué...");
     }
 
     // display score
     add([
-        text('Score total : ' + gameState.scoreEnregistré, {
-                font: 'Nunito',
-                size: 56,
-        }),
+        text('Score total : ' + gameState.scoreEnregistré, fontStyle),
         pos(width() / 2, height() / 2 - 80),
         scale(1),
         anchor('center'),
+        layer('ui'),
     ]);
 
     add([
-        text('Virus absorbés : ' + gameState.item, {
-                font: 'Nunito',
-                size: 56,
-        }),
+        text('Virus absorbés : ' + gameState.item, fontStyle),
         pos(width() / 2, height() / 2),
         scale(1),
         anchor('center'),
+        layer('ui'),
     ]);
 
     addButton('Restart', width() / 2, height() / 2 + 180);

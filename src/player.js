@@ -10,7 +10,8 @@ export function createPlayer() {
         anchor('center'),
         area({ scale: .9 }),
         body(),
-        state('move', ['idle', 'run']),
+        state('run', ['idle', 'run']),
+        layer('game'),
         'duck',
     ]);
 
@@ -43,8 +44,12 @@ export function createPlayer() {
     onKeyPress(['left', 'right', 'up', 'down'], () => {
         player.play('run');
     });
-    onKeyRelease(['left', 'right', 'up', 'down'], () => {
-        player.play('idle');
+
+    player.onAnimEnd((anim) => {
+        if (anim === "run" && !isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left")) {
+debug.log('Kaplay initialized');
+            player.play('idle');
+        }
     });
 
     return player;
