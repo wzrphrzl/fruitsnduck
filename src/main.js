@@ -18,7 +18,7 @@ scene('game', () => {
     addRect(1920, 3240, 2020, -1080, '#000000', 'game');
     */
 
-    addRect(5760,1080,-1920,-1180, '#0000FF', 'ui');
+const = rectBleu = addRect(300,380, 0, 0, '#0000FF', 'game');
 
     const score = add([
         text(' ' + 0, fontStyle),
