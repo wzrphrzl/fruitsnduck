@@ -41,7 +41,7 @@ loadSprite('virusBlue', './img/virus-blue.png');
 loadSprite('virusPurple', './img/virus-purple.png');
 loadSprite('virusBrown', './img/virus-brown.png');
 loadSprite('star', './img/star.png');
-loadSprite('three', './img/three.png');
+loadSprite('tree', './img/tree.png');
 loadShader('invert', null);
 
 loadSprite('duck', './img/duck.png', {
@@ -149,7 +149,6 @@ function addRect(width, height, posX, posY, colorName, layerName) {
         rect(width, height),
         pos(posX, posY),
         anchor('topleft'),
-        fixed(),
         area(),
         color(colorName),
         body({ isStatic: true }),

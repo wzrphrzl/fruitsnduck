@@ -8,17 +8,13 @@ scene('game', () => {
 
     setBackground('#134C4C');
 
-    /*HAUT   
-    addRect(5760, 1080, -1920, -1180, '#000000', 'game'); 
-    BAS
-    addRect(5760, 1080, -1920, 1180, '#000000', 'game');
-    GAUCHE
-    addRect(1920, 3240, -2020, -1080, '#000000', 'game')
-    DROITE
-    addRect(1920, 3240, 2020, -1080, '#000000', 'game');
-    */
+    /*HAUT*/   addRect(5760, 1080, -1920, -1180, '#000000', 'ui');
+    /*BAS*/    addRect(5760, 1080, -1920, 1180, '#000000', 'ui');
+    /*GAUCHE*/ addRect(1920, 3240, -2020, -1080, '#000000', 'ui');
+    /*DROITE*/ addRect(1920, 3240, 2020, -1080, '#000000', 'ui');
 
-const = rectBleu = addRect(300,380, 0, 0, '#0000FF', 'game');
+
+    // const = rectBleu = addRect(300,380, 0, 0, '#0000FF', 'game');
 
     const score = add([
         text(' ' + 0, fontStyle),
@@ -45,15 +41,15 @@ const = rectBleu = addRect(300,380, 0, 0, '#0000FF', 'game');
     const { enemy, enemyStats } = createEnemy(player, score);
 
     //OBJETS
-    const three = k.add([
-        sprite('three'),
+    const tree = k.add([
+        sprite('tree'),
         pos(1080, 256),
         scale(1),
         anchor('center'),
         area(),
-        body({ mass: 30 }),
+        body({ isStatic: true }),
         layer('game'),
-        'three',
+        'tree',
     ]);
 
     const pear = sprite('pear');
@@ -86,8 +82,8 @@ const = rectBleu = addRect(300,380, 0, 0, '#0000FF', 'game');
     //GAME LOGIC
     gameState.item = 0;
 
-    player.onCollide('three', () => {
-        bump(three);
+    player.onCollide('tree', () => {
+        bump(tree);
         for (let i = 0; i < 10; i++) {
             appear('objet');
         }
