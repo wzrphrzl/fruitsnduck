@@ -120,12 +120,12 @@ const fontStyleSmall = { size: 32, font: 'Nunito' };
 function addButton(texte, posX, posY) {
     function addButton(txt, f) {
         const btn = k.add([
-            rect(296, 96, { radius: 8 }),
+            rect(296, 96, { radius: 16 }),
             pos(posX, posY),
             area(),
             scale(1),
             anchor('center'),
-            outline(6, Color.fromHex('#FFEB57')),
+            outline(4, Color.fromHex('#FFEB57')),
             color('#622461'),
             layer('ui'),
         ]);
@@ -161,7 +161,7 @@ function addButton(texte, posX, posY) {
 
 //RECANGLES
 const addRect = function (width, height, radiusVal, posX, posY, colorName, layerName, options = {}, rectName = 'rect') {
-    const components = [
+    const rectangle = [
         rect(width, height, { radius: radiusVal }),
         pos(posX, posY),
         anchor('topleft'),
@@ -172,14 +172,14 @@ const addRect = function (width, height, radiusVal, posX, posY, colorName, layer
     ];
 
     if (options.area === true) {
-        components.push(area());
+        rectangle.push(area());
     }
 
     if (options.fixed === true) {
-        components.push(fixed());
+        rectangle.push(fixed());
     }
 
-    k.add(components);
+    return k.add(rectangle);
 }
 
 export { k, gameState, SPEED, addRect, addButton, fontStyleMed, fontStyleSmall };

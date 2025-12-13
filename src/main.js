@@ -6,12 +6,7 @@ import './menu.js';
 
 scene('game', () => {
 
-    setBackground('#134C4C');
-
-    /*HAUT*/   addRect(5760, 1080, 0, -1920, -1180, '#000000', 'ui', { area: true });
-    /*DROITE*/ addRect(1920, 3240, 0, 2020, -1080, '#000000', 'ui', { area: true });
-    /*BAS*/    addRect(5760, 1080, 0, -1920, 1180, '#000000', 'ui', { area: true });
-    /*GAUCHE*/ addRect(1920, 3240, 0, -2020, -1080, '#000000', 'ui', { area: true });
+    //debug.inspect = true;
 
     const pear = sprite('pear');
     const banana = sprite('banana');
@@ -20,25 +15,19 @@ scene('game', () => {
     const virusBlue = sprite('virusBlue');
     const virusBrown = sprite('virusBrown');
     const star = sprite('star');
+    const objets = [banana, pear, tomato, virusPurple, virusBlue, virusBrown];
+
+    setBackground('#134C4C');
+    /*HAUT*/   addRect(9360, 1080, 0, -3960, -3200, '#000000', 'ui', { area: true });
+    /*DROITE*/ addRect(1080, 9360, 0, 3240, -4280, '#000000', 'ui', { area: true });
+    /*BAS*/    addRect(9360, 1080, 0, -3960, 2920, '#000000', 'ui', { area: true });
+    /*GAUCHE*/ addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
+    const box1 = addRect(96,96, 20, 1084, 672, '#1B1B1B', 'ui', { fixed: true });
+    const box2 = addRect(96,96, 20, 1192, 672, '#1B1B1B', 'ui', { fixed: true });
+    const box3 = addRect(96,96, 20, 1300, 672, '#1B1B1B', 'ui', { fixed: true });    
 
 
-    const box1 = addRect(104,104, 20, 1300, 672, '#1B1B1B', 'ui', { fixed: true });
-
-    console.log((box1));
-
-
-/*     rectWhite.add([
-            pear,
-            anchor("center"),
-            fixed(),
-            //rotate(x),
-            scale(.75),
-            layer('ui'),
-    ]); */
-
-
-    // const = rectBleu = addRect(300,380, 0, 0, '#0000FF', 'game');
-
+    // UI 
     add([
         text('Score', fontStyleSmall),
         pos(32, 32),
@@ -71,23 +60,34 @@ scene('game', () => {
     //ENEMY
     const { enemy, enemyStats } = createEnemy(player, score);
 
-    //OBJETS
-    const tree = k.add([
-        sprite('tree'),
-        pos(1080, 256),
-        scale(1),
-        anchor('center'),
-        area(),
-        body({ isStatic: true }),
-        state('fruity', ['fruity', 'default']),
-        layer('game'),
-        'tree',
-    ]);
+    //THREE
 
-    tree.play('fruity');
+    function addTree(x, y) {
 
+        const tree = k.add([
+            sprite('tree'),
+            pos(x, y),
+            scale(1),
+            anchor('center'),
+            area(),
+            body({ isStatic: true }),
+            state('fruity', ['fruity', 'default']),
+            layer('game'),
+            'tree',
+        ]);
+
+        return tree;
+    }
     
-    const objets = [banana, pear, tomato, virusPurple, virusBlue, virusBrown];
+    const tree = addTree(1080, 256);
+
+    tree.onStateEnter('default', () => {
+        tree.play('default');
+    });
+
+    tree.onStateEnter('fruity', () => {
+        tree.play('fruity');
+    });    
 
     function appear(param1) {
         const x = rand(0, width());
@@ -111,14 +111,25 @@ scene('game', () => {
 
     player.onCollide('tree', () => {
         bump(tree);
-
-        wait(.2, () => {
-        for (let i = 0; i < 10; i++) {
-            appear('objet');
+        if (tree.state === 'fruity') {     
+            wait(.2, () => {
+                for (let i = 0; i < 10; i++) {
+                    appear('objet');
+                }
+                tree.enterState('default');
+            });
         }
-        tree.play('default');
-        });
-    });
+    });    
+
+
+
+    box1.add([
+            pear,
+            anchor("center"),
+            pos(48,48),
+            scale(.5),
+            layer('ui'),
+    ]); 
 
     player.onCollide('objet', (objet) => {
         destroy(objet);
@@ -190,10 +201,9 @@ scene('game', () => {
         });
     });
 
-
 });
 
 import './endingScreen.js';
 
-go('menu');
+go('game');
 

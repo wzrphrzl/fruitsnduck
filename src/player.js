@@ -10,16 +10,19 @@ export function createPlayer() {
         anchor('center'),
         area({ scale: .9 }),
         body(),
-        //state('run', ['idle', 'run']),
+        state('idle', ['idle', 'run']),
         layer('game'),
         'duck',
     ]);
 
-    player.onUpdate(() => {
-        setCamPos(player.pos);
-        setCamScale(1);
+    player.onStateEnter('idle', () => {
+        player.play('idle');
+    });
+    player.onStateEnter('run', () => {
+        player.play('run');
     });
 
+    
     // CONTROLS
     onKeyDown('left', () => {
         player.move(-SPEED, 0);
@@ -42,12 +45,17 @@ export function createPlayer() {
     });
 
     onKeyPress(['left', 'right', 'up', 'down'], () => {
-        player.play('run');
+        player.enterState('run');
     });
     
+    player.onUpdate(() => {
+        setCamPos(player.pos);
+
+        if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left")) {
+        player.enterState('idle');
+        }
+    });
     
-    
-    debug.log('Kaplay initialized');
 
     return player;
 }
