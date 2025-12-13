@@ -1,4 +1,4 @@
-import { k, gameState, SPEED, addRect, fontStyle } from './appInit.js';
+import { k, gameState, SPEED, addRect, fontStyleSmall, fontStyleMed } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 
@@ -8,20 +8,49 @@ scene('game', () => {
 
     setBackground('#134C4C');
 
-    /*HAUT*/   addRect(5760, 1080, -1920, -1180, '#000000', 'ui');
-    /*BAS*/    addRect(5760, 1080, -1920, 1180, '#000000', 'ui');
-    /*GAUCHE*/ addRect(1920, 3240, -2020, -1080, '#000000', 'ui');
-    /*DROITE*/ addRect(1920, 3240, 2020, -1080, '#000000', 'ui');
+    /*HAUT*/   addRect(5760, 1080, 0, -1920, -1180, '#000000', 'ui', { area: true });
+    /*DROITE*/ addRect(1920, 3240, 0, 2020, -1080, '#000000', 'ui', { area: true });
+    /*BAS*/    addRect(5760, 1080, 0, -1920, 1180, '#000000', 'ui', { area: true });
+    /*GAUCHE*/ addRect(1920, 3240, 0, -2020, -1080, '#000000', 'ui', { area: true });
+
+    const pear = sprite('pear');
+    const banana = sprite('banana');
+    const tomato = sprite('tomato');
+    const virusPurple = sprite('virusPurple');
+    const virusBlue = sprite('virusBlue');
+    const virusBrown = sprite('virusBrown');
+    const star = sprite('star');
+
+
+    const rectWhite = addRect(104,104, 20, 1800, 940, '#1B1B1B', 'ui', { fixed: true });
+
+
+/*     rectWhite.add([
+            pear,
+            anchor("center"),
+            fixed(),
+            //rotate(x),
+            scale(.75),
+            layer('ui'),
+    ]); */
 
 
     // const = rectBleu = addRect(300,380, 0, 0, '#0000FF', 'game');
 
-    const score = add([
-        text(' ' + 0, fontStyle),
-        pos(64, 72),
+    add([
+        text('Score', fontStyleSmall),
+        pos(32, 32),
         fixed(),
-        anchor('left'),
-        z(100),
+        anchor('topleft'),
+        { value: 0 },
+        layer('ui'),
+    ]);
+
+    const score = add([
+        text(0, fontStyleSmall),
+        pos(32, 72),
+        fixed(),
+        anchor('topleft'),
         { value: 0 },
         layer('ui'),
     ]);
@@ -48,18 +77,14 @@ scene('game', () => {
         anchor('center'),
         area(),
         body({ isStatic: true }),
+        state('fruity', ['fruity', 'default']),
         layer('game'),
         'tree',
     ]);
 
-    const pear = sprite('pear');
-    const banana = sprite('banana');
-    const tomato = sprite('tomato');
-    const virusPurple = sprite('virusPurple');
-    const virusBlue = sprite('virusBlue');
-    const virusBrown = sprite('virusBrown');
-    const star = sprite('star');
+    tree.play('fruity');
 
+    
     const objets = [banana, pear, tomato, virusPurple, virusBlue, virusBrown];
 
     function appear(param1) {
@@ -84,9 +109,13 @@ scene('game', () => {
 
     player.onCollide('tree', () => {
         bump(tree);
+
+        wait(.2, () => {
         for (let i = 0; i < 10; i++) {
             appear('objet');
         }
+        tree.play('default');
+        });
     });
 
     player.onCollide('objet', (objet) => {
@@ -142,11 +171,11 @@ scene('game', () => {
         ]);
 
         starBonus.onUpdate(() => {
-            starBonus.angle += 120 * dt();
+        //  starBonus.angle += 120 * dt();
         });
 
         player.onCollide('star', () => {
-            score.text = '€ ' + score.value;
+            score.text = score.value;
             destroy(starBonus);
 
             for (let i = 0; i < 3; i++) {

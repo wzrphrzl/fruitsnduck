@@ -1,4 +1,4 @@
-import { gameState, addButton, fontStyle } from './appInit.js';
+import { gameState, addButton, fontStyleMed } from './appInit.js';
 
 /****************/
 /*    ENDING    */
@@ -18,7 +18,7 @@ scene('lose', () => {
         statusEnding.play(param1);
 
         add([
-            text(param2, fontStyle),
+            text(param2, fontStyleMed),
             pos(width() / 2, height() / 2 - 160),
             anchor('center'),
             layer('ui'),
@@ -34,7 +34,7 @@ scene('lose', () => {
 
     // display score
     add([
-        text('Score total : ' + gameState.scoreEnregistré, fontStyle),
+        text('Score total : ' + gameState.scoreEnregistré, fontStyleMed),
         pos(width() / 2, height() / 2 - 80),
         scale(1),
         anchor('center'),
@@ -42,7 +42,7 @@ scene('lose', () => {
     ]);
 
     add([
-        text('Virus absorbés : ' + gameState.item, fontStyle),
+        text('Virus absorbés : ' + gameState.item, fontStyleMed),
         pos(width() / 2, height() / 2),
         scale(1),
         anchor('center'),

@@ -10,7 +10,7 @@ export function createPlayer() {
         anchor('center'),
         area({ scale: .9 }),
         body(),
-        state('run', ['idle', 'run']),
+        //state('run', ['idle', 'run']),
         layer('game'),
         'duck',
     ]);

@@ -3,15 +3,15 @@ import 'kaplay/global';
 
 const k = kaplay({
     // without specifying "width" and "height", kaboom will size to the container (document.body by default)
-    width: 1920,
-    height: 1080,
+    width: 1440,
+    height: 800,
     // "stretch" stretches the defined width and height to fullscreen
     // stretch: true,
     // "letterbox" makes stretching keeps aspect ratio (leaves black bars on empty spaces), have no effect without "stretch"
     letterbox: true,
 });
 
-setLayers(['bg', 'game', 'ui'], 'game');
+setLayers(['bg', 'game', 'ui'], 'ui');
 
 // SOUNDS
 loadSound('ring', './sound/ring.mp3');
@@ -41,8 +41,23 @@ loadSprite('virusBlue', './img/virus-blue.png');
 loadSprite('virusPurple', './img/virus-purple.png');
 loadSprite('virusBrown', './img/virus-brown.png');
 loadSprite('star', './img/star.png');
-loadSprite('tree', './img/tree.png');
-loadShader('invert', null);
+//loadShader('invert', null);
+
+loadSprite('tree', './img/tree.png', {
+    sliceX: 2,
+    anims: {
+        'default': {
+            from: 0,
+            to: 0,
+
+        },
+        'fruity': {
+            from: 1,
+            to: 1,
+        },
+    }
+});
+
 
 loadSprite('duck', './img/duck.png', {
     sliceX: 4,
@@ -101,7 +116,8 @@ loadSprite('titleScreen', './img/title-screen.png', {
     }
 });
 
-const fontStyle = { size: 56, font: 'Nunito' };
+const fontStyleMed = { size: 48, font: 'Nunito' };
+const fontStyleSmall = { size: 32, font: 'Nunito' };
 
 function addButton(texte, posX, posY) {
     function addButton(txt, f) {
@@ -117,7 +133,7 @@ function addButton(texte, posX, posY) {
         ]);
 
         btn.add([
-            text(txt, fontStyle),
+            text(txt, fontStyleMed),
             anchor('center'),
             color(Color.fromHex('#3C5AA5')),
             layer('ui'),
@@ -144,16 +160,25 @@ function addButton(texte, posX, posY) {
 }
 
 //RECANGLES
-function addRect(width, height, posX, posY, colorName, layerName) {
-    k.add([
-        rect(width, height),
+function addRect(width, height, radiusVal, posX, posY, colorName, layerName, options = {}) {
+    const components = [
+        rect(width, height, { radius: radiusVal }),
         pos(posX, posY),
         anchor('topleft'),
-        area(),
         color(colorName),
         body({ isStatic: true }),
         layer(layerName),
-    ]);
+    ];
+
+    if (options.area === true) {
+        components.push(area());
+    }
+
+    if (options.fixed === true) {
+        components.push(fixed());
+    }
+
+    k.add(components);
 }
 
-export { k, gameState, SPEED, addRect, addButton, fontStyle };
+export { k, gameState, SPEED, addRect, addButton, fontStyleMed, fontStyleSmall };
