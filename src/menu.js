@@ -2,7 +2,7 @@ import { addButton } from './appInit.js';
 
 scene('menu', () => {
 
-    console.log( Color.fromHex('#00000') );
+    setBackground('#C7CFDD');
 
     const titleScreen = add([
         sprite('titleScreen'),

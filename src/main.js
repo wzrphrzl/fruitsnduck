@@ -1,4 +1,4 @@
-import { k, gameState, SPEED, addRect, fontStyleSmall, fontStyleMed } from './appInit.js';
+import { k, gameState, SPEED, addRect, fontStyleSmall } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 
@@ -22,7 +22,9 @@ scene('game', () => {
     const star = sprite('star');
 
 
-    const rectWhite = addRect(104,104, 20, 1800, 940, '#1B1B1B', 'ui', { fixed: true });
+    const box1 = addRect(104,104, 20, 1300, 672, '#1B1B1B', 'ui', { fixed: true });
+
+    console.log((box1));
 
 
 /*     rectWhite.add([
@@ -96,7 +98,7 @@ scene('game', () => {
             pos(x, y),
             area(),
             //rotate(x),
-            scale(1),
+            scale(.75),
             body({ mass: 0.3 }),
             layer('game'),
             param1,
@@ -193,5 +195,5 @@ scene('game', () => {
 
 import './endingScreen.js';
 
-go('game');
+go('menu');
 

@@ -16,7 +16,6 @@ setLayers(['bg', 'game', 'ui'], 'ui');
 // SOUNDS
 loadSound('ring', './sound/ring.mp3');
 loadSound('debuff', './sound/glou.mp3');
-loadSound('fumer', './sound/fumer.mp3');
 loadSound('roomba', './sound/roomba.mp3');
 loadSound('lose', './sound/lose.mp3');
 loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
@@ -57,7 +56,6 @@ loadSprite('tree', './img/tree.png', {
         },
     }
 });
-
 
 loadSprite('duck', './img/duck.png', {
     sliceX: 4,
@@ -127,28 +125,30 @@ function addButton(texte, posX, posY) {
             area(),
             scale(1),
             anchor('center'),
-            outline(6, Color.fromHex('#3C5AA5')),
-            color(219, 249, 255),
+            outline(6, Color.fromHex('#FFEB57')),
+            color('#622461'),
             layer('ui'),
         ]);
 
         btn.add([
             text(txt, fontStyleMed),
             anchor('center'),
-            color(Color.fromHex('#3C5AA5')),
+            pos(0,2),
+            color(Color.fromHex('#FFEB57')),
             layer('ui'),
         ]);
 
         btn.onHoverUpdate(() => {
-            const t = time() * 10;
-            btn.color = hsl2rgb((t / 10) % 1, 0.6, 0.7);
+            //const t = time() * 10;
+            //btn.color = hsl2rgb((t / 10) % 1, 0.6, 0.7);
+            btn.color = Color.fromHex('#93388F');
             btn.scale = vec2(1.1);
             setCursor('pointer');
         });
 
         btn.onHoverEnd(() => {
             btn.scale = vec2(1);
-            btn.color = rgb(219, 249, 255);
+            btn.color = Color.fromHex('#622461');
         });
 
         btn.onClick(f);
@@ -160,7 +160,7 @@ function addButton(texte, posX, posY) {
 }
 
 //RECANGLES
-function addRect(width, height, radiusVal, posX, posY, colorName, layerName, options = {}) {
+const addRect = function (width, height, radiusVal, posX, posY, colorName, layerName, options = {}, rectName = 'rect') {
     const components = [
         rect(width, height, { radius: radiusVal }),
         pos(posX, posY),
@@ -168,6 +168,7 @@ function addRect(width, height, radiusVal, posX, posY, colorName, layerName, opt
         color(colorName),
         body({ isStatic: true }),
         layer(layerName),
+        rectName,
     ];
 
     if (options.area === true) {

@@ -44,13 +44,10 @@ export function createPlayer() {
     onKeyPress(['left', 'right', 'up', 'down'], () => {
         player.play('run');
     });
-
-    player.onAnimEnd((anim) => {
-        if (anim === "run" && !isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left")) {
-debug.log('Kaplay initialized');
-            player.play('idle');
-        }
-    });
+    
+    
+    
+    debug.log('Kaplay initialized');
 
     return player;
 }

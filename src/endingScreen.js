@@ -5,6 +5,9 @@ import { gameState, addButton, fontStyleMed } from './appInit.js';
 /****************/
 
 scene('lose', () => {
+ 
+    setBackground('#0C2E44');
+ 
     function scorePersonnalisé(param1, param2) {
 
         const statusEnding = add([
