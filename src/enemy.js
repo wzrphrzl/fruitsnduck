@@ -58,5 +58,12 @@ export function createEnemy(player, score) {
         //}
     });
 
+    enemy.onCollide('tree', (objet) => {
+        destroy(objet);
+    });
+
+
+
+
     return { enemy, enemyStats };
 }

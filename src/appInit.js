@@ -43,16 +43,17 @@ loadSprite('star', './img/star.png');
 //loadShader('invert', null);
 
 loadSprite('tree', './img/tree.png', {
-    sliceX: 2,
+    sliceX: 5,
     anims: {
         'default': {
-            from: 0,
-            to: 0,
-
+            from: 4,
+            to: 4,
         },
         'fruity': {
-            from: 1,
-            to: 1,
+            from: 0,
+            to: 3,
+            speed: 16,
+            loop: false,
         },
     }
 });
@@ -116,6 +117,7 @@ loadSprite('titleScreen', './img/title-screen.png', {
 
 const fontStyleMed = { size: 48, font: 'Nunito' };
 const fontStyleSmall = { size: 32, font: 'Nunito' };
+const fontStyleTiny = { size: 24, font: 'Nunito' };
 
 function addButton(texte, posX, posY) {
     function addButton(txt, f) {
@@ -189,21 +191,13 @@ function bump(param1) {
     });
 }
 
-function setXs() {
-    if (Math.random() < 0.5) {
-        return rand(0, 624);
-    } else {
-        return rand(816, 1440);
-    }
-}
-
-function setYs() {
-    if (Math.random() < 0.5) {
-        return rand(0, 304);
-    } else {
-        return rand(496, 800);
-    }
+function bumpMini(param1) {
+    param1.scale = vec2(.6);
+    wait(0.2, () => {
+        param1.scale = vec2(.5);
+    });
 }
 
 
-export { k, scoreState, SPEED, addRect, addButton, fontStyleMed, fontStyleSmall, bump, setXs, setYs };
+
+export { k, scoreState, SPEED, addRect, addButton, fontStyleMed, fontStyleSmall, fontStyleTiny, bump, bumpMini };

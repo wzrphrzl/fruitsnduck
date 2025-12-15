@@ -1,4 +1,4 @@
-import { k, scoreState, SPEED, addRect, bump, setXs, setYs } from './appInit.js';
+import { k, scoreState, SPEED, addRect, bump, bumpMini } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
@@ -62,6 +62,25 @@ scene('game', () => {
     const player = createPlayer();
     const { enemy, enemyStats } = createEnemy(player, score);
 
+    function setXs() {
+        if (Math.random() < 0.5) {
+            return rand(player.pos.x - 720, player.pos.x - 96);
+        } else {
+            return rand(player.pos.x + 96, player.pos.x + 720);
+        }
+    }
+
+    function setYs() {
+        if (Math.random() < 0.5) {
+            return rand(player.pos.y - 400, player.pos.y - 96);
+        } else {
+            return rand(player.pos.y + 96, player.pos.y + 400);
+        }
+    }
+
+
+
+
     //THREE
     function addTree(x, y) {
 
@@ -87,15 +106,12 @@ scene('game', () => {
 
         return tree;
     }
-
-
-
     addTree(setXs(), setYs());
 
 
     function appear(param1) {
-/*         const x = rand(0, width());
-        const y = rand(0, height()); */
+        /*         const x = rand(0, width());
+                const y = rand(0, height()); */
         const random = Math.floor(Math.random() * objets.length);
         k.add([
             objets[random],
@@ -117,7 +133,7 @@ scene('game', () => {
         if (touchedTree.state === 'fruity') {
             bump(touchedTree);
             if (touchedTree.state === 'fruity') {
-                wait(.2, () => {
+                wait(.4, () => {
                     for (let i = 0; i < 10; i++) {
                         appear('objet');
                     }
@@ -127,6 +143,8 @@ scene('game', () => {
         }
 
         else if (touchedTree.state === 'default') return
+
+        addTree(setXs(), setYs());
 
     });
 
@@ -160,13 +178,20 @@ scene('game', () => {
         const boxes = [box1, box2, box3];
         boxSprites = boxQueue.map((spriteName, index) => {
             if (spriteName) {
-                return boxes[index].add([
+                const newSprite = boxes[index].add([
                     sprite(spriteName),
                     anchor("center"),
                     pos(48, 48),
                     scale(.5),
                     layer('ui'),
                 ]);
+
+                // Appliquer bump() au sprite de box1
+                if (index === 0) {
+                    bumpMini(newSprite);
+                }
+
+                return newSprite;
             }
             return null;
         });
@@ -175,12 +200,10 @@ scene('game', () => {
             'tomato': 20,
             'pear': 20,
             'banana': 20,
-            'virusPurple': -5,
-            'virusBlue': -10,
+            'virusPurple': -10,
+            'virusBlue': -15,
             'virusBrown': -20
         };
-
-
 
         const scoreChange = fruitScores[objet.sprite];
 
@@ -202,11 +225,11 @@ scene('game', () => {
         score.text = score.value;
     });
 
-    // STAR
-    loop(5, () => {
+    // STAR - Loop de création des étoiles
+    loop(10, () => {
         const starBonus = add([
             star,
-            pos(rand(vec2(0), vec2(width(), height()))),
+            pos(setXs(), setYs()),
             rotate(0),
             scale(1),
             anchor('center'),
@@ -220,23 +243,20 @@ scene('game', () => {
             //  starBonus.angle += 120 * dt();
         });
 
-        player.onCollide('star', () => {
-            score.text = score.value;
-            destroy(starBonus);
-
-            for (let i = 0; i < 3; i++) {
-                appear('objet');
-            }
-        });
-
-        wait(3, () => {
+        wait(2, () => {
             destroy(starBonus);
         });
+    });
+
+    player.onCollide('star', (star) => {
+        score.text = score.value;
+        addTree(setXs(), setYs());
+        destroy(star);
     });
 
 });
 
 import './endingScreen.js';
 
-go('menu');
+go('game');
 
