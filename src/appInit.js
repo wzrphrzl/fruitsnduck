@@ -25,12 +25,12 @@ play('OtherworldlyFoe', { loop: true, paused: false });
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
 loadSprite('rules', './img/rules.png');
 
-const gameState = {
-    scoreEnregistré: '',
-    item: '',
+const scoreState = {
+    savedScore: '',
+    savedItems: '',
 };
 
-const SPEED = 600;
+const SPEED = 400;
 
 // SPRITES
 loadSprite('tomato', './img/tomato.png');
@@ -182,4 +182,28 @@ const addRect = function (width, height, radiusVal, posX, posY, colorName, layer
     return k.add(rectangle);
 }
 
-export { k, gameState, SPEED, addRect, addButton, fontStyleMed, fontStyleSmall };
+function bump(param1) {
+    param1.scale = vec2(1.15);
+    wait(0.2, () => {
+        param1.scale = vec2(1);
+    });
+}
+
+function setXs() {
+    if (Math.random() < 0.5) {
+        return rand(0, 624);
+    } else {
+        return rand(816, 1440);
+    }
+}
+
+function setYs() {
+    if (Math.random() < 0.5) {
+        return rand(0, 304);
+    } else {
+        return rand(496, 800);
+    }
+}
+
+
+export { k, scoreState, SPEED, addRect, addButton, fontStyleMed, fontStyleSmall, bump, setXs, setYs };

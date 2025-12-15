@@ -1,4 +1,4 @@
-import { gameState } from './appInit.js';
+import { scoreState } from './appInit.js';
 
 export function createEnemy(player, score) {
     //ENEMY
@@ -47,7 +47,7 @@ export function createEnemy(player, score) {
         SOUND_enemy.paused = !SOUND_enemy.paused;
         play('lose');
 
-        gameState.scoreEnregistré = score.value;
+        scoreState.savedScore = score.value;
         go('lose');
         //go('lose');
     });

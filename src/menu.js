@@ -24,7 +24,7 @@ scene('menu', () => {
     ]);
 
     add([
-        text('V 0.8', { size: 32 }),
+        text('V 0.9.1', { size: 32 }),
         color(219, 249, 255),
         pos(width() - 40, 40),
         anchor('center'),

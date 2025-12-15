@@ -8,7 +8,7 @@ export function createPlayer() {
         sprite('duck'),
         pos(center()),
         anchor('center'),
-        area({ scale: .9 }),
+        area({ scale: .8 }),
         body(),
         state('idle', ['idle', 'run']),
         layer('game'),

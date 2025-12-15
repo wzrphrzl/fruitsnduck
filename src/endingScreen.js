@@ -1,4 +1,4 @@
-import { gameState, addButton, fontStyleMed } from './appInit.js';
+import { scoreState, addButton, fontStyleMed } from './appInit.js';
 
 /****************/
 /*    ENDING    */
@@ -29,15 +29,15 @@ scene('lose', () => {
 
     }
 
-    if (gameState.scoreEnregistré > 0) {
+    if (scoreState.savedScore > 0) {
         scorePersonnalisé('win', 'Bien joué !');
-    } else if (gameState.scoreEnregistré <= 0) {
+    } else if (scoreState.savedScore <= 0) {
         scorePersonnalisé('lose', "Mal joué...");
     }
 
     // display score
     add([
-        text('Score total : ' + gameState.scoreEnregistré, fontStyleMed),
+        text('Score total : ' + scoreState.savedScore, fontStyleMed),
         pos(width() / 2, height() / 2 - 80),
         scale(1),
         anchor('center'),
@@ -45,7 +45,7 @@ scene('lose', () => {
     ]);
 
     add([
-        text('Virus absorbés : ' + gameState.item, fontStyleMed),
+        text('Virus absorbés : ' + scoreState.savedItems, fontStyleMed),
         pos(width() / 2, height() / 2),
         scale(1),
         anchor('center'),
