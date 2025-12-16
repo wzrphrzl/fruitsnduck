@@ -1,8 +1,9 @@
-import { k, scoreState, SPEED, addRect, bump, bumpMini } from './appInit.js';
+import { scoreState, addRect, bump, bumpMini } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
 import { setXs, setYs, addTree, appearObject, createStarBonus } from './generators.js';
+import { GAME_OBJECTS, createComboEvents, createGameSprites } from './gameConfig.js';
 
 import './menu.js';
 
@@ -21,6 +22,8 @@ scene('game', () => {
     const player = createPlayer();
     const { enemy, enemyStats } = createEnemy(player, score);
 
+    // Game sprites
+    const gameSprites = createGameSprites();
 
     addTree(setXs(player), setYs(player));
 
@@ -28,15 +31,13 @@ scene('game', () => {
     player.onCollide('tree', (touchedTree) => {
 
         if (touchedTree.state == 'fruity') {
-            
+
             bump(touchedTree);
-            
+
             wait(.4, () => {
 
                 for (let i = 0; i < 10; i++) {
-                    appearObject(setXs(player), setYs(player),
-                    [sprite('banana'), sprite('pear'), sprite('tomato'), sprite('virusPurple'), sprite('virusBlue'), sprite('virusBrown')],
-                       );
+                    appearObject(setXs(player), setYs(player), gameSprites);
                 }
 
                 touchedTree.enterState('default');
@@ -60,37 +61,7 @@ scene('game', () => {
         boxQueue.unshift(objet.sprite); // Ajoute au début
         boxQueue.pop(); // Retire le dernier (4ème élément)
 
-        const comboEvents = {
-            'tomato': () => {
-                debug.log('Combo tomates ! Événement 1');
-                // Ajouter ici l'effet spécifique (ex: bonus de points, etc.)
-                score.value += 100;
-                play('ring');
-            },
-            'pear': () => {
-                debug.log('Combo poires ! Événement 2');
-                score.value += 150;
-                play('ring');
-            },
-            'virusBrown': () => {
-                debug.log('Combo virus brun ! Événement 3');
-                enemyStats.speed = Math.max(10, enemyStats.speed - 10);
-                debug.log('Ennemi ralenti !');
-            },
-            'banana': () => {
-                debug.log('Combo bananes !');
-                score.value += 80;
-                play('ring');
-            },
-            'virusPurple': () => {
-                debug.log('Combo virus violet !');
-                enemyStats.size = Math.max(0.5, enemyStats.size - 0.2);
-            },
-            'virusBlue': () => {
-                debug.log('Combo virus bleu !');
-                // Effet spécifique pour virus bleu
-            }
-        };
+        const comboEvents = createComboEvents(score, enemyStats);
 
         // Vérifier si les 3 boîtes contiennent le même fruit
         if (boxQueue.every(sprite => sprite !== null && sprite === boxQueue[0])) {
@@ -129,16 +100,7 @@ scene('game', () => {
             return null;
         });
 
-        const fruitScores = {
-            'tomato': 20,
-            'pear': 20,
-            'banana': 20,
-            'virusPurple': -10,
-            'virusBlue': -15,
-            'virusBrown': -20
-        };
-
-        const scoreChange = fruitScores[objet.sprite];
+        const scoreChange = GAME_OBJECTS[objet.sprite]?.score || 0;
 
         if (scoreChange > 0) {
             score.value += scoreChange;
