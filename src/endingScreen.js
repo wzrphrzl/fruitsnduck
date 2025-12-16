@@ -1,13 +1,14 @@
-import { scoreState, addButton, fontStyleMed } from './appInit.js';
+import { scoreState, fontStyleMed } from './appInit.js';
+import { addButton, addRect } from './generators.js';
 
 /****************/
 /*    ENDING    */
 /****************/
 
 scene('lose', () => {
- 
-    setBackground('#0C2E44');
- 
+
+    addRect(1440, 800, 0, 0, 0, '#0C2E44', 'bg', { fixed: true, area: false });
+
     function scorePersonnalisé(param1, param2) {
 
         const statusEnding = add([

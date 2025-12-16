@@ -1,5 +1,80 @@
-import { k, SPEED } from './appInit.js';
+import { k, SPEED, fontStyleMed } from './appInit.js';
 
+export function addButton(texte, posX, posY) {
+    function addButton(txt, f) {
+        const btn = k.add([
+            rect(296, 96, { radius: 16 }),
+            pos(posX, posY),
+            area(),
+            scale(1),
+            anchor('center'),
+            outline(4, Color.fromHex('#FFEB57')),
+            color('#622461'),
+            layer('ui'),
+        ]);
+
+        btn.add([
+            text(txt, fontStyleMed),
+            anchor('center'),
+            pos(0, 2),
+            color(Color.fromHex('#FFEB57')),
+            layer('ui'),
+        ]);
+
+        btn.onHoverUpdate(() => {
+            btn.color = Color.fromHex('#93388F');
+            btn.scale = vec2(1.1);
+            setCursor('pointer');
+        });
+
+        btn.onHoverEnd(() => {
+            btn.scale = vec2(1);
+            btn.color = Color.fromHex('#622461');
+        });
+
+        btn.onClick(f);
+    }
+
+    addButton(texte, () => {
+        go('game');
+    });
+}
+
+export function addRect(width, height, radiusVal, posX, posY, colorName, layerName, options = {}, rectName = 'rect') {
+    const rectangle = [
+        rect(width, height, { radius: radiusVal }),
+        pos(posX, posY),
+        anchor('topleft'),
+        color(colorName),
+        body({ isStatic: true }),
+        layer(layerName),
+        rectName,
+    ];
+
+    if (options.area === true) {
+        rectangle.push(area());
+    }
+
+    if (options.fixed === true) {
+        rectangle.push(fixed());
+    }
+
+    return k.add(rectangle);
+}
+
+export function bump(param1) {
+    param1.scale = vec2(1.15);
+    wait(0.2, () => {
+        param1.scale = vec2(1);
+    });
+}
+
+export function bumpMini(param1) {
+    param1.scale = vec2(.6);
+    wait(0.2, () => {
+        param1.scale = vec2(.5);
+    });
+}
 
 export function setXs(player) {
     if (Math.random() < 0.5) {

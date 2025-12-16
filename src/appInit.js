@@ -5,11 +5,15 @@ const k = kaplay({
     // without specifying "width" and "height", kaboom will size to the container (document.body by default)
     width: 1440,
     height: 800,
+    scale: 4,
     // "stretch" stretches the defined width and height to fullscreen
-    // stretch: true,
+    stretch: true,
     // "letterbox" makes stretching keeps aspect ratio (leaves black bars on empty spaces), have no effect without "stretch"
     letterbox: true,
 });
+
+setBackground('#000000');
+
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 
@@ -161,43 +165,4 @@ function addButton(texte, posX, posY) {
     });
 }
 
-//RECANGLES
-const addRect = function (width, height, radiusVal, posX, posY, colorName, layerName, options = {}, rectName = 'rect') {
-    const rectangle = [
-        rect(width, height, { radius: radiusVal }),
-        pos(posX, posY),
-        anchor('topleft'),
-        color(colorName),
-        body({ isStatic: true }),
-        layer(layerName),
-        rectName,
-    ];
-
-    if (options.area === true) {
-        rectangle.push(area());
-    }
-
-    if (options.fixed === true) {
-        rectangle.push(fixed());
-    }
-
-    return k.add(rectangle);
-}
-
-function bump(param1) {
-    param1.scale = vec2(1.15);
-    wait(0.2, () => {
-        param1.scale = vec2(1);
-    });
-}
-
-function bumpMini(param1) {
-    param1.scale = vec2(.6);
-    wait(0.2, () => {
-        param1.scale = vec2(.5);
-    });
-}
-
-
-
-export { k, scoreState, SPEED, addRect, addButton, fontStyleMed, fontStyleSmall, fontStyleTiny, bump, bumpMini };
+export { k, scoreState, SPEED, fontStyleMed, fontStyleSmall, fontStyleTiny };

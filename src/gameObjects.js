@@ -1,30 +1,28 @@
-/**
- * Configuration des objets du jeu
- * Centralise les données des sprites : scores, combos, effets
- */
+
+// Centralise les données des sprites : scores, combos, effets
 
 export const GAME_OBJECTS = {
     banana: {
         score: 20,
         comboScore: 80,
-        comboEffect: 'sound',
+        comboEffect: 'none',
         comboMessage: 'Combo bananes !'
     },
     pear: {
         score: 20,
         comboScore: 150,
-        comboEffect: 'sound',
+        comboEffect: 'none',
         comboMessage: 'Combo poires !'
     },
     tomato: {
         score: 20,
         comboScore: 100,
-        comboEffect: 'sound',
+        comboEffect: 'none',
         comboMessage: 'Combo tomates !'
     },
     virusPurple: {
         score: -10,
-        comboEffect: 'reduceEnemySize',
+        comboEffect: 'none',
         comboMessage: 'Combo virus violet !',
         effectValue: -0.2,
         effectMin: 0.5
@@ -36,57 +34,47 @@ export const GAME_OBJECTS = {
     },
     virusBrown: {
         score: -20,
-        comboEffect: 'slowEnemy',
+        comboEffect: 'none',
         comboMessage: 'Combo virus brun !',
         effectValue: -10,
         effectMin: 10
     }
 };
 
-// Récupère la liste des noms de sprites
-export const SPRITE_NAMES = Object.keys(GAME_OBJECTS);
+// Crée des fonctions par combo
 
-/**
- * Crée les événements de combo basés sur la config
- */
 export function createComboEvents(score, enemyStats) {
     return {
         tomato: () => {
             debug.log(GAME_OBJECTS.tomato.comboMessage);
-            score.value += GAME_OBJECTS.tomato.comboScore;
-            play('ring');
         },
         pear: () => {
             debug.log(GAME_OBJECTS.pear.comboMessage);
-            score.value += GAME_OBJECTS.pear.comboScore;
-            play('ring');
         },
         banana: () => {
             debug.log(GAME_OBJECTS.banana.comboMessage);
-            score.value += GAME_OBJECTS.banana.comboScore;
-            play('ring');
         },
         virusBrown: () => {
-            const obj = GAME_OBJECTS.virusBrown;
             debug.log(obj.comboMessage);
-            enemyStats.speed = Math.max(obj.effectMin, enemyStats.speed + obj.effectValue);
-            debug.log('Ennemi ralenti !');
+            // score.value += GAME_OBJECTS.banana.comboScore;
+            // enemyStats.speed = Math.max(obj.effectMin, enemyStats.speed + obj.effectValue);
+            // enemyStats.size = Math.max(obj.effectMin, enemyStats.size + obj.effectValue);
+            // debug.log('Ennemi ralenti !');
+            // play('ring');
         },
         virusPurple: () => {
-            const obj = GAME_OBJECTS.virusPurple;
-            debug.log(obj.comboMessage);
-            enemyStats.size = Math.max(obj.effectMin, enemyStats.size + obj.effectValue);
+            debug.log(GAME_OBJECTS.virusPurple.comboMessage);
         },
         virusBlue: () => {
             debug.log(GAME_OBJECTS.virusBlue.comboMessage);
-            // Effet spécifique pour virus bleu
         }
     };
 }
 
-/**
- * Crée la liste des sprites à partir de la config
- */
+// RÉCUP TOUS LES SPRITES DANS UN OBJET
+const SPRITE_NAMES = Object.keys(GAME_OBJECTS);
+
+// CRÉE UN OBJET AVEC LE NOM DES SPRITES ET LEURS FONCTIONS QUI SONT ASSOCIÉES
 export function createGameSprites() {
     return SPRITE_NAMES.map(name => sprite(name));
 }

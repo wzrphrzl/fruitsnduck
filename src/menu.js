@@ -1,8 +1,8 @@
-import { addButton } from './appInit.js';
+import { addButton, addRect } from './generators.js';
 
 scene('menu', () => {
 
-    setBackground('#C7CFDD');
+    addRect(1440, 800, 0, 0, 0, '#C7CFDD', 'bg', { fixed: true, area: false });
 
     const titleScreen = add([
         sprite('titleScreen'),

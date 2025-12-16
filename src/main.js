@@ -1,17 +1,17 @@
-import { scoreState, addRect, bump, bumpMini } from './appInit.js';
+import { scoreState } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
-import { setXs, setYs, addTree, appearObject, createStarBonus } from './generators.js';
-import { GAME_OBJECTS, createComboEvents, createGameSprites } from './gameConfig.js';
+import { setXs, setYs, addTree, appearObject, createStarBonus, addRect, bump, bumpMini } from './generators.js';
+import { GAME_OBJECTS, createComboEvents, createGameSprites } from './gameObjects.js';
 
 import './menu.js';
 
 scene('game', () => {
 
     //debug.inspect = true;
+    addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
 
-    setBackground('#134C4C');
     /*HAUT*/   addRect(9360, 1080, 0, -3960, -3200, '#000000', 'ui', { area: true });
     /*DROITE*/ addRect(1080, 9360, 0, 3240, -4280, '#000000', 'ui', { area: true });
     /*BAS*/    addRect(9360, 1080, 0, -3960, 2920, '#000000', 'ui', { area: true });
@@ -25,9 +25,9 @@ scene('game', () => {
     // Game sprites
     const gameSprites = createGameSprites();
 
+    // Add the first Tree
     addTree(setXs(player), setYs(player));
 
-    //OUTC
     player.onCollide('tree', (touchedTree) => {
 
         if (touchedTree.state == 'fruity') {
@@ -35,15 +35,12 @@ scene('game', () => {
             bump(touchedTree);
 
             wait(.4, () => {
-
                 for (let i = 0; i < 10; i++) {
                     appearObject(setXs(player), setYs(player), gameSprites);
                 }
-
                 touchedTree.enterState('default');
             });
         }
-
         else if (touchedTree.state == 'default') return
 
         addTree(setXs(player), setYs(player));

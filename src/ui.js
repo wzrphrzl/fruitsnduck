@@ -1,4 +1,5 @@
-import { addRect, fontStyleSmall, fontStyleTiny } from './appInit.js';
+import { fontStyleSmall, fontStyleTiny } from './appInit.js';
+import { addRect } from './generators.js';
 
 export function createUI() {
     // SCORE UI
