@@ -15,6 +15,7 @@ scene('game', () => {
     /*BAS*/    addRect(9360, 1080, 0, -3960, 2920, '#000000', 'ui', { area: true });
     /*GAUCHE*/ addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
 
+    
     const pear = sprite('pear');
     const banana = sprite('banana');
     const tomato = sprite('tomato');
@@ -258,5 +259,5 @@ scene('game', () => {
 
 import './endingScreen.js';
 
-go('game');
+go('menu');
 

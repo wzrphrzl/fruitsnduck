@@ -18,7 +18,8 @@ scene('menu', () => {
 
     add([
         sprite('rules'),
-        pos(width() / 2, height() / 2 + 360),
+        pos(width() / 2, height() / 2 + 320),
+        scale(.75),
         anchor('center'),
         layer('ui'),
     ]);
