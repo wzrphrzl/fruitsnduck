@@ -10,11 +10,25 @@ import './menu.js';
 scene('game', () => {
 
     //debug.inspect = true;
+
+
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
 
-    /*HAUT*/   addRect(9360, 1080, 0, -3960, -3200, '#000000', 'ui', { area: true });
+
+    add([
+        pos(-1800, -2120),
+        sprite("grass", {
+            tiled: true,
+            width: 5040,
+            height: 5040,
+        }),
+        layer("bg"),
+    ]);
+
+
+    /*HAUT*/   addRect(9360, 1080, 0, -3960, -2680, '#000000', 'ui', { area: true });
     /*DROITE*/ addRect(1080, 9360, 0, 3240, -4280, '#000000', 'ui', { area: true });
-    /*BAS*/    addRect(9360, 1080, 0, -3960, 2920, '#000000', 'ui', { area: true });
+    /*BAS*/    addRect(9360, 1080, 0, -3960, 2400, '#000000', 'ui', { area: true });
     /*GAUCHE*/ addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
 
     // Initialize UI, player, enemy

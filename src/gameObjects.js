@@ -39,6 +39,7 @@ export const GAME_OBJECTS = {
         effectValue: -10,
         effectMin: 10
     }
+    
 };
 
 // Crée des fonctions par combo
@@ -55,7 +56,7 @@ export function createComboEvents(score, enemyStats) {
             debug.log(GAME_OBJECTS.banana.comboMessage);
         },
         virusBrown: () => {
-            debug.log(obj.comboMessage);
+            debug.log(GAME_OBJECTS.virusBrown.comboMessage);
             // score.value += GAME_OBJECTS.banana.comboScore;
             // enemyStats.speed = Math.max(obj.effectMin, enemyStats.speed + obj.effectValue);
             // enemyStats.size = Math.max(obj.effectMin, enemyStats.size + obj.effectValue);

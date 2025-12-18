@@ -14,7 +14,7 @@ scene('lose', () => {
         const statusEnding = add([
             sprite('duck'),
             pos(width() / 5, height() / 2 - 80),
-            scale(1.5),
+            scale(2),
             anchor('center'),
             layer('ui'),
         ]);

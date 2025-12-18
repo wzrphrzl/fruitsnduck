@@ -5,11 +5,12 @@ const k = kaplay({
     // without specifying "width" and "height", kaboom will size to the container (document.body by default)
     width: 1440,
     height: 800,
-    scale: 4,
+    scale: 1,
     // "stretch" stretches the defined width and height to fullscreen
     stretch: true,
     // "letterbox" makes stretching keeps aspect ratio (leaves black bars on empty spaces), have no effect without "stretch"
     letterbox: true,
+    //pixelDensity: window.devicePixelRatio,
 });
 
 setBackground('#000000');
@@ -39,12 +40,13 @@ const SPEED = 400;
 // SPRITES
 loadSprite('tomato', './img/tomato.png');
 loadSprite('pear', './img/pear.png');
-loadSprite('banana', './img/banana.png');
-loadSprite('virusBlue', './img/virus-blue.png');
-loadSprite('virusPurple', './img/virus-purple.png');
-loadSprite('virusBrown', './img/virus-brown.png');
+    loadSprite('banana', './img/banana.png');
+    loadSprite('virusBlue', './img/virus-blue.png');
+    loadSprite('virusPurple', './img/virus-purple.png');
+    loadSprite('virusBrown', './img/virus-brown.png');
 loadSprite('star', './img/star.png');
-//loadShader('invert', null);
+
+loadSprite('grass', './img/grass.png');
 
 loadSprite('tree', './img/tree.png', {
     sliceX: 5,
@@ -122,47 +124,5 @@ loadSprite('titleScreen', './img/title-screen.png', {
 const fontStyleMed = { size: 48, font: 'Nunito' };
 const fontStyleSmall = { size: 32, font: 'Nunito' };
 const fontStyleTiny = { size: 24, font: 'Nunito' };
-
-function addButton(texte, posX, posY) {
-    function addButton(txt, f) {
-        const btn = k.add([
-            rect(296, 96, { radius: 16 }),
-            pos(posX, posY),
-            area(),
-            scale(1),
-            anchor('center'),
-            outline(4, Color.fromHex('#FFEB57')),
-            color('#622461'),
-            layer('ui'),
-        ]);
-
-        btn.add([
-            text(txt, fontStyleMed),
-            anchor('center'),
-            pos(0,2),
-            color(Color.fromHex('#FFEB57')),
-            layer('ui'),
-        ]);
-
-        btn.onHoverUpdate(() => {
-            //const t = time() * 10;
-            //btn.color = hsl2rgb((t / 10) % 1, 0.6, 0.7);
-            btn.color = Color.fromHex('#93388F');
-            btn.scale = vec2(1.1);
-            setCursor('pointer');
-        });
-
-        btn.onHoverEnd(() => {
-            btn.scale = vec2(1);
-            btn.color = Color.fromHex('#622461');
-        });
-
-        btn.onClick(f);
-    }
-
-    addButton(texte, () => {
-        go('game');
-    });
-}
 
 export { k, scoreState, SPEED, fontStyleMed, fontStyleSmall, fontStyleTiny };
