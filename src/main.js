@@ -3,7 +3,7 @@ import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
 import { setXs, setYs, addTree, spawnObject, createStarBonus, addRect, bump, bumpMini } from './generators.js';
-import { gameObjectList, createComboEvents, createGameSprites } from './gameObjects.js';
+import { gameObjectList, addObjectSprites } from './gameObjects.js';
 
 import './menu.js';
 
@@ -31,13 +31,13 @@ scene('game', () => {
     /*BOTTOM*/addRect(9360, 1080, 0, -3960, 2400, '#000000', 'ui', { area: true });
     /*LEFT*/  addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
 
-    // INITIALIZE UI, PLAYER, ENEMY, GAME SPRITES
+    // INITIALIZE UI, PLAYER, ENEMY, OBJECT SPRITES
     const { score, box1, box2, box3 } = createUI();
     const player = createPlayer();
     const { enemy, enemyStats } = createEnemy(player, score);
-    const gameSprites = createGameSprites();
+    const gameSprites = addObjectSprites();
 
-    // Add the first Tree
+    // ADD THE FIRST TREE ON THE MAP
     addTree(setXs(player), setYs(player));
 
     player.onCollide('tree', (touchedTree) => {
@@ -59,37 +59,37 @@ scene('game', () => {
     });
 
     // GAME LOGIC
-    let boxQueue = [null, null, null];
-    let boxSprites = [null, null, null];
+    let inventoryBoxArray = [null, null, null];
+    let inventoryBoxSprites = [null, null, null];
 
+    // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
         destroy(gameObject);
         bump(player);
 
         // Décaler la file : box3 <- box2 <- box1 <- nouveau
-        boxQueue.unshift(gameObject.sprite); // Ajoute au début
-        boxQueue.pop(); // Retire le dernier (4ème élément)
-
-        const comboEvents = createComboEvents(score, enemyStats);
+        inventoryBoxArray.unshift(gameObject.sprite); // Ajoute au début
+        inventoryBoxArray.pop(); // Retire le dernier (4ème élément)
 
         // Vérifier si les 3 boîtes contiennent le même fruit
-        if (boxQueue.every(sprite => sprite !== null && sprite === boxQueue[0])) {
-            const comboType = boxQueue[0]; // Le type de fruit du combo
+        if (inventoryBoxArray.every(sprite => sprite !== null && sprite === inventoryBoxArray[0])) {
+
+            const comboType = inventoryBoxArray[0]; // Le type de fruit du combo
 
             // Déclencher l'événement correspondant si il existe
-            if (comboEvents[comboType]) {
-                comboEvents[comboType]();
+            if (gameObjectList[comboType]?.comboEvent) {
+                gameObjectList[comboType].comboEvent();
             }
         }
 
         // Supprimer les anciens sprites
-        boxSprites.forEach(sprite => {
+        inventoryBoxSprites.forEach(sprite => {
             if (sprite) destroy(sprite);
         });
 
         // Créer les nouveaux sprites dans les bonnes boîtes
         const boxes = [box1, box2, box3];
-        boxSprites = boxQueue.map((spriteName, index) => {
+        inventoryBoxSprites = inventoryBoxArray.map((spriteName, index) => {
             if (spriteName) {
                 const newSprite = boxes[index].add([
                     sprite(spriteName),
@@ -117,12 +117,12 @@ scene('game', () => {
         } else if (scoreChange < 0) {
             score.value += scoreChange; // déjà négatif
             play('debuff');
-            scoreState.savedItems++;
+            scoreState.virusCount++;
         }
 
         if (enemy.exists() === true) {
-            enemy.scale = vec2(enemyStats.size);
             enemyStats.size += 0.1;
+            enemy.scale = vec2(enemyStats.size);
             enemyStats.speed += 15;
         }
         bump(score);

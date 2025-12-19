@@ -28,14 +28,14 @@ scene('lose', () => {
     }
 
     if (scoreState.savedScore > 0) {
-        personalizedScore('win', 'Bien joué !');
+        personalizedScore('win', 'Well done!');
     } else if (scoreState.savedScore <= 0) {
-        personalizedScore('lose', "Mal joué...");
+        personalizedScore('lose', "Better luck next time...");
     }
 
     // SCORE DISPLAY
     add([
-        text('Score total : ' + scoreState.savedScore, fontStyleMed),
+        text('Total Score : ' + scoreState.savedScore, fontStyleMed),
         pos(width() / 2, height() / 2 - 80),
         scale(1),
         anchor('center'),
@@ -43,7 +43,7 @@ scene('lose', () => {
     ]);
 
     add([
-        text('Virus absorbés : ' + scoreState.savedItems, fontStyleMed),
+        text('Collected Viruses : ' + scoreState.virusCount, fontStyleMed),
         pos(width() / 2, height() / 2),
         scale(1),
         anchor('center'),

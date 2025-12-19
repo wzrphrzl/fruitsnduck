@@ -20,7 +20,7 @@ const k = kaplay({
 setLayers(['bg', 'game', 'ui'], 'ui');
 const scoreState = {
     savedScore: '',
-    savedItems: '',
+    virusCount: '',
 };
 
 // SOUNDS
@@ -31,7 +31,7 @@ loadSound('lose', './sound/lose.mp3');
 loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
 play('OtherworldlyFoe', { loop: true, paused: false });
 
-// SPRITES
+//OBJECTS, TREE, PLAYER, ENEMY SPRITES
 loadSprite('grass', './img/grass.png');
 loadSprite('tomato', './img/tomato.png');
 loadSprite('pear', './img/pear.png');
@@ -102,7 +102,7 @@ loadSprite('enemy', './img/enemy.png', {
     },
 });
 
-// MENU GRAPHICAL SPRITES
+// MENU SPRITES
 loadSprite('titleScreen', './img/title-screen.png', {
     sliceX: 0,
     anims: {
