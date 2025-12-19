@@ -1,6 +1,7 @@
 import { scoreState } from './appInit.js';
 
 export function createEnemy(player, score) {
+ 
     //ENEMY
     const enemyStats = {
         speed: 20,
@@ -38,7 +39,7 @@ export function createEnemy(player, score) {
             SOUND_enemy;
             const dir = player.pos.sub(enemy.pos).unit();
             enemy.move(dir.scale(enemyStats.speed));
-        }  
+        }
         if (!player.exists()) return;
     });
 
@@ -52,14 +53,14 @@ export function createEnemy(player, score) {
         //go('lose');
     });
 
-    enemy.onCollide('objet', (objet) => {
+    enemy.onCollide('gameObject', (gameObject) => {
         //if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
-        destroy(objet);
+        destroy(gameObject);
         //}
     });
 
-    enemy.onCollide('tree', (objet) => {
-        destroy(objet);
+    enemy.onCollide('tree', (gameObject) => {
+        destroy(gameObject);
     });
 
 

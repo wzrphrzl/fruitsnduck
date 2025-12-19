@@ -3,7 +3,7 @@ import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
 import { setXs, setYs, addTree, spawnObject, createStarBonus, addRect, bump, bumpMini } from './generators.js';
-import { gameObjectList, createGameSprites } from './gameObjects.js';
+import { gameObjectList, createComboEvents, createGameSprites } from './gameObjects.js';
 
 import './menu.js';
 
@@ -56,28 +56,29 @@ scene('game', () => {
         else if (touchedTree.state == 'default') return
 
         addTree(setXs(player), setYs(player));
-
     });
 
     // GAME LOGIC
     let boxQueue = [null, null, null];
     let boxSprites = [null, null, null];
 
-    player.onCollide('objet', (objet) => {
-        destroy(objet);
+    player.onCollide('gameObject', (gameObject) => {
+        destroy(gameObject);
         bump(player);
 
         // Décaler la file : box3 <- box2 <- box1 <- nouveau
-        boxQueue.unshift(objet.sprite); // Ajoute au début
+        boxQueue.unshift(gameObject.sprite); // Ajoute au début
         boxQueue.pop(); // Retire le dernier (4ème élément)
+
+        const comboEvents = createComboEvents(score, enemyStats);
 
         // Vérifier si les 3 boîtes contiennent le même fruit
         if (boxQueue.every(sprite => sprite !== null && sprite === boxQueue[0])) {
             const comboType = boxQueue[0]; // Le type de fruit du combo
 
             // Déclencher l'événement correspondant si il existe
-            if (gameObjectList[comboType]?.onCombo) {
-                gameObjectList[comboType].onCombo();
+            if (comboEvents[comboType]) {
+                comboEvents[comboType]();
             }
         }
 
@@ -108,7 +109,7 @@ scene('game', () => {
             return null;
         });
 
-        const scoreChange = gameObjectList[objet.sprite]?.score || 0;
+        const scoreChange = gameObjectList[gameObject.sprite]?.score || 0;
 
         if (scoreChange > 0) {
             score.value += scoreChange;
@@ -128,7 +129,7 @@ scene('game', () => {
         score.text = score.value;
     });
 
-    // STAR
+    // STAR LOGIC
     loop(10, () => {
         const starBonus = createStarBonus(setXs(player), setYs(player));
         wait(2, () => { destroy(starBonus); });

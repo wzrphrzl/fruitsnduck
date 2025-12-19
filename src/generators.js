@@ -130,16 +130,16 @@ export function addTree(x, y) {
 }
 
 // OBJECT SPAWNING
-export function spawnObject(posX, posY, objets) {
-    const random = Math.floor(Math.random() * objets.length);
+export function spawnObject(posX, posY, gameObjectList) {
+    const getRandom = Math.floor(Math.random() * gameObjectList.length);
     k.add([
-        objets[random],
+        gameObjectList[getRandom],
         pos(posX, posY),
         area(.9),
         scale(.75),
         body({ mass: 0.3 }),
         layer('game'),
-        'objet',
+        'gameObject',
     ]);
 }
 

@@ -12,7 +12,7 @@ scene('menu', () => {
         layer('game'),
     ]);
 
-    titleScreen.play('blink');
+    // titleScreen.play('blink');
 
     addButton('Start', width() / 2, height() / 2 + 64);
 
