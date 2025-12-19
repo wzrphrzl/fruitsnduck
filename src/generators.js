@@ -1,5 +1,14 @@
-import { k, SPEED, fontStyleMed } from './appInit.js';
+import { k, fontStyleMed } from './appInit.js';
 
+/*
+ * This module provides utility functions for generating and spawning various game elements:
+ * - UI components (buttons, rectangles)
+ * - Game objects (trees, collectibles, bonuses)
+ * - Visual effects and animations (bump effects)
+ * - Position calculation helpers for random placement
+ */
+
+// BUTTON CREATION
 export function addButton(texte, posX, posY) {
     function addButton(txt, f) {
         const btn = k.add([
@@ -40,6 +49,7 @@ export function addButton(texte, posX, posY) {
     });
 }
 
+// RECTANGLE CREATION
 export function addRect(width, height, radiusVal, posX, posY, colorName, layerName, options = {}, rectName = 'rect') {
     const rectangle = [
         rect(width, height, { radius: radiusVal }),
@@ -62,6 +72,7 @@ export function addRect(width, height, radiusVal, posX, posY, colorName, layerNa
     return k.add(rectangle);
 }
 
+// BUMP EFFECTS
 export function bump(param1) {
     param1.scale = vec2(1.15);
     wait(0.2, () => {
@@ -76,6 +87,7 @@ export function bumpMini(param1) {
     });
 }
 
+// GENERATE RANDOM POSITIONS FROM PLAYER
 export function setXs(player) {
     if (Math.random() < 0.5) {
         return rand(player.pos.x - 720, player.pos.x - 96);
@@ -92,6 +104,7 @@ export function setYs(player) {
     }
 }
 
+// TREE CREATION
 export function addTree(x, y) {
     const tree = k.add([
         sprite('tree'),
@@ -116,7 +129,8 @@ export function addTree(x, y) {
     return tree;
 }
 
-export function appearObject(posX, posY, objets) {
+// OBJECT SPAWNING
+export function spawnObject(posX, posY, objets) {
     const random = Math.floor(Math.random() * objets.length);
     k.add([
         objets[random],
@@ -126,10 +140,10 @@ export function appearObject(posX, posY, objets) {
         body({ mass: 0.3 }),
         layer('game'),
         'objet',
-        move(SPEED, 0),
     ]);
 }
 
+// STAR BONUS SPAWNING
 export function createStarBonus(poxX, posY) {
     return add([
         sprite('star'),

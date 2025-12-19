@@ -1,8 +1,9 @@
-import { k, SPEED } from './appInit.js';
+import { k } from './appInit.js';
+
+const playerSpeed = 400;
 
 export function createPlayer() {
- 
-  
+
     // PLAYER
     const player = k.add([
         sprite('duck'),
@@ -22,19 +23,18 @@ export function createPlayer() {
         player.play('run');
     });
 
-    
-    // CONTROLS
+    // PLAYER CONTROLS
     onKeyDown('left', () => {
-        player.move(-SPEED, 0);
+        player.move(-playerSpeed, 0);
     });
     onKeyDown('right', () => {
-        player.move(SPEED, 0);
+        player.move(playerSpeed, 0);
     });
     onKeyDown('up', () => {
-        player.move(0, -SPEED);
+        player.move(0, -playerSpeed);
     });
     onKeyDown('down', () => {
-        player.move(0, SPEED);
+        player.move(0, playerSpeed);
     });
 
     onKeyPress('left', () => {
@@ -47,15 +47,14 @@ export function createPlayer() {
     onKeyPress(['left', 'right', 'up', 'down'], () => {
         player.enterState('run');
     });
-    
+
     player.onUpdate(() => {
         setCamPos(player.pos);
 
         if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left")) {
-        player.enterState('idle');
+            player.enterState('idle');
         }
     });
-    
 
     return player;
 }

@@ -1,15 +1,12 @@
 import { scoreState, fontStyleMed } from './appInit.js';
 import { addButton, addRect } from './generators.js';
 
-/****************/
-/*    ENDING    */
-/****************/
-
 scene('lose', () => {
 
     addRect(1440, 800, 0, 0, 0, '#0C2E44', 'bg', { fixed: true, area: false });
 
-    function scorePersonnalisé(param1, param2) {
+    // SET A DIFFERENT ENDING BASED ON SCORE (POSITIVE OR NEGATIVE)
+    function personalizedScore(param1, param2) {
 
         const statusEnding = add([
             sprite('duck'),
@@ -31,12 +28,12 @@ scene('lose', () => {
     }
 
     if (scoreState.savedScore > 0) {
-        scorePersonnalisé('win', 'Bien joué !');
+        personalizedScore('win', 'Bien joué !');
     } else if (scoreState.savedScore <= 0) {
-        scorePersonnalisé('lose', "Mal joué...");
+        personalizedScore('lose', "Mal joué...");
     }
 
-    // display score
+    // SCORE DISPLAY
     add([
         text('Score total : ' + scoreState.savedScore, fontStyleMed),
         pos(width() / 2, height() / 2 - 80),

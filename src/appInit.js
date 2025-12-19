@@ -1,6 +1,9 @@
 import kaplay from 'kaplay';
 import 'kaplay/global';
 
+// INITIALIZE KAPLAY 
+
+// KAPLAY 
 const k = kaplay({
     // without specifying "width" and "height", kaboom will size to the container (document.body by default)
     width: 1440,
@@ -13,10 +16,12 @@ const k = kaplay({
     //pixelDensity: window.devicePixelRatio,
 });
 
-setBackground('#000000');
-
-
+// GAME LAYERS AND SCORE STATE
 setLayers(['bg', 'game', 'ui'], 'ui');
+const scoreState = {
+    savedScore: '',
+    savedItems: '',
+};
 
 // SOUNDS
 loadSound('ring', './sound/ring.mp3');
@@ -26,27 +31,15 @@ loadSound('lose', './sound/lose.mp3');
 loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
 play('OtherworldlyFoe', { loop: true, paused: false });
 
-// ASSETS
-loadFont('Nunito', './font/Nunito-SemiBold.ttf');
-loadSprite('rules', './img/rules.png');
-
-const scoreState = {
-    savedScore: '',
-    savedItems: '',
-};
-
-const SPEED = 400;
-
 // SPRITES
+loadSprite('grass', './img/grass.png');
 loadSprite('tomato', './img/tomato.png');
 loadSprite('pear', './img/pear.png');
-    loadSprite('banana', './img/banana.png');
-    loadSprite('virusBlue', './img/virus-blue.png');
-    loadSprite('virusPurple', './img/virus-purple.png');
-    loadSprite('virusBrown', './img/virus-brown.png');
+loadSprite('banana', './img/banana.png');
+loadSprite('virusBlue', './img/virus-blue.png');
+loadSprite('virusPurple', './img/virus-purple.png');
+loadSprite('virusBrown', './img/virus-brown.png');
 loadSprite('star', './img/star.png');
-
-loadSprite('grass', './img/grass.png');
 
 loadSprite('tree', './img/tree.png', {
     sliceX: 5,
@@ -109,6 +102,7 @@ loadSprite('enemy', './img/enemy.png', {
     },
 });
 
+// MENU GRAPHICAL SPRITES
 loadSprite('titleScreen', './img/title-screen.png', {
     sliceX: 0,
     anims: {
@@ -121,8 +115,12 @@ loadSprite('titleScreen', './img/title-screen.png', {
     }
 });
 
+loadSprite('rules', './img/rules.png');
+
+// FONT STYLES
+loadFont('Nunito', './font/Nunito-SemiBold.ttf');
 const fontStyleMed = { size: 48, font: 'Nunito' };
 const fontStyleSmall = { size: 32, font: 'Nunito' };
 const fontStyleTiny = { size: 24, font: 'Nunito' };
 
-export { k, scoreState, SPEED, fontStyleMed, fontStyleSmall, fontStyleTiny };
+export { k, scoreState, fontStyleMed, fontStyleSmall, fontStyleTiny };

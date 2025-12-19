@@ -2,18 +2,18 @@ import { scoreState } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
-import { setXs, setYs, addTree, appearObject, createStarBonus, addRect, bump, bumpMini } from './generators.js';
-import { GAME_OBJECTS, createComboEvents, createGameSprites } from './gameObjects.js';
+import { setXs, setYs, addTree, spawnObject, createStarBonus, addRect, bump, bumpMini } from './generators.js';
+import { gameObjectList, createGameSprites } from './gameObjects.js';
 
 import './menu.js';
 
 scene('game', () => {
 
-    //debug.inspect = true;
+    // DEBUG FUNCTION
+    // debug.inspect = true;
 
-
+    // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
-
 
     add([
         pos(-1800, -2120),
@@ -25,18 +25,16 @@ scene('game', () => {
         layer("bg"),
     ]);
 
+    // WALLS
+    /*TOP*/   addRect(9360, 1080, 0, -3960, -2680, '#000000', 'ui', { area: true });
+    /*RIGHT*/ addRect(1080, 9360, 0, 3240, -4280, '#000000', 'ui', { area: true });
+    /*BOTTOM*/addRect(9360, 1080, 0, -3960, 2400, '#000000', 'ui', { area: true });
+    /*LEFT*/  addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
 
-    /*HAUT*/   addRect(9360, 1080, 0, -3960, -2680, '#000000', 'ui', { area: true });
-    /*DROITE*/ addRect(1080, 9360, 0, 3240, -4280, '#000000', 'ui', { area: true });
-    /*BAS*/    addRect(9360, 1080, 0, -3960, 2400, '#000000', 'ui', { area: true });
-    /*GAUCHE*/ addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
-
-    // Initialize UI, player, enemy
+    // INITIALIZE UI, PLAYER, ENEMY, GAME SPRITES
     const { score, box1, box2, box3 } = createUI();
     const player = createPlayer();
     const { enemy, enemyStats } = createEnemy(player, score);
-
-    // Game sprites
     const gameSprites = createGameSprites();
 
     // Add the first Tree
@@ -50,7 +48,7 @@ scene('game', () => {
 
             wait(.4, () => {
                 for (let i = 0; i < 10; i++) {
-                    appearObject(setXs(player), setYs(player), gameSprites);
+                    spawnObject(setXs(player), setYs(player), gameSprites);
                 }
                 touchedTree.enterState('default');
             });
@@ -61,6 +59,7 @@ scene('game', () => {
 
     });
 
+    // GAME LOGIC
     let boxQueue = [null, null, null];
     let boxSprites = [null, null, null];
 
@@ -72,15 +71,13 @@ scene('game', () => {
         boxQueue.unshift(objet.sprite); // Ajoute au début
         boxQueue.pop(); // Retire le dernier (4ème élément)
 
-        const comboEvents = createComboEvents(score, enemyStats);
-
         // Vérifier si les 3 boîtes contiennent le même fruit
         if (boxQueue.every(sprite => sprite !== null && sprite === boxQueue[0])) {
             const comboType = boxQueue[0]; // Le type de fruit du combo
 
             // Déclencher l'événement correspondant si il existe
-            if (comboEvents[comboType]) {
-                comboEvents[comboType]();
+            if (gameObjectList[comboType]?.onCombo) {
+                gameObjectList[comboType].onCombo();
             }
         }
 
@@ -111,7 +108,7 @@ scene('game', () => {
             return null;
         });
 
-        const scoreChange = GAME_OBJECTS[objet.sprite]?.score || 0;
+        const scoreChange = gameObjectList[objet.sprite]?.score || 0;
 
         if (scoreChange > 0) {
             score.value += scoreChange;
