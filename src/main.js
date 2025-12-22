@@ -15,6 +15,16 @@ scene('game', () => {
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
 
+    add([
+        pos(-1800, -2120),
+        sprite("grass", {
+            tiled: true,
+            width: 5040,
+            height: 5040,
+        }),
+        layer("bg"),
+    ]);
+
     // WALLS
     /*TOP*/   addRect(9360, 1080, 0, -3960, -2680, '#000000', 'ui', { area: true });
     /*RIGHT*/ addRect(1080, 9360, 0, 3240, -4280, '#000000', 'ui', { area: true });
@@ -135,5 +145,5 @@ scene('game', () => {
 
 import './endingScreen.js';
 
-go('menu');
+go('game');
 
