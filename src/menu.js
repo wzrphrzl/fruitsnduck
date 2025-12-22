@@ -6,26 +6,26 @@ scene('menu', () => {
 
     const titleScreen = add([
         sprite('titleScreen'),
-        pos(width() / 2, height() / 2 - 192),
+        pos(width() / 2, 20),
         scale(1),
-        anchor('center'),
+        anchor('top'),
         layer('game'),
     ]);
 
     // titleScreen.play('blink');
 
-    addButton('Start', width() / 2, height() / 2 + 64);
+    addButton('Start', 730, 452);
 
     add([
-        sprite('rules'),
-        pos(width() / 2, height() / 2 + 320),
-        scale(.75),
-        anchor('center'),
+        sprite('gameRules'),
+        pos(width() / 2, height()),
+        scale(1),
+        anchor('bot'),
         layer('ui'),
     ]);
 
     add([
-        text('V 0.9.1', { size: 32 }),
+        text('V 0.9.3', { size: 32 }),
         color(219, 249, 255),
         pos(width() - 40, 40),
         anchor('center'),

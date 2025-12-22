@@ -11,16 +11,16 @@ export function createPlayer() {
         anchor('center'),
         area({ scale: .8 }),
         body(),
-        state('idle', ['idle', 'run']),
+        state('defaultIdle', ['defaultIdle', 'defaultRun', 'stress', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun']),
         layer('game'),
         'duck',
     ]);
 
-    player.onStateEnter('idle', () => {
-        player.play('idle');
+    player.onStateEnter('defaultIdle', () => {
+        player.play('defaultIdle');
     });
-    player.onStateEnter('run', () => {
-        player.play('run');
+    player.onStateEnter('defaultRun', () => {
+        player.play('defaultRun');
     });
 
     // PLAYER CONTROLS
@@ -45,14 +45,14 @@ export function createPlayer() {
     });
 
     onKeyPress(['left', 'right', 'up', 'down'], () => {
-        player.enterState('run');
+        player.enterState('defaultRun');
     });
 
     player.onUpdate(() => {
         setCamPos(player.pos);
 
         if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left")) {
-            player.enterState('idle');
+            player.enterState('defaultIdle');
         }
     });
 

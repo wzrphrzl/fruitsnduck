@@ -41,6 +41,12 @@ loadSprite('virusPurple', './img/virus-purple.png');
 loadSprite('virusBrown', './img/virus-brown.png');
 loadSprite('star', './img/star.png');
 
+loadSprite('armor', './img/armor.png');
+loadSprite('pimentOrange', './img/piment-orange.png');
+loadSprite('grape', './img/grape.png');
+loadSprite('blueberry', './img/blueberry.png');
+loadSprite('egg', './img/egg.png');
+
 loadSprite('tree', './img/tree.png', {
     sliceX: 5,
     anims: {
@@ -58,30 +64,61 @@ loadSprite('tree', './img/tree.png', {
 });
 
 loadSprite('duck', './img/duck.png', {
-    sliceX: 4,
+    sliceX: 10,
     anims: {
-        'idle': {
+        'defaultIdle': {
             from: 0,
             to: 0,
-            speed: 6,
-            loop: true,
+            loop: false,
         },
-        'run': {
+        'defaultRun': {
             from: 1,
             to: 0,
             speed: 6,
             loop: true,
         },
+        'lose': {
+            from: 2,
+            to: 2,
+            loop: false,
+        },        
         'win': {
             from: 3,
             to: 3,
             loop: false,
         },
-        'lose': {
-            from: 2,
-            to: 2,
+        'stress': {
+            from: 4,
+            to: 4,
             loop: false,
         },
+        'orangeIdle': {
+            from: 5,
+            to: 5,
+            loop: false,
+        },
+        'orangeRun': {
+            from: 6,
+            to: 5,
+            speed: 6,
+            loop: true,
+        },  
+        'orangePoop': {
+            from: 7,
+            to: 7,
+            loop: false,
+        },     
+        'armorIdle': {
+            from: 8,
+            to: 8,
+            loop: false,
+        },   
+        'armorRun': {
+            from: 9,
+            to: 8,
+            speed: 6,
+            loop: true,
+        },                            
     },
 });
 
@@ -102,6 +139,18 @@ loadSprite('enemy', './img/enemy.png', {
     },
 });
 
+loadSprite('poop', './img/poop.png', {
+    sliceX: 2,
+    anims: {
+        'idle': {
+            from: 0,
+            to: 1,
+            speed: 4,
+            loop: true,
+        },
+    }
+});
+
 // MENU SPRITES
 loadSprite('titleScreen', './img/title-screen.png', {
     sliceX: 0,
@@ -115,7 +164,7 @@ loadSprite('titleScreen', './img/title-screen.png', {
     }
 });
 
-loadSprite('rules', './img/rules.png');
+loadSprite('gameRules', './img/game-rules.png');
 
 // FONT STYLES
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
