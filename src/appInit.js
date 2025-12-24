@@ -41,9 +41,17 @@ loadSprite('virusPurple', './img/virus-purple.png');
 loadSprite('virusBrown', './img/virus-brown.png');
 loadSprite('star', './img/star.png');
 
-loadSprite('armor', './img/armor.png');
-loadSprite('pimentOrange', './img/piment-orange.png');
+loadSprite('orange', './img/orange.png');
+loadSprite('lemon', './img/lemon.png');
+loadSprite('watermelon', './img/watermelon.png');
+loadSprite('kumquat', './img/kumquat.png');
 loadSprite('grape', './img/grape.png');
+loadSprite('piment', './img/piment.png');
+loadSprite('strawberry', './img/strawberry.png');
+
+loadSprite('tomatoArmor', './img/tomato-armor.png');
+loadSprite('superPiment', './img/super-piment.png');
+loadSprite('superGrape', './img/super-grape.png');
 loadSprite('blueberry', './img/blueberry.png');
 loadSprite('egg', './img/egg.png');
 

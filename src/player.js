@@ -1,26 +1,29 @@
 import { k } from './appInit.js';
 
 const playerSpeed = 400;
+export let player;
 
 export function createPlayer() {
 
-    // PLAYER
-    const player = k.add([
+    // DEFINE THE PLAYER VARIABLE AND THE PLAYER STATE LI
+
+    const playerStateList = ['defaultIdle', 'defaultRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun'];
+
+    player = k.add([
         sprite('duck'),
         pos(center()),
         anchor('center'),
         area({ scale: .8 }),
         body(),
-        state('defaultIdle', ['defaultIdle', 'defaultRun', 'stress', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun']),
+        state('defaultIdle', playerStateList),
         layer('game'),
         'duck',
     ]);
 
-    player.onStateEnter('defaultIdle', () => {
-        player.play('defaultIdle');
-    });
-    player.onStateEnter('defaultRun', () => {
-        player.play('defaultRun');
+    playerStateList.forEach(state => {
+        player.onStateEnter(state, () => {
+            player.play(state);
+        });
     });
 
     // PLAYER CONTROLS
@@ -44,16 +47,34 @@ export function createPlayer() {
         player.flipX = false;
     });
 
+
     onKeyPress(['left', 'right', 'up', 'down'], () => {
-        player.enterState('defaultRun');
+        if (player.state == 'defaultIdle') {
+            player.enterState('defaultRun');
+        }
+        else if (player.state == 'orangeIdle') {
+            player.enterState('orangeRun');
+        }
+        else if (player.state == 'armorIdle') {
+            player.enterState('armorRun');
+        }
     });
 
     player.onUpdate(() => {
         setCamPos(player.pos);
 
         if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left")) {
-            player.enterState('defaultIdle');
+            if (player.state == 'defaultRun') {
+                player.enterState('defaultIdle');
+            }
+            else if (player.state == 'orangeRun') {
+                player.enterState('orangeIdle');
+            }
+            else if (player.state == 'armorRun') {
+                player.enterState('armorIdle');
+            }
         }
+
     });
 
     return player;

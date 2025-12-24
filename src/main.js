@@ -47,8 +47,8 @@ scene('game', () => {
             bump(touchedTree);
 
             wait(.4, () => {
-                for (let i = 0; i < 10; i++) {
-                    spawnObject(setXs(player), setYs(player), gameSprites);
+                for (let i = 0; i < 5; i++) {
+                    spawnObject(gameSprites);
                 }
                 touchedTree.enterState('default');
             });
@@ -109,7 +109,7 @@ scene('game', () => {
             return null;
         });
 
-        const scoreChange = gameObjectList[gameObject.sprite]?.score || 0;
+        const scoreChange = gameObjectList[gameObject.sprite]?.scoreValue || 0;
 
         if (scoreChange > 0) {
             score.value += scoreChange;

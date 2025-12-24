@@ -1,4 +1,5 @@
 import { k, fontStyleMed } from './appInit.js';
+import { player } from './player.js';
 
 /*
  * This module provides utility functions for generating and spawning various game elements:
@@ -7,6 +8,23 @@ import { k, fontStyleMed } from './appInit.js';
  * - Visual effects and animations (bump effects)
  * - Position calculation helpers for random placement
  */
+
+// GENERATE RANDOM POSITIONS FROM PLAYER
+export function setXs(player) {
+    if (Math.random() < 0.5) {
+        return rand(player.pos.x - 720, player.pos.x - 96);
+    } else {
+        return rand(player.pos.x + 96, player.pos.x + 720);
+    }
+}
+
+export function setYs(player) {
+    if (Math.random() < 0.5) {
+        return rand(player.pos.y - 400, player.pos.y - 96);
+    } else {
+        return rand(player.pos.y + 96, player.pos.y + 400);
+    }
+}
 
 // BUTTON CREATION
 export function addButton(texte, posX, posY) {
@@ -87,23 +105,6 @@ export function bumpMini(param1) {
     });
 }
 
-// GENERATE RANDOM POSITIONS FROM PLAYER
-export function setXs(player) {
-    if (Math.random() < 0.5) {
-        return rand(player.pos.x - 720, player.pos.x - 96);
-    } else {
-        return rand(player.pos.x + 96, player.pos.x + 720);
-    }
-}
-
-export function setYs(player) {
-    if (Math.random() < 0.5) {
-        return rand(player.pos.y - 400, player.pos.y - 96);
-    } else {
-        return rand(player.pos.y + 96, player.pos.y + 400);
-    }
-}
-
 // TREE CREATION
 export function addTree(x, y) {
     const tree = k.add([
@@ -130,17 +131,26 @@ export function addTree(x, y) {
 }
 
 // OBJECT SPAWNING
-export function spawnObject(posX, posY, gameObjectList) {
-    const getRandom = Math.floor(Math.random() * gameObjectList.length);
-    k.add([
-        gameObjectList[getRandom],
-        pos(posX, posY),
+export function spawnObject(gameObjectList) {
+    const getRandomObject = Math.floor(Math.random() * gameObjectList.length);
+    
+    const posXSpawn = setXs(player)
+    const posYSpwn = player.pos.y - 440;
+    const posYSpawnEnd= rand(80, 720);
+
+    const ojbectSpawned = k.add([
+        gameObjectList[getRandomObject],
+        pos(posXSpawn, posYSpwn),
         area(.9),
         scale(.75),
-        body({ mass: 0.3 }),
         layer('game'),
         'gameObject',
     ]);
+
+    onUpdate(() => {
+        ojbectSpawned.moveTo(posXSpawn, posYSpwn + posYSpawnEnd, 1750);
+    });
+
 }
 
 // STAR BONUS SPAWNING
