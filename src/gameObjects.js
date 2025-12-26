@@ -1,114 +1,114 @@
 import { player } from './player.js';
+import { addObject } from './generators.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
 
 export const gameObjectList = {
     banana: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: 5,
         comboScore: 150,
-        comboMessage: 'Combo bananes !',
+        comboMessage: 'COMBO BANANES !',
         comboEvent: () => {
-            player.enterState('orangeIdle');
             debug.log(gameObjectList.banana.comboMessage);
         }
     },
     pear: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: 5,
-        comboMessage: 'Combo poires !',
+        comboMessage: 'COMBO POIRES !',
         comboEvent: () => {
-            player.enterState('armorIdle');
+            player.enterState('orangeIdle');
             debug.log(gameObjectList.pear.comboMessage);
         }
     },
     tomato: {
-        class: 'defaultObject',
+        objectType: 'defaultObject',
         scoreValue: 5,
-        comboMessage: 'Combo tomates !',
+        comboMessage: 'COMBO TOMATES !',
         comboEvent: () => {
-            player.enterState('armorIdle');
+            addObject('tomatoArmor');
             debug.log(gameObjectList.tomato.comboMessage);
         }
     },
     lemon: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: 5,
-        comboMessage: 'Combo lemon !',
+        comboMessage: 'COMBO LEMON !',
         comboEvent: () => {
             player.enterState('armorIdle');
-            debug.log(gameObjectList.tomato.comboMessage);
+            debug.log(gameObjectList.lemon.comboMessage);
         }
     },
     watermelon: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: 5,
-        comboMessage: 'Combo lemon !',
+        comboMessage: 'COMBO WATERMELON !',
         comboEvent: () => {
             player.enterState('armorIdle');
-            debug.log(gameObjectList.tomato.comboMessage);
+            debug.log(gameObjectList.watermelon.comboMessage);
         }
     },
     orange: {
-        class: 'defaultObject',
+        claobjectType: 'defaultObjectX',
         scoreValue: 5,
-        comboMessage: 'Combo lemon !',
+        comboMessage: 'COMBO ORANGE !',
         comboEvent: () => {
             player.enterState('armorIdle');
-            debug.log(gameObjectList.tomato.comboMessage);
+            debug.log(gameObjectList.orange.comboMessage);
         }
     },
     piment: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: 5,
-        comboMessage: 'Combo lemon !',
+        comboMessage: 'COMBO PIMENT !',
         comboEvent: () => {
             player.enterState('armorIdle');
-            debug.log(gameObjectList.tomato.comboMessage);
+            debug.log(gameObjectList.piment.comboMessage);
         }
     },
     grape: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: 5,
-        comboMessage: 'Combo lemon !',
+        comboMessage: 'COMBO GRAPE !',
         comboEvent: () => {
             player.enterState('armorIdle');
-            debug.log(gameObjectList.tomato.comboMessage);
+            debug.log(gameObjectList.grape.comboMessage);
         }
     },
     strawberry: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: 5,
-        comboMessage: 'Combo strawberry !',
+        comboMessage: 'COMBO STRAWBERRY !',
         comboEvent: () => {
             debug.log(gameObjectList.strawberry.comboMessage);
         }
     },
     virusPurple: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: -10,
-        comboMessage: 'Combo virus PURPLE !',
+        comboMessage: 'COMBO VIRUS PURPLE !',
         comboEvent: () => {
             player.enterState('armorIdle');
             debug.log(gameObjectList.virusPurple.comboMessage);
         }
     },
     virusBlue: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: -15,
-        comboMessage: 'Combo virus BLUE !',
+        comboMessage: 'COMBO VIRUS BLUE !',
         comboEvent: () => {
             player.enterState('armorIdle');
             debug.log(gameObjectList.virusBlue.comboMessage);
         }
     },
     virusBrown: {
-        class: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: -20,
-        comboMessage: 'Combo virus BROWN !',
+        comboMessage: 'COMBO VIRUS BROWN !',
         comboEvent: () => {
-            player.enterState('armorIdle');
             debug.log(gameObjectList.virusBrown.comboMessage);
+            // player.enterState('armorIdle');
             // score.value += gameObjectList.banana.comboScore;
             // enemyStats.speed = Math.max(obj.effectMin, enemyStats.speed + obj.effectValue);
             // enemyStats.size = Math.max(obj.effectMin, enemyStats.size + obj.effectValue);
@@ -117,50 +117,39 @@ export const gameObjectList = {
         }
     },
     tomatoArmor: {
-        class: 'rareObject',
+        objectType: 'tomatoArmor',
         scoreValue: -15,
-        comboMessage: 'You got the TOMATO ARMOR !',
+        comboMessage: 'YOU GOT THE TOMATO ARMOR !',
         comboEvent: () => {
-            player.enterState('armorIdle');
-            debug.log(gameObjectList.virusBlue.comboMessage);
-        }
+            debug.log(gameObjectList.tomatoArmor.comboMessage);
+            player.enterState('armorIdle');        }
     },
     superPiment: {
-        class: 'rareObject',
+        objectType: 'superPiment',
         scoreValue: -15,
-        comboMessage: 'You got the SUPER PIMENT !',
+        comboMessage: 'YOU GOT THE SUPER PIMENT !',
         comboEvent: () => {
-            player.enterState('armorIdle');
-            debug.log(gameObjectList.virusBlue.comboMessage);
+            debug.log(gameObjectList.superPiment.comboMessage);
         }
     },
 
     superGrape: {
-        class: 'rareObject',
+        objectType: 'superGrape',
         scoreValue: -15,
-        comboMessage: 'Combo virus BLUE !',
+        comboMessage: 'YOU GOT THE SUPER GRAPE !',
         comboEvent: () => {
             player.enterState('armorIdle');
-            debug.log(gameObjectList.virusBlue.comboMessage);
+            debug.log(gameObjectList.superGrape.comboMessage);
         }
     },
     blueberry: {
-        class: 'rareObject',
+        objectType: 'blueberry',
         scoreValue: -15,
-        comboMessage: 'Combo virus BLUE !',
+        comboMessage: 'YOU GOT THE BLUEBERRY !',
         comboEvent: () => {
             player.enterState('armorIdle');
-            debug.log(gameObjectList.virusBlue.comboMessage);
+            debug.log(gameObjectList.blueberry.comboMessage);
         }
     },
 
-
 };
-
-// CREATES AN ARRAY WITH THE NAMES OF ALL GAME OBJECTS
-const gameObjects = Object.keys(gameObjectList);
-
-// CRÉE UN OBJET AVEC LE NOM DES SPRITES ET LEURS FONCTIONS QUI SONT ASSOCIÉES
-export function addObjectSprites() {
-    return gameObjects.map(gameObjectName => sprite(gameObjectName));
-}

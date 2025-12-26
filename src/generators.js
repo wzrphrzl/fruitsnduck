@@ -1,5 +1,6 @@
 import { k, fontStyleMed } from './appInit.js';
 import { player } from './player.js';
+import { gameObjectList } from './gameObjects.js';
 
 /*
  * This module provides utility functions for generating and spawning various game elements:
@@ -131,16 +132,20 @@ export function addTree(x, y) {
 }
 
 // OBJECT SPAWNING
-export function spawnObject(gameObjectList) {
-    const getRandomObject = Math.floor(Math.random() * gameObjectList.length);
-    
-    const posXSpawn = setXs(player)
-    const posYSpwn = player.pos.y - 440;
-    const posYSpawnEnd= rand(80, 720);
+export function addObject(objectType) {
 
-    const ojbectSpawned = k.add([
-        gameObjectList[getRandomObject],
-        pos(posXSpawn, posYSpwn),
+    // FILTER GAMEOBJECTLIST TO GET ONLY OBJECTS OF THE SPECIFIED TYPE (OBJECTTYPE)
+    const filteredObjectArray =Object.keys(gameObjectList).filter(key => gameObjectList[key].objectType === objectType).map(gameObjectKey => sprite(gameObjectKey));
+
+    // GENERATES A RANDOM POSITION AND ADDS THE OBJECT TO THE GAME
+    const getRandomInList = Math.floor(Math.random() * filteredObjectArray.length);
+    const posX_objectSpawn = setXs(player);
+    const posY_objectSpawn = player.pos.y - 440;
+    const posY_objectEnd = rand(80, 720);
+
+    const addedObject = k.add([
+        filteredObjectArray[getRandomInList],
+        pos(posX_objectSpawn, posY_objectSpawn),
         area(.9),
         scale(.75),
         layer('game'),
@@ -148,10 +153,11 @@ export function spawnObject(gameObjectList) {
     ]);
 
     onUpdate(() => {
-        ojbectSpawned.moveTo(posXSpawn, posYSpwn + posYSpawnEnd, 1750);
+        addedObject.moveTo(posX_objectSpawn, posY_objectSpawn + posY_objectEnd, 1750);
     });
 
 }
+
 
 // STAR BONUS SPAWNING
 export function createStarBonus(poxX, posY) {

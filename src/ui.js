@@ -2,6 +2,7 @@ import { fontStyleSmall, fontStyleTiny } from './appInit.js';
 import { addRect } from './generators.js';
 
 export function createUI() {
+
     // SCORE UI
     add([
         text('Score', fontStyleSmall),
@@ -21,22 +22,35 @@ export function createUI() {
         layer('ui'),
     ]);
 
-    // BOXES UI
-
+    // INVENTORY UI
     add([
         text('Fruit Combo', fontStyleTiny),
-        pos(1256, 640),
+        pos(1408, 632),
         fixed(),
-        anchor('topleft'),
+        anchor('topright'),
         { value: 0 },
+        color('#92A1B9'),
         layer('ui'),
     ]);
 
-    const box1 = addRect(96, 96, 20, 1084, 672, '#1B1B1B', 'ui', { fixed: true });
-    const box2 = addRect(96, 96, 20, 1192, 672, '#1B1B1B', 'ui', { fixed: true });
-    const box3 = addRect(96, 96, 20, 1300, 672, '#1B1B1B', 'ui', { fixed: true });
-    // const box4 = addRect(96, 96, 20, 1300, 672, '#1B1B1B', 'ui', { fixed: true });
+    const box1 = addRect(96, 96, 20, 1072, 672, '#03193F', 'ui', { fixed: true });
+    const box2 = addRect(96, 96, 20, 1192, 672, '#03193F', 'ui', { fixed: true });
+    const box3 = addRect(96, 96, 20, 1312, 672, '#03193F', 'ui', { fixed: true });
+
+    add([
+        text('Rare Fruits', fontStyleTiny),
+        pos(1408, 116),
+        fixed(),
+        anchor('topright'),
+        { value: 0 },
+        color('#92A1B9'),
+        layer('ui'),
+    ]);
+
+    const box4 = addRect(80, 80, 40, 1144, 24, '#03193F', 'ui', { fixed: true });
+    const box5 = addRect(80, 80, 40, 1236, 24, '#03193F', 'ui', { fixed: true });
+    const box6 = addRect(80, 80, 40, 1328, 24, '#03193F', 'ui', { fixed: true });
 
 
-    return { box1, box2, box3, /* box4, */ score };
+    return { score, box1, box2, box3, box4, box5, box6 };
 }

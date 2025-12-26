@@ -178,6 +178,6 @@ loadSprite('gameRules', './img/game-rules.png');
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
 const fontStyleMed = { size: 48, font: 'Nunito' };
 const fontStyleSmall = { size: 32, font: 'Nunito' };
-const fontStyleTiny = { size: 24, font: 'Nunito' };
+const fontStyleTiny = { size: 22, font: 'Nunito' };
 
 export { k, scoreState, fontStyleMed, fontStyleSmall, fontStyleTiny };
