@@ -1,7 +1,7 @@
-import { scoreState } from './appInit.js';
+import { scoreStats } from './appInit.js';
 
 export function createEnemy(player, score) {
- 
+
     //ENEMY
     const enemyStats = {
         speed: 20,
@@ -48,9 +48,16 @@ export function createEnemy(player, score) {
         SOUND_enemy.paused = !SOUND_enemy.paused;
         play('lose');
 
-        scoreState.savedScore = score.value;
+        scoreStats.savedScore = score.value;
         go('lose');
         //go('lose');
+    });
+
+    enemy.onCollide('poop', () => {
+        debug.log('ENEMY HIT BY POOP !');
+        enemyStats.size -= 0.2;
+        enemy.scale = vec2(enemyStats.size);
+        enemyStats.speed -= 10;
     });
 
     enemy.onCollide('gameObject', (gameObject) => {

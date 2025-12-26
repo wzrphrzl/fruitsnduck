@@ -18,7 +18,7 @@ const k = kaplay({
 
 // GAME LAYERS AND SCORE STATE
 setLayers(['bg', 'game', 'ui'], 'ui');
-const scoreState = {
+const scoreStats = {
     savedScore: '',
     virusCount: '',
 };
@@ -72,7 +72,8 @@ loadSprite('tree', './img/tree.png', {
 });
 
 loadSprite('duck', './img/duck.png', {
-    sliceX: 10,
+    sliceY: 2,
+    sliceX: 7,
     anims: {
         'defaultIdle': {
             from: 0,
@@ -85,48 +86,64 @@ loadSprite('duck', './img/duck.png', {
             speed: 6,
             loop: true,
         },
-        'lose': {
+        'kwak': {
             from: 2,
             to: 2,
             loop: false,
-        },        
-        'win': {
+        },
+        'lose': {
             from: 3,
             to: 3,
             loop: false,
         },
-        'stress': {
+        'win': {
             from: 4,
             to: 4,
             loop: false,
         },
-        'orangeIdle': {
+        'stressIdle': {
             from: 5,
             to: 5,
             loop: false,
         },
-        'orangeRun': {
+        'stressRun': {
             from: 6,
             to: 5,
             speed: 6,
             loop: true,
-        },  
-        'orangePoop': {
-            from: 7,
+        },        
+        'orangeIdle': {
+            from:7,
             to: 7,
             loop: false,
-        },     
-        'armorIdle': {
+        },
+        'orangeRun': {
             from: 8,
-            to: 8,
-            loop: false,
-        },   
-        'armorRun': {
-            from: 9,
-            to: 8,
+            to: 7,
             speed: 6,
             loop: true,
-        },                            
+        },
+        'orangePoop': {
+            from: 9,
+            to: 9,
+            loop: false,
+        },
+        'armorIdle': {
+            from: 10,
+            to: 10,
+            loop: false,
+        },
+        'armorRun': {
+            from: 11,
+            to: 10,
+            speed: 4,
+            loop: true,
+        },
+        'armorPoop': {
+            from: 12,
+            to: 12,
+            loop: false,
+        },        
     },
 });
 
@@ -180,4 +197,4 @@ const fontStyleMed = { size: 48, font: 'Nunito' };
 const fontStyleSmall = { size: 32, font: 'Nunito' };
 const fontStyleTiny = { size: 22, font: 'Nunito' };
 
-export { k, scoreState, fontStyleMed, fontStyleSmall, fontStyleTiny };
+export { k, scoreStats, fontStyleMed, fontStyleSmall, fontStyleTiny };

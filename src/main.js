@@ -1,4 +1,4 @@
-import { scoreState } from './appInit.js';
+import { scoreStats } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
@@ -69,16 +69,16 @@ scene('game', () => {
 
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
-        
+
         destroy(gameObject);
         bump(player);
 
-        
-        if ( gameObjectList[gameObject.sprite].objectType === 'defaultObject') {
+
+        if (gameObjectList[gameObject.sprite].objectType === 'defaultObject') {
             // NEW OBJECT -> BOX1 -> BOX2 -> BOX3 -> REMOVE LAST
-                inventoryBoxArray.unshift(gameObject.sprite); 
-                inventoryBoxArray.pop(); 
-            
+            inventoryBoxArray.unshift(gameObject.sprite);
+            inventoryBoxArray.pop();
+
             // CHECK IF ALL THREE BOXES CONTAIN THE SAME FRUIT AND TRIGGER COMBO EVENT IF TRUE
             if (inventoryBoxArray.every(sprite => sprite !== null && sprite === inventoryBoxArray[0])) {
 
@@ -117,10 +117,13 @@ scene('game', () => {
                 return null;
             });
         }
-        
+
         // RARE OBJECT EFFECTS
         if (gameObject.sprite === 'tomatoArmor') {
             gameObjectList.tomatoArmor.comboEvent();
+        }
+        if (gameObject.sprite === 'superPiment') {
+            gameObjectList.superPiment.comboEvent();
         }
 
         // SCORE LOGIC
@@ -132,7 +135,7 @@ scene('game', () => {
         } else if (scoreChange < 0) {
             score.value += scoreChange;
             play('debuff');
-            scoreState.virusCount++;
+            scoreStats.virusCount++;
         }
 
         if (enemy.exists() === true) {

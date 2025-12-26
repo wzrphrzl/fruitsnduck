@@ -1,4 +1,4 @@
-import { scoreState, fontStyleMed } from './appInit.js';
+import { scoreStats, fontStyleMed } from './appInit.js';
 import { addButton, addRect } from './generators.js';
 
 scene('lose', () => {
@@ -27,15 +27,15 @@ scene('lose', () => {
 
     }
 
-    if (scoreState.savedScore > 0) {
+    if (scoreStats.savedScore > 0) {
         personalizedScore('win', 'Well done!');
-    } else if (scoreState.savedScore <= 0) {
+    } else if (scoreStats.savedScore <= 0) {
         personalizedScore('lose', "Better luck next time...");
     }
 
     // SCORE DISPLAY
     add([
-        text('Total Score : ' + scoreState.savedScore, fontStyleMed),
+        text('Total Score : ' + scoreStats.savedScore, fontStyleMed),
         pos(width() / 2, height() / 2 - 80),
         scale(1),
         anchor('center'),
@@ -43,7 +43,7 @@ scene('lose', () => {
     ]);
 
     add([
-        text('Collected Viruses : ' + scoreState.virusCount, fontStyleMed),
+        text('Collected Viruses : ' + scoreStats.virusCount, fontStyleMed),
         pos(width() / 2, height() / 2),
         scale(1),
         anchor('center'),

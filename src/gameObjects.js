@@ -1,15 +1,16 @@
-import { player } from './player.js';
+import { player, playerStats } from './player.js';
+import { scoreStats } from './appInit.js';
 import { addObject } from './generators.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
-
 export const gameObjectList = {
     banana: {
-        objectType: 'defaultObjectX',
+        objectType: 'defaultObject',
         scoreValue: 5,
         comboScore: 150,
         comboMessage: 'COMBO BANANES !',
         comboEvent: () => {
+            addObject('superPiment');
             debug.log(gameObjectList.banana.comboMessage);
         }
     },
@@ -23,7 +24,7 @@ export const gameObjectList = {
         }
     },
     tomato: {
-        objectType: 'defaultObject',
+        objectType: 'defaultObjectX',
         scoreValue: 5,
         comboMessage: 'COMBO TOMATES !',
         comboEvent: () => {
@@ -45,7 +46,6 @@ export const gameObjectList = {
         scoreValue: 5,
         comboMessage: 'COMBO WATERMELON !',
         comboEvent: () => {
-            player.enterState('armorIdle');
             debug.log(gameObjectList.watermelon.comboMessage);
         }
     },
@@ -54,7 +54,6 @@ export const gameObjectList = {
         scoreValue: 5,
         comboMessage: 'COMBO ORANGE !',
         comboEvent: () => {
-            player.enterState('armorIdle');
             debug.log(gameObjectList.orange.comboMessage);
         }
     },
@@ -63,7 +62,6 @@ export const gameObjectList = {
         scoreValue: 5,
         comboMessage: 'COMBO PIMENT !',
         comboEvent: () => {
-            player.enterState('armorIdle');
             debug.log(gameObjectList.piment.comboMessage);
         }
     },
@@ -85,12 +83,15 @@ export const gameObjectList = {
         }
     },
     virusPurple: {
-        objectType: 'defaultObjectX',
+        objectType: 'defaultObject',
         scoreValue: -10,
         comboMessage: 'COMBO VIRUS PURPLE !',
         comboEvent: () => {
-            player.enterState('armorIdle');
-            debug.log(gameObjectList.virusPurple.comboMessage);
+            const previousState = player.state;
+            player.enterState('stressRun');
+            wait(1.5, () => {
+                player.enterState(previousState);
+            });
         }
     },
     virusBlue: {
@@ -98,7 +99,6 @@ export const gameObjectList = {
         scoreValue: -15,
         comboMessage: 'COMBO VIRUS BLUE !',
         comboEvent: () => {
-            player.enterState('armorIdle');
             debug.log(gameObjectList.virusBlue.comboMessage);
         }
     },
@@ -122,13 +122,16 @@ export const gameObjectList = {
         comboMessage: 'YOU GOT THE TOMATO ARMOR !',
         comboEvent: () => {
             debug.log(gameObjectList.tomatoArmor.comboMessage);
-            player.enterState('armorIdle');        }
+            player.enterState('armorIdle');
+        }
     },
     superPiment: {
         objectType: 'superPiment',
-        scoreValue: -15,
+        scoreValue: 0,
         comboMessage: 'YOU GOT THE SUPER PIMENT !',
         comboEvent: () => {
+            playerStats.poopCount = 3;
+            player.enterState('orangeIdle');
             debug.log(gameObjectList.superPiment.comboMessage);
         }
     },

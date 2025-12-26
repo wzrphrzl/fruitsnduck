@@ -1,13 +1,16 @@
 import { k } from './appInit.js';
 
-const playerSpeed = 400;
+export const playerStats = {
+    speed: 400,
+    poopCount: 0
+};
+
 export let player;
 
 export function createPlayer() {
 
-    // DEFINE THE PLAYER VARIABLE AND THE PLAYER STATE LI
-
-    const playerStateList = ['defaultIdle', 'defaultRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun'];
+    // DEFINE THE PLAYER SPRITES AND STATES
+    const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop'];
 
     player = k.add([
         sprite('duck'),
@@ -15,6 +18,7 @@ export function createPlayer() {
         anchor('center'),
         area({ scale: .8 }),
         body(),
+        z(10),
         state('defaultIdle', playerStateList),
         layer('game'),
         'duck',
@@ -26,29 +30,54 @@ export function createPlayer() {
         });
     });
 
-    // PLAYER CONTROLS
-    onKeyDown('left', () => {
-        player.move(-playerSpeed, 0);
-    });
-    onKeyDown('right', () => {
-        player.move(playerSpeed, 0);
-    });
-    onKeyDown('up', () => {
-        player.move(0, -playerSpeed);
-    });
-    onKeyDown('down', () => {
-        player.move(0, playerSpeed);
+    // ORANGE STATE - POOPING MECHANIC
+    onKeyPress('space', () => {
+        if (player.state === 'orangeIdle' && playerStats.poopCount > 0) {
+            debug.log('Poop Count' + playerStats.poopCount);
+            player.enterState('orangePoop');
+
+            const poop = add([
+                pos(player.pos.x, player.pos.y + 20),
+                anchor('center'),
+                sprite('poop'),
+                area({ scale: 1 }),
+                scale(0.75),
+                layer('game'),
+                'poop',
+            ])
+            poop.play('idle');
+            playerStats.poopCount--;
+        }
     });
 
-    onKeyPress('left', () => {
+    onKeyRelease('space', () => {
+        if (player.state === 'orangePoop') {
+            player.enterState('orangeIdle');
+        }
+    });
+
+    // PLAYER CONTROLS
+    onKeyDown(['left', 'q'], () => {
+        player.move(-playerStats.speed, 0);
+    });
+    onKeyDown(['right', 'd'], () => {
+        player.move(playerStats.speed, 0);
+    });
+    onKeyDown(['up', 'z'], () => {
+        player.move(0, -playerStats.speed);
+    });
+    onKeyDown(['down', 's'], () => {
+        player.move(0, playerStats.speed);
+    });
+
+    onKeyPress(['left', 'q'], () => {
         player.flipX = true;
     });
-    onKeyPress('right', () => {
+    onKeyPress(['right', 'd'], () => {
         player.flipX = false;
     });
 
-
-    onKeyPress(['left', 'right', 'up', 'down'], () => {
+    onKeyPress(['left', 'right', 'up', 'down', 'z', 'q', 's', 'd'], () => {
         if (player.state == 'defaultIdle') {
             player.enterState('defaultRun');
         }
@@ -63,7 +92,7 @@ export function createPlayer() {
     player.onUpdate(() => {
         setCamPos(player.pos);
 
-        if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left")) {
+        if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left") && !isKeyDown("z") && !isKeyDown("q") && !isKeyDown("s") && !isKeyDown("d")) {
             if (player.state == 'defaultRun') {
                 player.enterState('defaultIdle');
             }
