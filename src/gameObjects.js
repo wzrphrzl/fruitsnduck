@@ -40,7 +40,9 @@ export const gameObjectList = {
                 gameObjectList.virusPurple.isActive = true;
                 const previousState = player.state;
 
-                if (player.state !== 'armorRun' || player.state !== 'armorIdle') {
+                if (player.state == 'armorRun' || player.state == 'armorIdle') {
+                    return;
+                } else {
                     player.enterState('stressRun');
                 }
                 wait(1.5, () => {

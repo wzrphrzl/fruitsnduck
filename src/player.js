@@ -32,8 +32,8 @@ function createPlayer() {
     // ORANGE STATE - POOPING MECHANIC
     onKeyPress('space', () => {
 
-        if (player.state === 'defaultIdle' ){
-            const curState = player.state; 
+        if (player.state === 'defaultIdle') {
+            const curState = player.state;
             player.enterState('kwak');
             kwak();
             wait(.3, () => {
@@ -41,14 +41,18 @@ function createPlayer() {
             });
         }
 
-        if (player.state === 'orangeIdle' && playerStats.poopCount > 0 || player.state === 'armorIdle' && playerStats.poopCount > 0) {
-   
+        if (
+            player.state === 'orangeIdle' && playerStats.poopCount > 0 
+            || player.state === 'orangeRun' && playerStats.poopCount > 0 
+            || player.state === 'armorIdle' && playerStats.poopCount > 0 
+            || player.state === 'armorRun' && playerStats.poopCount > 0) {
+
             fart();
 
-            if (player.state === 'orangeIdle') {
+            if (player.state === 'orangeIdle' || player.state === 'orangeRun') {
                 player.enterState('orangePoop');
-            } 
-            else if (player.state === 'armorIdle') {    
+            }
+            else if (player.state === 'armorIdle' || player.state === 'armorRun') {
                 player.enterState('armorPoop');
             }
 
@@ -74,28 +78,24 @@ function createPlayer() {
         }
     });
 
-    // PLAYER CONTROLS
     onKeyDown(['left', 'q'], () => {
-        player.move(-playerStats.speed, 0);
+        if (isKeyDown('right') || isKeyDown('d')) {
+            return;
+        } else {
+            player.flipX = true;
+        }
     });
     onKeyDown(['right', 'd'], () => {
-        player.move(playerStats.speed, 0);
-    });
-    onKeyDown(['up', 'z'], () => {
-        player.move(0, -playerStats.speed);
-    });
-    onKeyDown(['down', 's'], () => {
-        player.move(0, playerStats.speed);
-    });
-
-    onKeyPress(['left', 'q'], () => {
-        player.flipX = true;
-    });
-    onKeyPress(['right', 'd'], () => {
+        if (isKeyDown('left') || isKeyDown('q')) {
+            return;
+        } else {
         player.flipX = false;
-    });
+        }
+    }); 
 
-    onKeyPress(['left', 'right', 'up', 'down', 'z', 'q', 's', 'd'], () => {
+
+    onKeyDown(['left', 'right', 'up', 'down', 'z', 'q', 's', 'd'], () => {
+
         if (player.state == 'defaultIdle') {
             player.enterState('defaultRun');
         }
@@ -107,9 +107,27 @@ function createPlayer() {
         }
     });
 
+    onKeyDown(['left', 'q'], () => {
+        if (player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        player.move(-playerStats.speed, 0);
+    });
+    onKeyDown(['right', 'd'], () => {
+        if (player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        player.move(playerStats.speed, 0);
+    });
+    onKeyDown(['up', 'z'], () => {
+        if (player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        player.move(0, -playerStats.speed);
+    });
+    onKeyDown(['down', 's'], () => {
+        if (player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        player.move(0, playerStats.speed);
+    });
+
     player.onUpdate(() => {
         setCamPos(player.pos);
-
+ 
+        // IF ALL KEYS ARE UP, ENTERSTATE STATE IDLE
         if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left") && !isKeyDown("z") && !isKeyDown("q") && !isKeyDown("s") && !isKeyDown("d")) {
             if (player.state == 'defaultRun') {
                 player.enterState('defaultIdle');
@@ -123,6 +141,7 @@ function createPlayer() {
         }
 
     });
+
 
     //player.enterState('armorIdle');
     return player;

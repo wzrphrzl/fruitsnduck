@@ -55,17 +55,32 @@ export function createUI() {
     return { score, box1, box2, box3 };
 }
 
- export function rareObjectUI() {
+let rareObjStats_UI = {
+    count: 0,
+    posX: 32,
+};;
 
-    const addedBox = addRect(80, 80, 40, 32, 696, '#03193F', 'ui', { fixed: true });
+export function addRareObject_UI() {
 
-                    addedBox.add([
-                        sprite(('superPiment')),
-                        anchor("center"),
-                        pos(40, 40),
-                        scale(.5),
-                        layer('ui'),
-                    ]);
+    let rareObjectCount = rareObjStats_UI.count;
+    let posX = rareObjStats_UI.posX;
 
-} 
+    if (rareObjStats_UI.count < 3) {
+        rareObjStats_UI.posX = rareObjStats_UI.posX + 88;
+
+        const addedBox = addRect(80, 80, 40, posX, 696, '#03193F', 'ui', { fixed: true });
+        addedBox.add([
+            sprite('superPiment'),
+            anchor("center"),
+            pos(40, 40),
+            scale(.5),
+            layer('ui'),
+        ]);
+    }
+    else if (rareObjStats_UI.count === 3) {
+        debug.log("Rare Object UI Full");
+    }
+
+    rareObjStats_UI.count++;
+}
 

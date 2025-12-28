@@ -29,10 +29,11 @@ const scoreStats = { savedScore: '', virusCount: '', };
 // SOUNDS
 loadSound('ring', './sound/ring.mp3');
 loadSound('debuff', './sound/glou.mp3');
+loadSound('buff', './sound/bonus/buff.mp3');
 loadSound('roomba', './sound/roomba.mp3');
 loadSound('lose', './sound/lose.mp3');
 loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
-play('OtherworldlyFoe', { volume: 0.2, loop: true, paused: false });
+//play('OtherworldlyFoe', { volume: 0.2, loop: true, paused: false });
 loadSound('kwak-1', './sound/kwak/kwak-1.mp3');
 loadSound('kwak-2', './sound/kwak/kwak-2.mp3');
 loadSound('kwak-3', './sound/kwak/kwak-3.mp3');

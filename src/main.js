@@ -1,7 +1,7 @@
 import { scoreStats } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
-import { createUI, rareObjectUI } from './ui.js';
+import { createUI, addRareObject_UI } from './ui.js';
 import { setXs, setYs, addTree, addObject, createStarBonus, addRect, bump, bumpMini, addFlower } from './generators.js';
 import { gameObjectList } from './gameObjects.js';
 
@@ -31,7 +31,11 @@ scene('game', () => {
     /*BOTTOM*/addRect(9360, 1080, 0, -3960, 2400, '#000000', 'ui', { area: true });
     /*LEFT*/  addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
 
-    rareObjectUI('box4');
+    addRareObject_UI('box4');
+    addRareObject_UI('box5');
+    addRareObject_UI('box6');
+    addRareObject_UI('box7');
+    addRareObject_UI('box8');
 
 
     const { score, box1, box2, box3 } = createUI();
