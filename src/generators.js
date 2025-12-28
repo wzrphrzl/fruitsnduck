@@ -134,17 +134,17 @@ export function addTree(x, y) {
 // OBJECT SPAWNING
 export function addObject(objectType) {
 
-    // FILTER GAMEOBJECTLIST TO GET ONLY OBJECTS OF THE SPECIFIED TYPE (OBJECTTYPE)
-    const filteredObjectArray =Object.keys(gameObjectList).filter(key => gameObjectList[key].objectType === objectType).map(gameObjectKey => sprite(gameObjectKey));
-
+    // FILTERS GAMEOBJECTLIST AND RETURNS AN ARRAY OF THE SPECIFIED OBJECT TYPE
+    const filteredObject = Object.keys(gameObjectList).filter(filterParam => gameObjectList[filterParam].objectType === objectType);
+    // SELECTS A RANDOM OBJECT FROM THE FILTERED ARRAY
+    const getRandom = Math.floor(Math.random() * filteredObject.length);   
     // GENERATES A RANDOM POSITION AND ADDS THE OBJECT TO THE GAME
-    const getRandomInList = Math.floor(Math.random() * filteredObjectArray.length);
     const posX_objectSpawn = setXs(player);
     const posY_objectSpawn = player.pos.y - 440;
     const posY_objectEnd = rand(80, 720);
 
-    const addedObject = k.add([
-        filteredObjectArray[getRandomInList],
+    const addedObject = add([
+        sprite(filteredObject[getRandom]),
         pos(posX_objectSpawn, posY_objectSpawn),
         area(.9),
         scale(.75),
@@ -157,7 +157,6 @@ export function addObject(objectType) {
     });
 
 }
-
 
 // STAR BONUS SPAWNING
 export function createStarBonus(poxX, posY) {
@@ -172,4 +171,36 @@ export function createStarBonus(poxX, posY) {
         layer('game'),
         'star',
     ]);
-} 
+}
+
+// KWAK SOUND EFFECT RANDOMIZER
+export function kwak() {
+    const kwakList = ['kwak-1', 'kwak-2', 'kwak-3', 'kwak-4', 'kwak-5'];
+    const random = Math.floor(Math.random() * kwakList.length);
+    play(kwakList[random]);
+}
+
+export function fart() {
+    const fartList = ['fart-1', 'fart-2', 'fart-3', 'fart-4', 'fart-5'];
+    const random = Math.floor(Math.random() * fartList.length);
+    play(fartList[random]);
+}
+
+// KWAK SOUND EFFECT RANDOMIZER
+export function addFlower( posX, posY ) {
+    const flowerList = ['flower-1', 'flower-2', 'flower-3'];
+    const randomFlower = Math.floor(Math.random() * flowerList.length);
+
+    const flower = add([
+        sprite(flowerList[randomFlower]),
+        pos(posX, posY),
+        scale(.75),
+        layer('game'),
+        'flower',
+    ]);
+
+    wait(1, () => {
+        flower.play('default');
+    });
+}
+

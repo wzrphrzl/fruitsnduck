@@ -5,19 +5,21 @@ export function createEnemy(player, score) {
     //ENEMY
     const enemyStats = {
         speed: 20,
-        size: 1
+        size: 1,
+        previousPosX: width() + 212,
     };
     const SOUND_enemy = play('roomba');
 
     const enemy = add([
         sprite('enemy'),
-        pos(width(), height()),
+        pos(width() + 212, height() + 124),
         anchor('center'),
         area({ scale: 0.75 }),
         body(),
         scale(enemyStats.size),
         state('idle', ['idle', 'run']),
         layer('game'),
+        z(10),
         'enemy',
     ]);
 
@@ -33,7 +35,18 @@ export function createEnemy(player, score) {
         enemy.enterState('idle');
     });
 
+
     enemy.onStateUpdate('run', async () => {
+        
+        if (enemy.pos.x > enemyStats.previousPosX) {
+            enemy.flipX = true;
+        }   
+        else if (enemy.pos.x <= enemyStats.previousPosX) {
+            enemy.flipX = false;
+        }
+        enemyStats.previousPosX = enemy.pos.x;
+
+
         if (player.exists()) {
             // const dir = player.pos.sub(enemy.pos).unit();
             SOUND_enemy;
@@ -50,11 +63,13 @@ export function createEnemy(player, score) {
 
         scoreStats.savedScore = score.value;
         go('lose');
-        //go('lose');
     });
 
-    enemy.onCollide('poop', () => {
-        debug.log('ENEMY HIT BY POOP !');
+    enemy.onCollide('poop', (poop) => {
+        destroy(poop);
+        enemy.color = RED;
+        wait(.1, () => { enemy.color = null; });
+
         enemyStats.size -= 0.2;
         enemy.scale = vec2(enemyStats.size);
         enemyStats.speed -= 10;
@@ -69,7 +84,6 @@ export function createEnemy(player, score) {
     enemy.onCollide('tree', (gameObject) => {
         destroy(gameObject);
     });
-
 
 
 

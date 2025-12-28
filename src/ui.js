@@ -47,10 +47,25 @@ export function createUI() {
         layer('ui'),
     ]);
 
-    const box4 = addRect(80, 80, 40, 1144, 24, '#03193F', 'ui', { fixed: true });
-    const box5 = addRect(80, 80, 40, 1236, 24, '#03193F', 'ui', { fixed: true });
-    const box6 = addRect(80, 80, 40, 1328, 24, '#03193F', 'ui', { fixed: true });
+    //const box4 = addRect(80, 80, 40, 32, 696, '#03193F', 'ui', { fixed: true });
+    //const box5 = addRect(80, 80, 40, 120, 696, '#03193F', 'ui', { fixed: true });
+    //const box6 = addRect(80, 80, 40, 208, 696, '#03193F', 'ui', { fixed: true });
 
 
-    return { score, box1, box2, box3, box4, box5, box6 };
+    return { score, box1, box2, box3 };
 }
+
+ export function rareObjectUI() {
+
+    const addedBox = addRect(80, 80, 40, 32, 696, '#03193F', 'ui', { fixed: true });
+
+                    addedBox.add([
+                        sprite(('superPiment')),
+                        anchor("center"),
+                        pos(40, 40),
+                        scale(.5),
+                        layer('ui'),
+                    ]);
+
+} 
+

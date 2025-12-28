@@ -1,5 +1,4 @@
 import { player, playerStats } from './player.js';
-import { scoreStats } from './appInit.js';
 import { addObject } from './generators.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
@@ -7,7 +6,6 @@ export const gameObjectList = {
     banana: {
         objectType: 'defaultObject',
         scoreValue: 5,
-        comboScore: 150,
         comboMessage: 'COMBO BANANES !',
         comboEvent: () => {
             addObject('superPiment');
@@ -32,66 +30,23 @@ export const gameObjectList = {
             debug.log(gameObjectList.tomato.comboMessage);
         }
     },
-    lemon: {
-        objectType: 'defaultObjectX',
-        scoreValue: 5,
-        comboMessage: 'COMBO LEMON !',
-        comboEvent: () => {
-            player.enterState('armorIdle');
-            debug.log(gameObjectList.lemon.comboMessage);
-        }
-    },
-    watermelon: {
-        objectType: 'defaultObjectX',
-        scoreValue: 5,
-        comboMessage: 'COMBO WATERMELON !',
-        comboEvent: () => {
-            debug.log(gameObjectList.watermelon.comboMessage);
-        }
-    },
-    orange: {
-        claobjectType: 'defaultObjectX',
-        scoreValue: 5,
-        comboMessage: 'COMBO ORANGE !',
-        comboEvent: () => {
-            debug.log(gameObjectList.orange.comboMessage);
-        }
-    },
-    piment: {
-        objectType: 'defaultObjectX',
-        scoreValue: 5,
-        comboMessage: 'COMBO PIMENT !',
-        comboEvent: () => {
-            debug.log(gameObjectList.piment.comboMessage);
-        }
-    },
-    grape: {
-        objectType: 'defaultObjectX',
-        scoreValue: 5,
-        comboMessage: 'COMBO GRAPE !',
-        comboEvent: () => {
-            player.enterState('armorIdle');
-            debug.log(gameObjectList.grape.comboMessage);
-        }
-    },
-    strawberry: {
-        objectType: 'defaultObjectX',
-        scoreValue: 5,
-        comboMessage: 'COMBO STRAWBERRY !',
-        comboEvent: () => {
-            debug.log(gameObjectList.strawberry.comboMessage);
-        }
-    },
     virusPurple: {
         objectType: 'defaultObject',
         scoreValue: -10,
         comboMessage: 'COMBO VIRUS PURPLE !',
-        comboEvent: () => {
-            const previousState = player.state;
-            player.enterState('stressRun');
-            wait(1.5, () => {
-                player.enterState(previousState);
-            });
+        isActive: false,
+        comboEvent: () => {  
+                if (gameObjectList.virusPurple.isActive) return;
+                gameObjectList.virusPurple.isActive = true;
+                const previousState = player.state;
+
+                if (player.state !== 'armorRun' || player.state !== 'armorIdle') {
+                    player.enterState('stressRun');
+                }
+                wait(1.5, () => {
+                    player.enterState(previousState);
+                    gameObjectList.virusPurple.isActive = false;
+                });
         }
     },
     virusBlue: {
@@ -105,6 +60,7 @@ export const gameObjectList = {
     virusBrown: {
         objectType: 'defaultObjectX',
         scoreValue: -20,
+        comboScore: 150,
         comboMessage: 'COMBO VIRUS BROWN !',
         comboEvent: () => {
             debug.log(gameObjectList.virusBrown.comboMessage);
@@ -114,6 +70,64 @@ export const gameObjectList = {
             // enemyStats.size = Math.max(obj.effectMin, enemyStats.size + obj.effectValue);
             // debug.log('Ennemi ralenti !');
             // play('ring');
+        }
+    },
+    lemon: {
+        objectType: 'bonusObject',
+        scoreValue: 5,
+        comboMessage: 'COMBO LEMON !',
+        comboEvent: () => {
+            player.enterState('armorIdle');
+            debug.log(gameObjectList.lemon.comboMessage);
+        }
+    },
+    blueberry: {
+        objectType: 'bonusObject',
+        scoreValue: -15,
+        comboMessage: 'YOU GOT THE BLUEBERRY !',
+        comboEvent: () => {
+            debug.log(gameObjectList.blueberry.comboMessage);
+        }
+    },
+    watermelon: {
+        objectType: 'bonusObject',
+        scoreValue: 5,
+        comboMessage: 'COMBO WATERMELON !',
+        comboEvent: () => {
+            debug.log(gameObjectList.watermelon.comboMessage);
+        }
+    },
+    orange: {
+        claobjectType: 'bonusObject',
+        scoreValue: 5,
+        comboMessage: 'COMBO ORANGE !',
+        comboEvent: () => {
+            debug.log(gameObjectList.orange.comboMessage);
+        }
+    },
+    piment: {
+        objectType: 'bonusObject',
+        scoreValue: 5,
+        comboMessage: 'COMBO PIMENT !',
+        comboEvent: () => {
+            debug.log(gameObjectList.piment.comboMessage);
+        }
+    },
+    grape: {
+        objectType: 'bonusObject',
+        scoreValue: 5,
+        comboMessage: 'COMBO GRAPE !',
+        comboEvent: () => {
+            player.enterState('armorIdle');
+            debug.log(gameObjectList.grape.comboMessage);
+        }
+    },
+    strawberry: {
+        objectType: 'bonusObject',
+        scoreValue: 5,
+        comboMessage: 'COMBO STRAWBERRY !',
+        comboEvent: () => {
+            debug.log(gameObjectList.strawberry.comboMessage);
         }
     },
     tomatoArmor: {
@@ -131,11 +145,22 @@ export const gameObjectList = {
         comboMessage: 'YOU GOT THE SUPER PIMENT !',
         comboEvent: () => {
             playerStats.poopCount = 3;
-            player.enterState('orangeIdle');
+
+            if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
+                player.enterState('orangeIdle');
+            }
+
             debug.log(gameObjectList.superPiment.comboMessage);
         }
     },
-
+    samaraSpeed: {
+        objectType: 'samaraSpeed',
+        scoreValue: 0,
+        comboMessage: 'YOU GOT THE SAMARA SPEED !',
+        comboEvent: () => {
+            debug.log(gameObjectList.samaraSpeed.comboMessage);
+        }
+    },
     superGrape: {
         objectType: 'superGrape',
         scoreValue: -15,
@@ -145,14 +170,4 @@ export const gameObjectList = {
             debug.log(gameObjectList.superGrape.comboMessage);
         }
     },
-    blueberry: {
-        objectType: 'blueberry',
-        scoreValue: -15,
-        comboMessage: 'YOU GOT THE BLUEBERRY !',
-        comboEvent: () => {
-            player.enterState('armorIdle');
-            debug.log(gameObjectList.blueberry.comboMessage);
-        }
-    },
-
 };

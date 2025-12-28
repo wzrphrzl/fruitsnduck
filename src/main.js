@@ -1,8 +1,8 @@
 import { scoreStats } from './appInit.js';
 import { createPlayer } from './player.js';
 import { createEnemy } from './enemy.js';
-import { createUI } from './ui.js';
-import { setXs, setYs, addTree, addObject, createStarBonus, addRect, bump, bumpMini } from './generators.js';
+import { createUI, rareObjectUI } from './ui.js';
+import { setXs, setYs, addTree, addObject, createStarBonus, addRect, bump, bumpMini, addFlower } from './generators.js';
 import { gameObjectList } from './gameObjects.js';
 
 import './menu.js';
@@ -31,11 +31,7 @@ scene('game', () => {
     /*BOTTOM*/addRect(9360, 1080, 0, -3960, 2400, '#000000', 'ui', { area: true });
     /*LEFT*/  addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
 
-    // INITIALIZE THE OBJECT SPRITES, UI, PLAYER, ENEMY
-    //const objectSpriteList = Object.keys(gameObjectList).map(gameObjectKey => sprite(gameObjectKey));
-    //const defaultObjectSpriteList = Object.keys(gameObjectList).filter(key => gameObjectList[key].objectType === 'defaultObject').map(gameObjectKey => sprite(gameObjectKey));
-    //const rareObjectSpriteList = Object.keys(gameObjectList).filter(key => gameObjectList[key].objectType === 'rareObject').map(gameObjectKey => sprite(gameObjectKey));
-
+    rareObjectUI('box4');
 
 
     const { score, box1, box2, box3 } = createUI();
@@ -63,9 +59,9 @@ scene('game', () => {
         addTree(setXs(player), setYs(player));
     });
 
-    // INVENTORY LOGIC
+    // INVENTORY SYSTEM
     let inventoryBoxArray = [null, null, null];
-    let inventoryBoxSprites = [null, null, null];
+    let objectsInBoxesArray = [null, null, null];
 
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
@@ -73,31 +69,34 @@ scene('game', () => {
         destroy(gameObject);
         bump(player);
 
+        if (player.state === 'armorRun' && gameObject.sprite === 'virusPurple') {
+            addFlower(gameObject.pos.x, gameObject.pos.y);
+        }
 
         if (gameObjectList[gameObject.sprite].objectType === 'defaultObject') {
-            // NEW OBJECT -> BOX1 -> BOX2 -> BOX3 -> REMOVE LAST
+
+            // PUSHES THE NEW OBJECT SPRITE IN THE INVENTORY WHILE REMOVING THE LAST ONE
             inventoryBoxArray.unshift(gameObject.sprite);
             inventoryBoxArray.pop();
 
-            // CHECK IF ALL THREE BOXES CONTAIN THE SAME FRUIT AND TRIGGER COMBO EVENT IF TRUE
+            // CHECK IF ALL BOXES CONTAIN THE SAME FRUIT AS THE FIRST ONE AND TRIGGERS ITS COMBO EVENT
             if (inventoryBoxArray.every(sprite => sprite !== null && sprite === inventoryBoxArray[0])) {
-
-                const comboType = inventoryBoxArray[0]; // Le type de fruit du combo
-
-                // Déclencher l'événement correspondant si il existe
-                if (gameObjectList[comboType]?.comboEvent) {
-                    gameObjectList[comboType].comboEvent();
-                }
+                const selectedCombo = inventoryBoxArray[0];
+                gameObjectList[selectedCombo].comboEvent();
             }
+            /* IF INVENTORY IS FULL BUT NO COMBO, CLEAR IT
+            else if (inventoryBoxArray.every(sprite => sprite !== null)) {
+                inventoryBoxArray = [null, null, null];
+            }*/
 
-            // DELETE OLD SPRITES FROM THE INVENTORY BOXES
-            inventoryBoxSprites.forEach(sprite => {
+            // DELETE OLD FRUITS FROM THE INVENTORY BOXES
+            objectsInBoxesArray.forEach(sprite => {
                 if (sprite) destroy(sprite);
             });
 
-            // Créer les nouveaux sprites dans les bonnes boîtes
+            // REFRESH THE FRUITS IN THE INVENTORY BOXES
             const boxes = [box1, box2, box3];
-            inventoryBoxSprites = inventoryBoxArray.map((spriteName, index) => {
+            objectsInBoxesArray = inventoryBoxArray.map((spriteName, index) => {
                 if (spriteName) {
                     const newSprite = boxes[index].add([
                         sprite(spriteName),
@@ -138,14 +137,19 @@ scene('game', () => {
             scoreStats.virusCount++;
         }
 
+        bump(score);
+        score.text = score.value;
+
+
+        // ENEMY BUFF ON COLLECTING OBJECTS
         if (enemy.exists() === true) {
             enemyStats.size += 0.1;
             enemy.scale = vec2(enemyStats.size);
             enemyStats.speed += 15;
         }
-        bump(score);
-        score.text = score.value;
     });
+
+    player.onCollide('virus')
 
     // STAR LOGIC
     loop(10, () => {

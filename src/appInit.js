@@ -16,12 +16,15 @@ const k = kaplay({
     //pixelDensity: window.devicePixelRatio,
 });
 
-// GAME LAYERS AND SCORE STATE
+// FONT STYLES, GAME LAYERS AND SCORE STATE
+loadFont('Nunito', './font/Nunito-SemiBold.ttf');
+const fontStyleMed = { size: 48, font: 'Nunito' };
+const fontStyleSmall = { size: 32, font: 'Nunito' };
+const fontStyleTiny = { size: 22, font: 'Nunito' };
+
 setLayers(['bg', 'game', 'ui'], 'ui');
-const scoreStats = {
-    savedScore: '',
-    virusCount: '',
-};
+
+const scoreStats = { savedScore: '', virusCount: '', };
 
 // SOUNDS
 loadSound('ring', './sound/ring.mp3');
@@ -29,7 +32,17 @@ loadSound('debuff', './sound/glou.mp3');
 loadSound('roomba', './sound/roomba.mp3');
 loadSound('lose', './sound/lose.mp3');
 loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
-play('OtherworldlyFoe', { loop: true, paused: false });
+play('OtherworldlyFoe', { volume: 0.2, loop: true, paused: false });
+loadSound('kwak-1', './sound/kwak/kwak-1.mp3');
+loadSound('kwak-2', './sound/kwak/kwak-2.mp3');
+loadSound('kwak-3', './sound/kwak/kwak-3.mp3');
+loadSound('kwak-4', './sound/kwak/kwak-4.mp3');
+loadSound('kwak-5', './sound/kwak/kwak-5.mp3');
+loadSound('fart-1', './sound/fart/fart-1.mp3');
+loadSound('fart-2', './sound/fart/fart-2.mp3');
+loadSound('fart-3', './sound/fart/fart-3.mp3');
+loadSound('fart-4', './sound/fart/fart-4.mp3');
+loadSound('fart-5', './sound/fart/fart-5.mp3');
 
 //OBJECTS, TREE, PLAYER, ENEMY SPRITES
 loadSprite('grass', './img/grass.png');
@@ -51,9 +64,44 @@ loadSprite('strawberry', './img/strawberry.png');
 
 loadSprite('tomatoArmor', './img/tomato-armor.png');
 loadSprite('superPiment', './img/super-piment.png');
+loadSprite('samaraSpeed', './img/samara-speed.png');
 loadSprite('superGrape', './img/super-grape.png');
 loadSprite('blueberry', './img/blueberry.png');
 loadSprite('egg', './img/egg.png');
+
+loadSprite('flower-1', './img/flower-1.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+loadSprite('flower-2', './img/flower-2.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+loadSprite('flower-3', './img/flower-3.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
 
 loadSprite('tree', './img/tree.png', {
     sliceX: 5,
@@ -190,11 +238,5 @@ loadSprite('titleScreen', './img/title-screen.png', {
 });
 
 loadSprite('gameRules', './img/game-rules.png');
-
-// FONT STYLES
-loadFont('Nunito', './font/Nunito-SemiBold.ttf');
-const fontStyleMed = { size: 48, font: 'Nunito' };
-const fontStyleSmall = { size: 32, font: 'Nunito' };
-const fontStyleTiny = { size: 22, font: 'Nunito' };
 
 export { k, scoreStats, fontStyleMed, fontStyleSmall, fontStyleTiny };

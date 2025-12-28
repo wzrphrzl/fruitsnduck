@@ -1,13 +1,12 @@
 import { k } from './appInit.js';
+import { kwak, fart } from './generators.js';
 
-export const playerStats = {
-    speed: 400,
-    poopCount: 0
-};
+const playerStats = { speed: 400, poopCount: 10 };
 
-export let player;
+let player;
+let poop;
 
-export function createPlayer() {
+function createPlayer() {
 
     // DEFINE THE PLAYER SPRITES AND STATES
     const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop'];
@@ -32,11 +31,28 @@ export function createPlayer() {
 
     // ORANGE STATE - POOPING MECHANIC
     onKeyPress('space', () => {
-        if (player.state === 'orangeIdle' && playerStats.poopCount > 0) {
-            debug.log('Poop Count' + playerStats.poopCount);
-            player.enterState('orangePoop');
 
-            const poop = add([
+        if (player.state === 'defaultIdle' ){
+            const curState = player.state; 
+            player.enterState('kwak');
+            kwak();
+            wait(.3, () => {
+                player.enterState(curState);
+            });
+        }
+
+        if (player.state === 'orangeIdle' && playerStats.poopCount > 0 || player.state === 'armorIdle' && playerStats.poopCount > 0) {
+   
+            fart();
+
+            if (player.state === 'orangeIdle') {
+                player.enterState('orangePoop');
+            } 
+            else if (player.state === 'armorIdle') {    
+                player.enterState('armorPoop');
+            }
+
+            poop = add([
                 pos(player.pos.x, player.pos.y + 20),
                 anchor('center'),
                 sprite('poop'),
@@ -53,6 +69,8 @@ export function createPlayer() {
     onKeyRelease('space', () => {
         if (player.state === 'orangePoop') {
             player.enterState('orangeIdle');
+        } else if (player.state === 'armorPoop') {
+            player.enterState('armorIdle');
         }
     });
 
@@ -106,5 +124,8 @@ export function createPlayer() {
 
     });
 
+    //player.enterState('armorIdle');
     return player;
 }
+
+export { playerStats, player, poop, createPlayer };
