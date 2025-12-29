@@ -1,5 +1,5 @@
 import { scoreStats } from './appInit.js';
-import { createPlayer } from './player.js';
+import { createPlayer, playerStats } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI, addRareObject_UI } from './ui.js';
 import { setXs, setYs, addTree, addObject, createStarBonus, addRect, bump, bumpMini, addFlower } from './generators.js';
@@ -31,15 +31,9 @@ scene('game', () => {
     /*BOTTOM*/addRect(9360, 1080, 0, -3960, 2400, '#000000', 'ui', { area: true });
     /*LEFT*/  addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
 
-    addRareObject_UI('box4');
-    addRareObject_UI('box5');
-    addRareObject_UI('box6');
-    addRareObject_UI('box7');
-    addRareObject_UI('box8');
-
-
     const { score, box1, box2, box3 } = createUI();
     const player = createPlayer();
+    playerStats.speed = 400;
     const { enemy, enemyStats } = createEnemy(player, score);
 
     // ADD THE FIRST TREE ON THE MAP
@@ -52,7 +46,7 @@ scene('game', () => {
             bump(touchedTree);
 
             wait(.1, () => {
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 10; i++) {
                     addObject('defaultObject');
                 }
                 touchedTree.enterState('default');
@@ -70,7 +64,6 @@ scene('game', () => {
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
 
-        destroy(gameObject);
         bump(player);
 
         if (player.state === 'armorRun' && gameObject.sprite === 'virusPurple') {
@@ -88,10 +81,10 @@ scene('game', () => {
                 const selectedCombo = inventoryBoxArray[0];
                 gameObjectList[selectedCombo].comboEvent();
             }
-            /* IF INVENTORY IS FULL BUT NO COMBO, CLEAR IT
+            // IF INVENTORY IS FULL BUT NO COMBO, CLEAR IT
             else if (inventoryBoxArray.every(sprite => sprite !== null)) {
-                inventoryBoxArray = [null, null, null];
-            }*/
+                addObject('bonusObject');
+            }
 
             // DELETE OLD FRUITS FROM THE INVENTORY BOXES
             objectsInBoxesArray.forEach(sprite => {
@@ -124,11 +117,12 @@ scene('game', () => {
         // RARE OBJECT EFFECTS
         if (gameObject.sprite === 'tomatoArmor') {
             gameObjectList.tomatoArmor.comboEvent();
-        }
-        if (gameObject.sprite === 'superPiment') {
+        } else if (gameObject.sprite === 'superPiment') {
             gameObjectList.superPiment.comboEvent();
+        } else if (gameObject.sprite === 'samaraSpeed') {
+            gameObjectList.samaraSpeed.comboEvent();
         }
-
+    
         // SCORE LOGIC
         const scoreChange = gameObjectList[gameObject.sprite]?.scoreValue || 0;
 
@@ -151,6 +145,9 @@ scene('game', () => {
             enemy.scale = vec2(enemyStats.size);
             enemyStats.speed += 15;
         }
+
+        destroy(gameObject);
+
     });
 
     player.onCollide('virus')

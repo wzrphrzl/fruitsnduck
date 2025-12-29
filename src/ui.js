@@ -60,9 +60,8 @@ let rareObjStats_UI = {
     posX: 32,
 };;
 
-export function addRareObject_UI() {
+export function addRareObject_UI(spriteName) {
 
-    let rareObjectCount = rareObjStats_UI.count;
     let posX = rareObjStats_UI.posX;
 
     if (rareObjStats_UI.count < 3) {
@@ -70,17 +69,13 @@ export function addRareObject_UI() {
 
         const addedBox = addRect(80, 80, 40, posX, 696, '#03193F', 'ui', { fixed: true });
         addedBox.add([
-            sprite('superPiment'),
+            sprite( spriteName ),
             anchor("center"),
             pos(40, 40),
             scale(.5),
             layer('ui'),
         ]);
     }
-    else if (rareObjStats_UI.count === 3) {
-        debug.log("Rare Object UI Full");
-    }
-
     rareObjStats_UI.count++;
 }
 

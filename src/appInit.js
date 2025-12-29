@@ -13,7 +13,7 @@ const k = kaplay({
     stretch: true,
     // "letterbox" makes stretching keeps aspect ratio (leaves black bars on empty spaces), have no effect without "stretch"
     letterbox: true,
-    //pixelDensity: window.devicePixelRatio,
+    pixelDensity: window.devicePixelRatio,
 });
 
 // FONT STYLES, GAME LAYERS AND SCORE STATE
@@ -28,7 +28,7 @@ const scoreStats = { savedScore: '', virusCount: '', };
 
 // SOUNDS
 loadSound('ring', './sound/ring.mp3');
-loadSound('debuff', './sound/glou.mp3');
+loadSound('debuff', './sound/bonus/debuff.mp3');
 loadSound('buff', './sound/bonus/buff.mp3');
 loadSound('roomba', './sound/roomba.mp3');
 loadSound('lose', './sound/lose.mp3');
