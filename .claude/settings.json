@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export GIT_EDITOR=true)",
+      "Bash(echo \"=== rebase ===\")",
+      "Bash(git rebase *)"
+    ]
+  }
+}
