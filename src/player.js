@@ -8,8 +8,8 @@ let poop;
 
 function createPlayer() {
 
-    // DEFINE THE PLAYER SPRITES AND STATES
-    const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop'];
+    // PLAYER SPRITES AND STATES
+    const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop', 'lose'];
 
     player = k.add([
         sprite('duck'),
@@ -29,23 +29,19 @@ function createPlayer() {
         });
     });
 
-    // ORANGE STATE - POOPING MECHANIC
+    // KWAK AND POOP ACTIONS
     onKeyPress('space', () => {
 
-        if (player.state === 'defaultIdle') {
+        if (player.state === 'defaultIdle' || player.state === 'defaultRun') {
             const curState = player.state;
             player.enterState('kwak');
             kwak();
-            wait(.3, () => {
+            wait(.35, () => {
                 player.enterState(curState);
             });
         }
 
-        if (
-            player.state === 'orangeIdle' && playerStats.poopCount > 0 
-            || player.state === 'orangeRun' && playerStats.poopCount > 0 
-            || player.state === 'armorIdle' && playerStats.poopCount > 0 
-            || player.state === 'armorRun' && playerStats.poopCount > 0) {
+        if (['orangeIdle', 'orangeRun', 'armorIdle', 'armorRun'].includes(player.state) && playerStats.poopCount > 0) {
 
             fart();
 
@@ -65,7 +61,9 @@ function createPlayer() {
                 layer('game'),
                 'poop',
             ])
+
             poop.play('idle');
+
             playerStats.poopCount--;
         }
     });
@@ -89,13 +87,33 @@ function createPlayer() {
         if (isKeyDown('left') || isKeyDown('q')) {
             return;
         } else {
-        player.flipX = false;
+            player.flipX = false;
         }
-    }); 
+    });
 
+    // FOOTSTEPS : ONE STEP EVERY N SECONDS WHILE RUNNING (N DEPENDS ON THE ACTIVE PERK)
+    const FOOTSTEP_DELAY = {   // IN SECONDS
+        defaultRun: 0.4,
+        orangeRun:  0.4,
+        armorRun:   0.60,      // ARMOR = HEAVIER, MORE SPACED-OUT STEPS
+    };
 
+    let footstepTimer = 0;
+    player.onUpdate(() => {
+        const delay = FOOTSTEP_DELAY[player.state];
+        if (delay === undefined) {     // NOT RUNNING → NO FOOTSTEP SOUND
+            footstepTimer = 0;
+            return;
+        }
+        footstepTimer += dt();
+        if (footstepTimer >= delay) {
+            footstepTimer = 0;
+            play(player.state === 'armorRun' ? 'armor-footstep-1' : 'footstep-1', { volume: .6 });
+        }
+    });
+
+    // STATE CHANGES BASED ON PERKS
     onKeyDown(['left', 'right', 'up', 'down', 'z', 'q', 's', 'd'], () => {
-
         if (player.state == 'defaultIdle') {
             player.enterState('defaultRun');
         }
@@ -108,27 +126,28 @@ function createPlayer() {
     });
 
     onKeyDown(['left', 'q'], () => {
-        if (player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop' ) return;
         player.move(-playerStats.speed, 0);
     });
     onKeyDown(['right', 'd'], () => {
-        if (player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
         player.move(playerStats.speed, 0);
     });
     onKeyDown(['up', 'z'], () => {
-        if (player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
         player.move(0, -playerStats.speed);
     });
     onKeyDown(['down', 's'], () => {
-        if (player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
         player.move(0, playerStats.speed);
     });
 
     player.onUpdate(() => {
         setCamPos(player.pos);
- 
+
         // IF ALL KEYS ARE UP, ENTERSTATE STATE IDLE
         if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left") && !isKeyDown("z") && !isKeyDown("q") && !isKeyDown("s") && !isKeyDown("d")) {
+
             if (player.state == 'defaultRun') {
                 player.enterState('defaultIdle');
             }
@@ -141,7 +160,6 @@ function createPlayer() {
         }
 
     });
-
 
     //player.enterState('armorIdle');
     return player;

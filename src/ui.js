@@ -37,7 +37,7 @@ export function createUI() {
     const box2 = addRect(96, 96, 20, 1192, 672, '#03193F', 'ui', { fixed: true });
     const box3 = addRect(96, 96, 20, 1312, 672, '#03193F', 'ui', { fixed: true });
 
-    add([
+/*     add([
         text('Rare Fruits', fontStyleTiny),
         pos(1408, 116),
         fixed(),
@@ -45,12 +45,7 @@ export function createUI() {
         { value: 0 },
         color('#92A1B9'),
         layer('ui'),
-    ]);
-
-    //const box4 = addRect(80, 80, 40, 32, 696, '#03193F', 'ui', { fixed: true });
-    //const box5 = addRect(80, 80, 40, 120, 696, '#03193F', 'ui', { fixed: true });
-    //const box6 = addRect(80, 80, 40, 208, 696, '#03193F', 'ui', { fixed: true });
-
+    ]); */
 
     return { score, box1, box2, box3 };
 }

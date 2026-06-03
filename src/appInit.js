@@ -26,14 +26,28 @@ setLayers(['bg', 'game', 'ui'], 'ui');
 
 const scoreStats = { savedScore: '', virusCount: '', };
 
-// SOUNDS
-loadSound('ring', './sound/ring.mp3');
+// SOUND EFFECTS
+loadSound('fallen-precious-object', './sound/bonus/fallen-precious-object.mp3');
+loadSound('fruit-collected', './sound/bonus/fruit-collected.mp3');
 loadSound('debuff', './sound/bonus/debuff.mp3');
+loadSound('soundStress', './sound/bonus/sound-stress.mp3');
 loadSound('buff', './sound/bonus/buff.mp3');
-loadSound('roomba', './sound/roomba.mp3');
-loadSound('lose', './sound/lose.mp3');
+loadSound('player-death', './sound/game-state/player-death.mp3');
+loadSound('lose', './sound/game-state/lose.mp3');
 loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
-//play('OtherworldlyFoe', { volume: 0.2, loop: true, paused: false });
+play('OtherworldlyFoe', { volume: .05, loop: true, paused: false });
+
+loadSound('treeHit', './sound/tree/tree-hit.mp3');
+loadSound('footstep-1', './sound/footsteps/footstep-1.mp3');
+loadSound('treePops-1', './sound/tree/tree-pops-1.mp3');
+loadSound('treePops-2', './sound/tree/tree-pops-2.mp3');
+loadSound('treePops-3', './sound/tree/tree-pops-3.mp3');
+loadSound('treePops-4', './sound/tree/tree-pops-4.mp3');
+loadSound('treePops-5', './sound/tree/tree-pops-5.mp3');
+loadSound('armor-footstep-1', './sound/footsteps/armor-footstep-1.mp3');
+loadSound('armor-footstep-2', './sound/footsteps/armor-footstep-2.mp3');
+loadSound('armor-footstep-3', './sound/footsteps/armor-footstep-3.mp3');
+loadSound('armor-footstep-4', './sound/footsteps/armor-footstep-4.mp3');
 loadSound('kwak-1', './sound/kwak/kwak-1.mp3');
 loadSound('kwak-2', './sound/kwak/kwak-2.mp3');
 loadSound('kwak-3', './sound/kwak/kwak-3.mp3');
@@ -44,16 +58,15 @@ loadSound('fart-2', './sound/fart/fart-2.mp3');
 loadSound('fart-3', './sound/fart/fart-3.mp3');
 loadSound('fart-4', './sound/fart/fart-4.mp3');
 loadSound('fart-5', './sound/fart/fart-5.mp3');
-
-//OBJECTS, TREE, PLAYER, ENEMY SPRITES
+// MAP
 loadSprite('grass', './img/grass.png');
+// OBJECTS, TREE, PLAYER, ENEMY SPRITES
 loadSprite('tomato', './img/tomato.png');
 loadSprite('pear', './img/pear.png');
 loadSprite('banana', './img/banana.png');
 loadSprite('virusBlue', './img/virus-blue.png');
 loadSprite('virusPurple', './img/virus-purple.png');
 loadSprite('virusBrown', './img/virus-brown.png');
-loadSprite('star', './img/star.png');
 
 loadSprite('orange', './img/orange.png');
 loadSprite('lemon', './img/lemon.png');
@@ -68,6 +81,7 @@ loadSprite('superPiment', './img/super-piment.png');
 loadSprite('samaraSpeed', './img/samara-speed.png');
 loadSprite('superGrape', './img/super-grape.png');
 loadSprite('blueberry', './img/blueberry.png');
+loadSprite('acorn', './img/acorn.png');
 loadSprite('egg', './img/egg.png');
 
 loadSprite('flower-1', './img/flower-1.png', {
@@ -121,8 +135,8 @@ loadSprite('tree', './img/tree.png', {
 });
 
 loadSprite('duck', './img/duck.png', {
-    sliceY: 2,
     sliceX: 7,
+    sliceY: 2,
     anims: {
         'defaultIdle': {
             from: 0,
@@ -140,27 +154,28 @@ loadSprite('duck', './img/duck.png', {
             to: 2,
             loop: false,
         },
-        'lose': {
+        'kwakRun': {
             from: 3,
-            to: 3,
-            loop: false,
+            to: 2,
+            speed: 6,
+            loop: true,
         },
-        'win': {
+        'stressIdle': {
             from: 4,
             to: 4,
             loop: false,
         },
-        'stressIdle': {
-            from: 5,
-            to: 5,
-            loop: false,
-        },
         'stressRun': {
-            from: 6,
-            to: 5,
+            from: 5,
+            to: 4,
             speed: 6,
             loop: true,
-        },        
+        }, 
+        'win': {
+            from: 6,
+            to: 6,
+            loop: false,
+        },      
         'orangeIdle': {
             from:7,
             to: 7,
@@ -193,7 +208,12 @@ loadSprite('duck', './img/duck.png', {
             to: 12,
             loop: false,
         },        
-    },
+        'lose': {
+            from: 13,
+            to: 13,
+            loop: false,
+        }, 
+    },    
 });
 
 loadSprite('enemy', './img/enemy.png', {

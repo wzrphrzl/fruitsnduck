@@ -4,12 +4,74 @@ import { addRareObject_UI } from './ui.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
 export const gameObjectList = {
+
+    tomatoArmor: {
+        objectType: 'tomatoArmor',
+        scoreValue: 20,
+        count: 0,
+        comboMessage: 'YOU GOT THE TOMATO ARMOR !',
+        comboEvent: () => {
+          play('buff', { volume: .25});
+
+          player.enterState('armorIdle');
+            if (gameObjectList.tomatoArmor.count < 1) {
+                addRareObject_UI('tomatoArmor');
+                playerStats.speed = playerStats.speed - 100;
+                gameObjectList.tomatoArmor.count++; 
+            }
+        }
+    },
+    superPiment: {
+        objectType: 'superPiment',
+        scoreValue: 20,
+        count: 0,
+        comboMessage: 'YOU GOT THE SUPER PIMENT !',
+        comboEvent: () => {
+            playerStats.poopCount = 5;
+            play('buff', { volume: .25});
+            if (gameObjectList.superPiment.count < 1) {
+                addRareObject_UI('superPiment');
+                gameObjectList.superPiment.count++; 
+            }
+            if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
+                player.enterState('orangeIdle');
+            }
+        }
+    },
+    samaraSpeed: {
+        objectType: 'samaraSpeed',
+        scoreValue: 20,
+        count: 0,
+        comboMessage: 'YOU GOT THE SAMARA SPEED !',
+        comboEvent: () => {
+            play('buff', { volume: .25});
+            if (gameObjectList.samaraSpeed.count < 1) {
+                addRareObject_UI('samaraSpeed');
+                gameObjectList.samaraSpeed.count++; 
+           }
+
+            if (gameObjectList.samaraSpeed.count < 2) {
+                playerStats.speed = playerStats.speed + 100;
+                gameObjectList.samaraSpeed.count++; 
+            }
+        }
+    },
+    superGrape: {
+        objectType: 'superGrape',
+        scoreValue: -15,
+        comboMessage: 'YOU GOT THE SUPER GRAPE !',
+        comboEvent: () => {
+        }
+    },
     banana: {
         objectType: 'defaultObject',
         scoreValue: 5,
         comboMessage: 'COMBO BANANES !',
         comboEvent: () => {
-            addObject('superPiment');
+            wait(.8, () => {
+                addObject('superPiment');
+                play('fallen-precious-object');
+            });    
         }
     },
     pear: {
@@ -17,7 +79,10 @@ export const gameObjectList = {
         scoreValue: 5,
         comboMessage: 'COMBO POIRES !',
         comboEvent: () => {
-            addObject('samaraSpeed');
+            wait(.8, () => {    
+                addObject('samaraSpeed');
+                play('fallen-precious-object');
+            });
         }
     },
     tomato: {
@@ -25,7 +90,10 @@ export const gameObjectList = {
         scoreValue: 5,
         comboMessage: 'COMBO TOMATES !',
         comboEvent: () => {
-            addObject('tomatoArmor');
+            wait(.8, () => {
+                addObject('tomatoArmor');
+                play('fallen-precious-object');
+            });
         }
     },
     virusPurple: {
@@ -43,6 +111,7 @@ export const gameObjectList = {
                     return;
                 } else {
                     player.enterState('stressRun');
+                    play('soundStress');
                 }
                 wait(1.5, () => {
                     player.enterState(previousState);
@@ -105,62 +174,5 @@ export const gameObjectList = {
         scoreValue: 20,
         comboEvent: () => { }
     },
-    tomatoArmor: {
-        objectType: 'tomatoArmor',
-        scoreValue: 20,
-        count: 0,
-        comboMessage: 'YOU GOT THE TOMATO ARMOR !',
-        comboEvent: () => {
-          play('buff');
-          debug.log(gameObjectList.tomatoArmor.comboMessage);
-            player.enterState('armorIdle');
-            if (gameObjectList.tomatoArmor.count < 1) {
-                addRareObject_UI('tomatoArmor');
-                playerStats.speed = playerStats.speed - 125;
-                gameObjectList.tomatoArmor.count++; 
-            }
-        }
-    },
-    superPiment: {
-        objectType: 'superPiment',
-        scoreValue: 20,
-        count: 0,
-        comboMessage: 'YOU GOT THE SUPER PIMENT !',
-        comboEvent: () => {
-            playerStats.poopCount = 5;
-            play('buff');
-            if (gameObjectList.superPiment.count < 1) {
-                addRareObject_UI('superPiment');
-                gameObjectList.superPiment.count++; 
-            }
-            if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
-                player.enterState('orangeIdle');
-            }
-        }
-    },
-    samaraSpeed: {
-        objectType: 'samaraSpeed',
-        scoreValue: 20,
-        count: 0,
-        comboMessage: 'YOU GOT THE SAMARA SPEED !',
-        comboEvent: () => {
-            play('buff');
-            if (gameObjectList.samaraSpeed.count < 1) {
-                addRareObject_UI('samaraSpeed');
-                gameObjectList.samaraSpeed.count++; 
-           }
 
-            if (gameObjectList.samaraSpeed.count < 2) {
-                playerStats.speed = playerStats.speed + 100;
-                gameObjectList.samaraSpeed.count++; 
-            }
-        }
-    },
-    superGrape: {
-        objectType: 'superGrape',
-        scoreValue: -15,
-        comboMessage: 'YOU GOT THE SUPER GRAPE !',
-        comboEvent: () => {
-        }
-    },
 };

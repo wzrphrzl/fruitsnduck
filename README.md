@@ -4,35 +4,34 @@ A fast-paced arcade game where you play as a duck collecting fruits while avoidi
 
 ## HOW TO PLAY
 
-Controls :
-Arrow Keys - Move the duck in all directions.
-Objective - Collect fruits by shaking trees, create 3-fruit combos, and avoid the enemy.
+Controls:
+- Arrow keys — move the duck in all directions.
 
-Gameplay :
+Objective: collect fruits by shaking trees, build 3-fruit combos, and stay ahead of the enemy.
+
+Gameplay:
 - Collide with fruity trees to make them drop fruits.
-- Collect 3 identical fruits in a row to trigger special combo effects.
-- Pick up stars to spawn new trees.
-- Each fruit collected makes the enemy faster and bigger.
-- Collecting viruses reduces your score but can slow down or shrink the enemy.
+- Collect 3 identical fruits in a row to trigger a combo bonus.
+- Pick up acorns to spawn new trees.
+- Each item collected makes the enemy faster and bigger.
+- Collecting viruses lowers your score.
 
-Fruit System :
-- 🍅 Tomato : +20 points.
-- 🍐 Pear : +20 points.  
-- 🍌 Banana : +20 points.
-- 🦠 Virus (Purple) : -10 points, shrinks enemy.
-- 🦠 Virus (Blue) : -15 points.
-- 🦠 Virus (Brown) : -20 points, slows enemy.
-
-Combo Effects :
-- 3 identical fruits in a row trigger special bonuses (extra points, enemy debuffs).
+Fruit System:
+- 🍅 Tomato: +5 points — 3 in a row grant the Tomato Armor.
+- 🍐 Pear: +5 points — 3 in a row grant the Samara Speed boost.
+- 🍌 Banana: +5 points — 3 in a row grant the Super Piment.
+- 🍒 Bonus fruits (lemon, blueberry, watermelon…): +20 points.
+- 🦠 Virus (Purple): -10 points.
+- 🦠 Virus (Blue): -15 points.
+- 🦠 Virus (Brown): -20 points.
 
 ## FEATURES
 
 - Dynamic fruit spawning system.
-- AI-powered enemy with pathfinding.
+- A relentless enemy that homes in on you and grows with your score.
 - Combo system with visual feedback.
-- Score tracking and game statistics.
-- Multiple sprite animations, sound effects and background music.
+- Score tracking and end-of-game statistics.
+- Multiple sprite animations, sound effects, and looping background music.
 
 ## TECHNOLOGIES
 
@@ -65,49 +64,49 @@ fruitsnduck/
 
 ## INSTALLATION & DEVELOPMENT
 
-Prerequisites :
-- Node.js (v16 or higher).
-- npm or yarn.
+Prerequisites:
+- Node.js v20 or higher (required by Vite 7).
+- npm.
 
-Install dependencies :
+Install dependencies:
 ```sh
 npm install
 ```
 
-Development server :
+Development server:
 ```sh
 npm run dev
 ```
-Opens dev server at http://localhost:8000 with hot reload.
+Opens a dev server at http://localhost:5173 with hot reload.
 
-Build for production :
+Build for production:
 ```sh
 npm run build
 ```
-Builds optimized files into `www/` directory.
+Builds optimized files into the `dist/` directory.
 
-Create distribution package :
+Create a distribution package:
 ```sh
 npm run zip
 ```
 Creates a `dist/game.zip` ready for deployment to itch.io, Newgrounds, or web hosting.
 
-Lint code :
+Lint code:
 ```sh
 npm run lint        # Check for issues
 npm run lint:fix    # Auto-fix issues
 ```
 
-# LICENSES
+## LICENSES
 
-Code : [MIT License](LICENSE.md) - Free to use, modify, and distribute.
-Graphic Assets : [CC BY-SA 4.0](ASSETS_LICENSE.md) - Attribution required, share-alike.
+- Code: [MIT License](LICENSE.md) — free to use, modify, and distribute.
+- Graphic assets: [CC BY-SA 4.0](ASSETS_LICENSE.md) — attribution required, share-alike.
 
-# AUTHOR
+## AUTHOR
 
 RG Beaumont.
 
 ---
 
-Version : 0.9.1  
+Version: 0.9.1  
 Made with [Kaplay.js](https://kaplayjs.com/).
