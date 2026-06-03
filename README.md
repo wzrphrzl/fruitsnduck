@@ -6,6 +6,7 @@ A fast-paced arcade game where you play as a duck collecting fruits while avoidi
 
 Controls:
 - Arrow keys — move the duck in all directions.
+- Space bar — qurk and poop.
 
 Objective: collect fruits by shaking trees, build 3-fruit combos, and stay ahead of the enemy.
 
