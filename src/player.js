@@ -76,7 +76,7 @@ function createPlayer() {
         }
     });
 
-    onKeyDown(['left', 'q'], () => {
+    onKeyDown(['left', 'q', 'a'], () => {
         if (isKeyDown('right') || isKeyDown('d')) {
             return;
         } else {
@@ -84,7 +84,7 @@ function createPlayer() {
         }
     });
     onKeyDown(['right', 'd'], () => {
-        if (isKeyDown('left') || isKeyDown('q')) {
+        if (isKeyDown('left') || isKeyDown('q') || isKeyDown('a')) {
             return;
         } else {
             player.flipX = false;
@@ -113,7 +113,7 @@ function createPlayer() {
     });
 
     // STATE CHANGES BASED ON PERKS
-    onKeyDown(['left', 'right', 'up', 'down', 'z', 'q', 's', 'd'], () => {
+    onKeyDown(['left', 'right', 'up', 'down', 'z', 'q', 's', 'd', 'w', 'a'], () => {
         if (player.state == 'defaultIdle') {
             player.enterState('defaultRun');
         }
@@ -125,7 +125,7 @@ function createPlayer() {
         }
     });
 
-    onKeyDown(['left', 'q'], () => {
+    onKeyDown(['left', 'q', 'a'], () => {
         if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop' ) return;
         player.move(-playerStats.speed, 0);
     });
@@ -133,7 +133,7 @@ function createPlayer() {
         if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
         player.move(playerStats.speed, 0);
     });
-    onKeyDown(['up', 'z'], () => {
+    onKeyDown(['up', 'z', 'w'], () => {
         if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
         player.move(0, -playerStats.speed);
     });
@@ -146,7 +146,7 @@ function createPlayer() {
         setCamPos(player.pos);
 
         // IF ALL KEYS ARE UP, ENTERSTATE STATE IDLE
-        if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left") && !isKeyDown("z") && !isKeyDown("q") && !isKeyDown("s") && !isKeyDown("d")) {
+        if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left") && !isKeyDown("z") && !isKeyDown("q") && !isKeyDown("s") && !isKeyDown("d") && !isKeyDown("w") && !isKeyDown("a")) {
 
             if (player.state == 'defaultRun') {
                 player.enterState('defaultIdle');
