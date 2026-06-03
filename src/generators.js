@@ -31,7 +31,7 @@ export function setYs(player) {
 export function addButton(texte, posX, posY) {
     function addButton(txt, f) {
         const btn = k.add([
-            rect(296, 96, { radius: 16 }),
+            rect(296, 96, { radius: 12 }),
             pos(posX, posY),
             area(),
             scale(1),
@@ -108,27 +108,37 @@ export function bumpMini(param1) {
 
 // TREE CREATION
 export function addTree(x, y) {
-    const tree = k.add([
-        sprite('tree'),
-        pos(x, y),
-        scale(1),
-        anchor('center'),
-        area(),
-        body({ isStatic: true }),
-        state('fruity', ['fruity', 'default']),
-        layer('game'),
-        'tree',
-    ]);
 
-    tree.onStateEnter('default', () => {
-        tree.play('default');
+    wait(2, () => {
+
+
+        const tree = k.add([
+            sprite('tree'),
+            pos(x, y),
+            scale(1),
+            anchor('center'),
+            area(),
+            body({ isStatic: true }),
+            state('fruity', ['fruity', 'default']),
+            layer('game'),
+            'tree',
+        ]);
+
+        tree.onStateEnter('default', () => {
+            tree.play('default');
+        });
+
+        tree.onStateEnter('fruity', () => {
+            tree.play('fruity');
+        });
+
+        treePops();
+
+        return tree;
+
     });
 
-    tree.onStateEnter('fruity', () => {
-        tree.play('fruity');
-    });
 
-    return tree;
 }
 
 // OBJECT SPAWNING
@@ -137,7 +147,7 @@ export function addObject(objectType) {
     // FILTERS GAMEOBJECTLIST AND RETURNS AN ARRAY OF THE SPECIFIED OBJECT TYPE
     const filteredObject = Object.keys(gameObjectList).filter(filterParam => gameObjectList[filterParam].objectType === objectType);
     // SELECTS A RANDOM OBJECT FROM THE FILTERED ARRAY
-    const getRandom = Math.floor(Math.random() * filteredObject.length);   
+    const getRandom = Math.floor(Math.random() * filteredObject.length);
     // GENERATES A RANDOM POSITION AND ADDS THE OBJECT TO THE GAME
     const posX_objectSpawn = setXs(player);
     const posY_objectSpawn = player.pos.y - 440;
@@ -158,13 +168,13 @@ export function addObject(objectType) {
 
 }
 
-// STAR BONUS SPAWNING
-export function createStarBonus(poxX, posY) {
+// ACORN SPAWNING (GENERATES A TREE WHEN COLLECTED)
+export function acornBonus(posX, posY) {
     return add([
-        sprite('star'),
-        pos(poxX, posY),
+        sprite('acorn'),
+        pos(posX, posY),
         rotate(0),
-        scale(1),
+        scale(.75),
         anchor('center'),
         area(),
         body(),
@@ -186,8 +196,14 @@ export function fart() {
     play(fartList[random]);
 }
 
+export function treePops() {
+    const treePopsList = ['treePops-1', 'treePops-2', 'treePops-3', 'treePops-4', 'treePops-5'];
+    const random = Math.floor(Math.random() * treePopsList.length);
+    play(treePopsList[random]);
+}
+
 // KWAK SOUND EFFECT RANDOMIZER
-export function addFlower( posX, posY ) {
+export function addFlower(posX, posY) {
     const flowerList = ['flower-1', 'flower-2', 'flower-3'];
     const randomFlower = Math.floor(Math.random() * flowerList.length);
 

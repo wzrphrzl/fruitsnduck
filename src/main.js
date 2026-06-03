@@ -1,8 +1,8 @@
 import { scoreStats } from './appInit.js';
 import { createPlayer, playerStats } from './player.js';
 import { createEnemy } from './enemy.js';
-import { createUI, addRareObject_UI } from './ui.js';
-import { setXs, setYs, addTree, addObject, createStarBonus, addRect, bump, bumpMini, addFlower } from './generators.js';
+import { createUI } from './ui.js';
+import { setXs, setYs, addTree, addObject, acornBonus, addRect, bump, bumpMini, addFlower } from './generators.js';
 import { gameObjectList } from './gameObjects.js';
 
 import './menu.js';
@@ -41,7 +41,10 @@ scene('game', () => {
 
     player.onCollide('tree', (touchedTree) => {
 
+
         if (touchedTree.state == 'fruity') {
+
+            play('treeHit');
 
             bump(touchedTree);
 
@@ -64,12 +67,7 @@ scene('game', () => {
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
 
-        bump(player);
-
-        if (player.state === 'armorRun' && gameObject.sprite === 'virusPurple') {
-            addFlower(gameObject.pos.x, gameObject.pos.y);
-        }
-
+        // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM
         if (gameObjectList[gameObject.sprite].objectType === 'defaultObject') {
 
             // PUSHES THE NEW OBJECT SPRITE IN THE INVENTORY WHILE REMOVING THE LAST ONE
@@ -122,30 +120,38 @@ scene('game', () => {
         } else if (gameObject.sprite === 'samaraSpeed') {
             gameObjectList.samaraSpeed.comboEvent();
         }
-    
+
+        // FLOWER EFFECTS WHEN IN ARMOR MODE
+        if (player.state === 'armorRun' && gameObject.sprite === 'virusPurple'
+            || player.state === 'armorRun' && gameObject.sprite === 'virusBlue'
+            || player.state === 'armorRun' && gameObject.sprite === 'virusBrown'
+        ) {
+            addFlower(gameObject.pos.x, gameObject.pos.y);
+        }
+
         // SCORE LOGIC
-        const scoreChange = gameObjectList[gameObject.sprite]?.scoreValue || 0;
+        const scoreChange = gameObjectList[gameObject.sprite].scoreValue;
 
         if (scoreChange > 0) {
             score.value += scoreChange;
-            play('ring');
+            play('fruit-collected', { volume: 0.1, loop:  false, paused: false });
         } else if (scoreChange < 0) {
             score.value += scoreChange;
-            play('debuff');
             scoreStats.virusCount++;
+            play('debuff');
         }
 
-        bump(score);
         score.text = score.value;
-
+        bump(score);
 
         // ENEMY BUFF ON COLLECTING OBJECTS
         if (enemy.exists() === true) {
-            enemyStats.size += 0.1;
+            enemyStats.size += 0.05;
             enemy.scale = vec2(enemyStats.size);
-            enemyStats.speed += 15;
+            enemyStats.speed += 10;
         }
 
+        bump(player);
         destroy(gameObject);
 
     });
@@ -154,7 +160,7 @@ scene('game', () => {
 
     // STAR LOGIC
     loop(10, () => {
-        const starBonus = createStarBonus(setXs(player), setYs(player));
+        const starBonus = acornBonus(setXs(player), setYs(player));
         wait(2, () => { destroy(starBonus); });
     });
 
@@ -168,5 +174,5 @@ scene('game', () => {
 
 import './endingScreen.js';
 
-go('game');
+go('menu');
 

@@ -1,4 +1,5 @@
 import { scoreStats } from './appInit.js';
+import { playerStats } from './player.js';
 
 export function createEnemy(player, score) {
 
@@ -8,7 +9,7 @@ export function createEnemy(player, score) {
         size: 1,
         previousPosX: width() + 212,
     };
-    const SOUND_enemy = play('roomba');
+   const SOUND_enemy = null/* = play('roomba')*/;
 
     const enemy = add([
         sprite('enemy'),
@@ -57,12 +58,18 @@ export function createEnemy(player, score) {
     });
 
     enemy.onCollide('duck', () => {
-        destroy(player);
-        SOUND_enemy.paused = !SOUND_enemy.paused;
-        play('lose');
+        //destroy(player);
+        //SOUND_enemy.paused = !SOUND_enemy.paused;
+
+        playerStats.speed = 0
+        play('player-death');
+        player.enterState('lose');
 
         scoreStats.savedScore = score.value;
-        go('lose');
+        wait(2, () => {
+            play('lose');
+            go('lose');
+        });
     });
 
     enemy.onCollide('poop', (poop) => {
@@ -70,9 +77,9 @@ export function createEnemy(player, score) {
         enemy.color = RED;
         wait(.1, () => { enemy.color = null; });
 
-        enemyStats.size -= 0.2;
+        enemyStats.size -= 0.25;
         enemy.scale = vec2(enemyStats.size);
-        enemyStats.speed -= 10;
+        enemyStats.speed -= 15;
     });
 
     enemy.onCollide('gameObject', (gameObject) => {
