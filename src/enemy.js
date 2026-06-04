@@ -64,6 +64,8 @@ export function createEnemy(player, score) {
         playerStats.speed = 0
         play('player-death');
         player.enterState('lose');
+        player.paused = true;
+        enemy.paused = true; 
 
         scoreStats.savedScore = score.value;
         wait(2, () => {
