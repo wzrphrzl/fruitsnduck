@@ -3,7 +3,7 @@ import { createPlayer, playerStats } from './player.js';
 import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
 import { setXs, setYs, addTree, addObject, acornBonus, addRect, bump, bumpMini, addFlower } from './generators.js';
-import { gameObjectList } from './gameObjects.js';
+import { gameObjectList } from './objects.js';
 
 import './menu.js';
 

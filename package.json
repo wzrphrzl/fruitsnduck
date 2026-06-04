@@ -5,7 +5,7 @@
 		"build": "vite build",
 		"dev": "vite",
 		"preview": "vite preview",
-		"zip": "npm run build && cd dist && zip -r game.zip . -x \"*.DS_Store\" \"game.zip\"",
+		"zip": "npm run build && cd dist && zip -r fnd-x.zip . -x \"*.DS_Store\" \"fnd-x.zip\"",
 		"lint": "eslint",
 		"lint:fix": "eslint --fix"
 	},
