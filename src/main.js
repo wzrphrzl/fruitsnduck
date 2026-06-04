@@ -4,6 +4,7 @@ import { createEnemy } from './enemy.js';
 import { createUI } from './ui.js';
 import { setXs, setYs, addTree, addObject, acornBonus, addRect, bump, bumpMini, addFlower } from './generators.js';
 import { gameObjectList } from './objects.js';
+import { createMap } from './map.js';
 
 import './menu.js';
 
@@ -14,16 +15,8 @@ scene('game', () => {
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
-
-    add([
-        pos(-1800, -2120),
-        sprite("grass", {
-            tiled: true,
-            width: 5040,
-            height: 5040,
-        }),
-        layer("bg"),
-    ]);
+    
+    createMap();
 
     // WALLS
     /*TOP*/   addRect(9360, 1080, 0, -3960, -2680, '#000000', 'ui', { area: true });
