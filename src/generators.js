@@ -156,7 +156,7 @@ export function addObject(objectType) {
     const addedObject = add([
         sprite(filteredObject[getRandom]),
         pos(posX_objectSpawn, posY_objectSpawn),
-        area(.9),
+        area({ scale: 0.9, isSensor: true }),
         scale(.75),
         layer('game'),
         'gameObject',

@@ -56,7 +56,7 @@ function createPlayer() {
                 pos(player.pos.x, player.pos.y + 20),
                 anchor('center'),
                 sprite('poop'),
-                area({ scale: 1 }),
+                area({ scale: 1, isSensor: true }),
                 scale(0.75),
                 layer('game'),
                 'poop',
@@ -73,21 +73,6 @@ function createPlayer() {
             player.enterState('orangeIdle');
         } else if (player.state === 'armorPoop') {
             player.enterState('armorIdle');
-        }
-    });
-
-    onKeyDown(['left', 'q', 'a'], () => {
-        if (isKeyDown('right') || isKeyDown('d')) {
-            return;
-        } else {
-            player.flipX = true;
-        }
-    });
-    onKeyDown(['right', 'd'], () => {
-        if (isKeyDown('left') || isKeyDown('q') || isKeyDown('a')) {
-            return;
-        } else {
-            player.flipX = false;
         }
     });
 
@@ -112,53 +97,42 @@ function createPlayer() {
         }
     });
 
-    // STATE CHANGES BASED ON PERKS
-    onKeyDown(['left', 'right', 'up', 'down', 'z', 'q', 's', 'd', 'w', 'a'], () => {
-        if (player.state == 'defaultIdle') {
-            player.enterState('defaultRun');
-        }
-        else if (player.state == 'orangeIdle') {
-            player.enterState('orangeRun');
-        }
-        else if (player.state == 'armorIdle') {
-            player.enterState('armorRun');
-        }
-    });
+    // MOVEMENT : 8 DIRECTIONS WITH NORMALIZED DIAGONALS (VIRTUAL BUTTONS DEFINED IN appInit.js)
+    const moveDir = vec2(0);
+    const DIAGONAL_FACTOR = 1 / Math.sqrt(2);   // KEEPS DIAGONAL SPEED EQUAL TO STRAIGHT-LINE SPEED
 
-    onKeyDown(['left', 'q', 'a'], () => {
-        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop' ) return;
-        player.move(-playerStats.speed, 0);
-    });
-    onKeyDown(['right', 'd'], () => {
-        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
-        player.move(playerStats.speed, 0);
-    });
-    onKeyDown(['up', 'z', 'w'], () => {
-        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
-        player.move(0, -playerStats.speed);
-    });
-    onKeyDown(['down', 's'], () => {
-        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
-        player.move(0, playerStats.speed);
-    });
+    // PERK-AWARE IDLE <-> RUN STATE TRANSITIONS
+    const IDLE_TO_RUN = { defaultIdle: 'defaultRun', orangeIdle: 'orangeRun', armorIdle: 'armorRun' };
+    const RUN_TO_IDLE = { defaultRun: 'defaultIdle', orangeRun: 'orangeIdle', armorRun: 'armorIdle' };
 
     player.onUpdate(() => {
         setCamPos(player.pos);
 
-        // IF ALL KEYS ARE UP, ENTERSTATE STATE IDLE
-        if (!isKeyDown("up") && !isKeyDown("right") && !isKeyDown("down") && !isKeyDown("left") && !isKeyDown("z") && !isKeyDown("q") && !isKeyDown("s") && !isKeyDown("d") && !isKeyDown("w") && !isKeyDown("a")) {
+        // DON'T MOVE WHILE KWAKING OR POOPING
+        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
 
-            if (player.state == 'defaultRun') {
-                player.enterState('defaultIdle');
-            }
-            else if (player.state == 'orangeRun') {
-                player.enterState('orangeIdle');
-            }
-            else if (player.state == 'armorRun') {
-                player.enterState('armorIdle');
-            }
+        // BOOLEANS COERCE TO 0/1 : EACH AXIS BECOMES -1, 0 OR 1
+        moveDir.x = isButtonDown('right') - isButtonDown('left');
+        moveDir.y = isButtonDown('down') - isButtonDown('up');
+
+        const moving = moveDir.x !== 0 || moveDir.y !== 0;
+
+        // FACE THE MOVEMENT DIRECTION
+        if (moveDir.x < 0) player.flipX = true;
+        else if (moveDir.x > 0) player.flipX = false;
+
+        // SWITCH BETWEEN IDLE AND RUN FOR THE CURRENT PERK
+        if (moving && IDLE_TO_RUN[player.state]) {
+            player.enterState(IDLE_TO_RUN[player.state]);
+        } else if (!moving && RUN_TO_IDLE[player.state]) {
+            player.enterState(RUN_TO_IDLE[player.state]);
         }
 
+        if (!moving) return;
+
+        // NORMALIZE DIAGONALS SO ALL 8 DIRECTIONS SHARE THE SAME SPEED
+        const factor = (moveDir.x && moveDir.y) ? DIAGONAL_FACTOR : 1;
+        player.move(moveDir.scale(playerStats.speed * factor));
     });
 
     //player.enterState('armorIdle');
