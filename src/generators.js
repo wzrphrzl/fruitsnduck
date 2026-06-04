@@ -1,6 +1,6 @@
 import { k, fontStyleMed } from './appInit.js';
 import { player } from './player.js';
-import { gameObjectList } from './gameObjects.js';
+import { gameObjectList } from './objects.js';
 
 /*
  * This module provides utility functions for generating and spawning various game elements:

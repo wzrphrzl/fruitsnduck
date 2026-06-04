@@ -14,7 +14,6 @@ const k = kaplay({
     // "letterbox" makes stretching keeps aspect ratio (leaves black bars on empty spaces), have no effect without "stretch"
     letterbox: true,
     pixelDensity: window.devicePixelRatio,
-    // VIRTUAL BUTTONS : MAP MOVEMENT ACTIONS TO KEYBOARD (ARROWS + WASD + ZQSD) AND GAMEPAD DPAD
     buttons: {
         up:    { keyboard: ['up', 'w', 'z'], gamepad: ['dpad-up'] },
         left:  { keyboard: ['left', 'a', 'q'], gamepad: ['dpad-left'] },
