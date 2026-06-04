@@ -135,6 +135,7 @@ function createPlayer() {
         player.move(moveDir.scale(playerStats.speed * factor));
     });
 
+
     //player.enterState('armorIdle');
     return player;
 }

@@ -183,12 +183,6 @@ export function acornBonus(posX, posY) {
     ]);
 }
 
-// RANDOM GRASS SELECTOR
-export function getRandomGrass() {
-    const grassList = ['grass-1', 'grass-2', 'grass-3', 'grass-4', 'grass-5'];
-    return grassList[Math.floor(Math.random() * grassList.length)];
-}
-
 // KWAK SOUND EFFECT RANDOMIZER
 export function kwak() {
     const kwakList = ['kwak-1', 'kwak-2', 'kwak-3', 'kwak-4', 'kwak-5'];
