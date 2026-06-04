@@ -65,7 +65,11 @@ loadSound('fart-3', './sound/fart/fart-3.mp3');
 loadSound('fart-4', './sound/fart/fart-4.mp3');
 loadSound('fart-5', './sound/fart/fart-5.mp3');
 // MAP
-loadSprite('grass', './img/grass.png');
+loadSprite('grass-1', './img/grass-1.png');
+loadSprite('grass-2', './img/grass-2.png');
+loadSprite('grass-3', './img/grass-3.png');
+loadSprite('grass-4', './img/grass-4.png');
+loadSprite('grass-5', './img/grass-5.png');
 // OBJECTS, TREE, PLAYER, ENEMY SPRITES
 loadSprite('tomato', './img/tomato.png');
 loadSprite('pear', './img/pear.png');

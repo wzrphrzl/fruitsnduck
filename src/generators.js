@@ -44,7 +44,7 @@ export function addButton(texte, posX, posY) {
         btn.add([
             text(txt, fontStyleMed),
             anchor('center'),
-            pos(0, 2),
+            pos(0, -4),
             color(Color.fromHex('#FFEB57')),
             layer('ui'),
         ]);
@@ -181,6 +181,12 @@ export function acornBonus(posX, posY) {
         layer('game'),
         'star',
     ]);
+}
+
+// RANDOM GRASS SELECTOR
+export function getRandomGrass() {
+    const grassList = ['grass-1', 'grass-2', 'grass-3', 'grass-4', 'grass-5'];
+    return grassList[Math.floor(Math.random() * grassList.length)];
 }
 
 // KWAK SOUND EFFECT RANDOMIZER
