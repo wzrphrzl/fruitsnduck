@@ -36,7 +36,7 @@ export function addButton(texte, posX, posY) {
             area(),
             scale(1),
             anchor('center'),
-            outline(2, Color.fromHex('#FFEB57')),
+            outline(3, Color.fromHex('#FFEB57')),
             color('#00396D'),
             layer('ui'),
         ]);
