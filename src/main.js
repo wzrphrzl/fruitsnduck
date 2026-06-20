@@ -11,7 +11,7 @@ import './menu.js';
 scene('game', () => {
 
     // DEBUG FUNCTION
-    debug.inspect = true;
+    //debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
@@ -167,5 +167,5 @@ scene('game', () => {
 
 import './endingScreen.js';
 
-go('lose');
+go('menu');
 
