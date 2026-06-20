@@ -31,13 +31,13 @@ export function setYs(player) {
 export function addButton(texte, posX, posY) {
     function addButton(txt, f) {
         const btn = k.add([
-            rect(296, 96, { radius: 12 }),
+            rect(272, 80, { radius: 12 }),
             pos(posX, posY),
             area(),
             scale(1),
             anchor('center'),
-            outline(4, Color.fromHex('#FFEB57')),
-            color('#622461'),
+            outline(3, Color.fromHex('#FFEB57')),
+            color('#00396D'),
             layer('ui'),
         ]);
 
@@ -50,14 +50,14 @@ export function addButton(texte, posX, posY) {
         ]);
 
         btn.onHoverUpdate(() => {
-            btn.color = Color.fromHex('#93388F');
-            btn.scale = vec2(1.1);
+            btn.color = Color.fromHex('#0D79BC');
+            btn.scale = vec2(1.05);
             setCursor('pointer');
         });
 
         btn.onHoverEnd(() => {
             btn.scale = vec2(1);
-            btn.color = Color.fromHex('#622461');
+            btn.color = Color.fromHex('#00396D');
         });
 
         btn.onClick(f);
@@ -157,7 +157,7 @@ export function addObject(objectType) {
         sprite(filteredObject[getRandom]),
         pos(posX_objectSpawn, posY_objectSpawn),
         area({ scale: 0.9, isSensor: true }),
-        scale(.75),
+        scale(.7),
         layer('game'),
         'gameObject',
     ]);
