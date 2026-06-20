@@ -3,7 +3,7 @@ import { addButton, addRect } from './generators.js';
 
 scene('lose', () => {
 
-    addRect(1440, 800, 0, 0, 0, '#0C2E44', 'bg', { fixed: true, area: false });
+    addRect(1440, 800, 0, 0, 0, '#0C3131', 'bg', { fixed: true, area: false });
 
     // SET A DIFFERENT ENDING BASED ON SCORE (POSITIVE OR NEGATIVE)
     function personalizedScore(param1, param2) {

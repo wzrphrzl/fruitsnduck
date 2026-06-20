@@ -11,7 +11,7 @@ import './menu.js';
 scene('game', () => {
 
     // DEBUG FUNCTION
-    // debug.inspect = true;
+    debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
@@ -42,7 +42,7 @@ scene('game', () => {
             bump(touchedTree);
 
             wait(.1, () => {
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 5; i++) {
                     addObject('defaultObject');
                 }
                 touchedTree.enterState('default');
@@ -167,5 +167,5 @@ scene('game', () => {
 
 import './endingScreen.js';
 
-go('menu');
+go('lose');
 

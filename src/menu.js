@@ -2,7 +2,7 @@ import { addButton, addRect } from './generators.js';
 
 scene('menu', () => {
 
-    addRect(1440, 800, 0, 0, 0, '#C7CFDD', 'bg', { fixed: true, area: false });
+    addRect(1440, 800, 0, 0, 0, '#0C3131', 'bg', { fixed: true, area: false });
 
     add([
         sprite('titleScreen'),
@@ -25,8 +25,8 @@ scene('menu', () => {
     ]);
 
     add([
-        text('V 0.9.4', { size: 32 }),
-        color(219, 249, 255),
+        text('V 0.9.5', { size: 16 }),
+        color(Color.fromHex('#D3FC7E')),
         pos(width() - 40, 40),
         anchor('center'),
         anchor('right'),
