@@ -54,7 +54,7 @@ scene('lose', () => {
         ]);
     
         scoreMenu.add([
-            text('Total Score : ' + scoreStats.savedScore, fontStyleSmall),
+            text('Score : ' + scoreStats.savedScore, fontStyleSmall),
             pos(32, 112),
             scale(1),
             anchor('topleft'),
