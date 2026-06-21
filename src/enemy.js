@@ -26,7 +26,7 @@ export function createEnemy(player, score) {
 
     enemy.onStateEnter('idle', async () => {
         enemy.play('idle');
-        await wait(3)
+        await wait(9999)
         enemy.enterState('run');
     });
 

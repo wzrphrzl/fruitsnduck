@@ -26,7 +26,7 @@ const k = kaplay({
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
 const fontStyleSmall = { size: 32, font: 'Nunito' };
 const fontStyleMed = { size: 48, font: 'Nunito' };
-const fontStyleTiny = { size: 22, font: 'Nunito' };
+const fontStyleTiny = { size: 24, font: 'Nunito' };
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 

@@ -14,7 +14,7 @@ scene('menu', () => {
 
     // titleScreen.play('blink');
 
-    addButton('Start', 730, 468);
+    addButton('Start', width() / 2, 468);
 
     add([
         sprite('gameRules'),

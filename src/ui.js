@@ -4,18 +4,9 @@ import { addRect } from './generators.js';
 export function createUI() {
 
     // SCORE UI
-    add([
-        text('Score', fontStyleSmall),
-        pos(32, 32),
-        fixed(),
-        anchor('topleft'),
-        { value: 0 },
-        layer('ui'),
-    ]);
-
     const score = add([
-        text(0, fontStyleSmall),
-        pos(32, 72),
+        text('Score : ', fontStyleTiny),
+        pos(32, 24),
         fixed(),
         anchor('topleft'),
         { value: 0 },

@@ -124,8 +124,18 @@ export function addTree(x, y) {
             'tree',
         ]);
 
+        tree.add([
+            ellipse(tree.width / 2, 10),
+            pos(0, 56),
+            color(Color.fromHex('#03193F')),
+            anchor('top'),
+            opacity(0.25),
+            layer('bg'),
+        ]);
+
         tree.onStateEnter('default', () => {
             tree.play('default');
+            
         });
 
         tree.onStateEnter('fruity', () => {
@@ -147,24 +157,51 @@ export function addObject(objectType) {
     // FILTERS GAMEOBJECTLIST AND RETURNS AN ARRAY OF THE SPECIFIED OBJECT TYPE
     const filteredObject = Object.keys(gameObjectList).filter(filterParam => gameObjectList[filterParam].objectType === objectType);
     // SELECTS A RANDOM OBJECT FROM THE FILTERED ARRAY
-    const getRandom = Math.floor(Math.random() * filteredObject.length);
-    // GENERATES A RANDOM POSITION AND ADDS THE OBJECT TO THE GAME
-    const posX_objectSpawn = setXs(player);
-    const posY_objectSpawn = player.pos.y - 440;
-    const posY_objectEnd = rand(80, 720);
+    const getRandomObjectFromList = Math.floor(Math.random() * filteredObject.length);
+ 
+    const spriteName = filteredObject[getRandomObjectFromList];
+ 
+    // On génère la posX finale, on touche pas.
+    const posX_Final = setXs(player);
 
-    const addedObject = add([
-        sprite(filteredObject[getRandom]),
-        pos(posX_objectSpawn, posY_objectSpawn),
+    // On génère la position Y Finale, on touche pas
+    const posY_Final = setYs(player);
+
+    // Position Y initiale du sprite, en coordonnées LOCALES (relatives au conteneur).
+    // Une hauteur de jeu au-dessus de l'origine du conteneur.
+    const posY_Spawn = -height();
+
+    // On invoque un conteneur qui contiendra tout
+    const gameObject = add([
+        sprite(spriteName),
+        opacity(0),
         area({ scale: 0.9, isSensor: true }),
-        scale(.7),
+        pos(posX_Final, posY_Final),
+        scale( .8),
+        anchor('top'),
+        'gameObject', 
+     ]);
+
+    const fallingObject = gameObject.add([
+        sprite(spriteName),
+        pos(0, posY_Spawn),
+        anchor('top'),
         layer('game'),
-        'gameObject',
     ]);
 
     onUpdate(() => {
-        addedObject.moveTo(posX_objectSpawn, posY_objectSpawn + posY_objectEnd, 1750);
+        fallingObject.moveTo(0, 0, 1500);
     });
+
+    // Add shadow (ellipse) as a child of the gameObject
+    gameObject.add([
+        ellipse(34, 10),
+        pos(0, gameObject.height * 0.8 + 12),
+        color(Color.fromHex('#03193F')),
+        anchor('top'),
+        opacity(0.3),
+        layer('bg'),
+    ]);
 
 }
 
