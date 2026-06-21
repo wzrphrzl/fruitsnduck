@@ -63,18 +63,19 @@ scene('game', () => {
         // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM
         if (gameObjectList[gameObject.sprite].objectType === 'defaultObject') {
 
-            // PUSHES THE NEW OBJECT SPRITE IN THE INVENTORY WHILE REMOVING THE LAST ONE
-            inventoryBoxArray.unshift(gameObject.sprite);
-            inventoryBoxArray.pop();
+            // COUNT HOW MANY FRUITS ARE CURRENTLY IN THE INVENTORY
+            const currentFruitCount = inventoryBoxArray.filter(f => f !== null).length;
 
-            // CHECK IF ALL BOXES CONTAIN THE SAME FRUIT AS THE FIRST ONE AND TRIGGERS ITS COMBO EVENT
-            if (inventoryBoxArray.every(sprite => sprite !== null && sprite === inventoryBoxArray[0])) {
-                const selectedCombo = inventoryBoxArray[0];
-                gameObjectList[selectedCombo].comboEvent();
+            // IF INVENTORY IS FULL (3 FRUITS), TRIGGER COMBO AND RESET
+            if (currentFruitCount >= 3) {
+                console.log('fruit combo !');
+                inventoryBoxArray = [null, null, null];
             }
-            // IF INVENTORY IS FULL BUT NO COMBO, CLEAR IT
-            else if (inventoryBoxArray.every(sprite => sprite !== null)) {
-                addObject('bonusObject');
+
+            // ADD THE NEW FRUIT TO THE NEXT AVAILABLE SLOT
+            const nextAvailableIndex = inventoryBoxArray.findIndex(f => f === null);
+            if (nextAvailableIndex !== -1) {
+                inventoryBoxArray[nextAvailableIndex] = gameObject.sprite;
             }
 
             // DELETE OLD FRUITS FROM THE INVENTORY BOXES
@@ -134,7 +135,7 @@ scene('game', () => {
             play('debuff');
         }
 
-        score.text = score.value;
+        score.text = 'Score : ' + score.value;
         bump(score);
 
         // ENEMY BUFF ON COLLECTING OBJECTS
@@ -153,8 +154,8 @@ scene('game', () => {
 
     // STAR LOGIC
     loop(10, () => {
-        const starBonus = acornBonus(setXs(player), setYs(player));
-        wait(2, () => { destroy(starBonus); });
+        const poppedAcorn = acornBonus(setXs(player), setYs(player));
+        wait(2, () => { destroy(poppedAcorn); });
     });
 
     player.onCollide('star', (star) => {
