@@ -30,7 +30,9 @@ scene('game', () => {
     const { enemy, enemyStats } = createEnemy(player, score);
 
     // ADD THE FIRST TREE ON THE MAP
-    addTree(setXs(player), setYs(player));
+    //addTree(setXs(player), setYs(player));
+
+    addTree( 1080, player.pos.y);
 
     player.onCollide('tree', (touchedTree) => {
 
@@ -63,13 +65,16 @@ scene('game', () => {
         // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM
         if (gameObjectList[gameObject.sprite].objectType === 'defaultObject') {
 
-            // COUNT HOW MANY FRUITS ARE CURRENTLY IN THE INVENTORY
-            const currentFruitCount = inventoryBoxArray.filter(f => f !== null).length;
-
-            // IF INVENTORY IS FULL (3 FRUITS), TRIGGER COMBO AND RESET
-            if (currentFruitCount >= 3) {
-                console.log('fruit combo !');
-                inventoryBoxArray = [null, null, null];
+            // IF INVENTORY IS ALREADY FULL (from the previous trio), CLEAR IT BEFORE ADDING THE NEW FRUIT
+            if (inventoryBoxArray.every(f => f !== null)) {
+                const lastFruit = inventoryBoxArray[2];
+                // If the new fruit matches the last collected fruit (box 3),
+                // carry it over to box 1 so boxes 1 & 2 are pre-filled (instead of a full reset)
+                if (gameObject.sprite === lastFruit) {
+                    inventoryBoxArray = [lastFruit, null, null];
+                } else {
+                    inventoryBoxArray = [null, null, null];
+                }
             }
 
             // ADD THE NEW FRUIT TO THE NEXT AVAILABLE SLOT
@@ -95,8 +100,8 @@ scene('game', () => {
                         layer('ui'),
                     ]);
 
-                    // Appliquer bump() au sprite de box1
-                    if (index === 0) {
+                    // Apply bump animation to the fruit that was just collected
+                    if (index === nextAvailableIndex) {
                         bumpMini(newSprite);
                     }
 
@@ -104,6 +109,13 @@ scene('game', () => {
                 }
                 return null;
             });
+
+            // COMBO CHECK: as soon as the 3rd fruit completes the trio with identical fruits,
+            // trigger that fruit's combo event (spawns a special object)
+            if (inventoryBoxArray.every(f => f !== null && f === inventoryBoxArray[0])) {
+                console.log('fruit combo !');
+                gameObjectList[inventoryBoxArray[0]].comboEvent();
+            }
         }
 
         // RARE OBJECT EFFECTS

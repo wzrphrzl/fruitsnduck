@@ -107,6 +107,10 @@ export function bumpMini(param1) {
 }
 
 // TREE CREATION
+// Each new tree gets a z one lower than the previous (1000, 999, 998...),
+// so newer trees render behind older ones within the 'game' layer.
+let treeZ = 1000;
+
 export function addTree(x, y) {
 
     wait(2, () => {
@@ -121,8 +125,11 @@ export function addTree(x, y) {
             body({ isStatic: true }),
             state('fruity', ['fruity', 'default']),
             layer('game'),
+            z(treeZ),
             'tree',
         ]);
+
+        treeZ--;
 
         tree.add([
             ellipse(tree.width / 2, 10),
