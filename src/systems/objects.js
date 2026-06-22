@@ -1,4 +1,4 @@
-import { player, playerStats } from './player.js';
+import { player, playerStats, addDustTrail } from '../entities/player.js';
 import { addObject } from './generators.js';
 import { addRareObject_UI } from './ui.js';
 
@@ -47,7 +47,8 @@ export const gameObjectList = {
             play('buff', { volume: .25});
             if (gameObjectList.samaraSpeed.count < 1) {
                 addRareObject_UI('samaraSpeed');
-                gameObjectList.samaraSpeed.count++; 
+                addDustTrail(player);   
+                gameObjectList.samaraSpeed.count++;
            }
 
             if (gameObjectList.samaraSpeed.count < 2) {
