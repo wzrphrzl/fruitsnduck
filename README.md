@@ -5,8 +5,8 @@ A fast-paced arcade game where you play as a duck collecting fruits while avoidi
 ## HOW TO PLAY
 
 Controls:
-- Arrow keys — move the duck in all directions.
-- Space bar — qurk and poop.
+- Arrow keys (or WASD/ZQSD) — move the duck in all directions.
+- Space bar — quack, and poop projectiles when a power-up is active.
 
 Objective: collect fruits by shaking trees, build 3-fruit combos, and stay ahead of the enemy.
 
@@ -30,43 +30,53 @@ Fruit System:
 
 - Dynamic fruit spawning system.
 - A relentless enemy that homes in on you and grows with your score.
-- Combo system with visual feedback.
+- Combo system with visual feedback and power-ups (Tomato Armor, Samara Speed, Super Piment).
+- Animated title screen with a scrolling fruit pattern background.
+- Dust particle trail at the duck's feet once the Samara Speed boost is collected.
 - Score tracking and end-of-game statistics.
 - Multiple sprite animations, sound effects, and looping background music.
 
 ## TECHNOLOGIES
 
-- [Kaplay.js](https://kaplayjs.com/) v3001.0.19 - Game framework.
-- [Vite](https://vitejs.dev/) v7.2.7 - Build tool & dev server.
-- ESLint - Code linting.
-- JavaScript ES6 Modules - Clean code architecture.
+- [Kaplay.js](https://kaplayjs.com/) v4000 (alpha) - Game framework.
+- [Vite](https://vitejs.dev/) v8 - Build tool & dev server.
+- ESLint v10 - Code linting.
+- JavaScript ES6 Modules - Clean code architecture organized by responsibility.
 
 ## PROJECT STRUCTURE
 
 ```
 fruitsnduck/
-├── src/               # Source code
-│   ├── main.js        # Main game scene
-│   ├── appInit.js     # Kaplay initialization
-│   ├── player.js      # Player logic
-│   ├── enemy.js       # Enemy AI
-│   ├── menu.js        # Menu scene
-│   ├── endingScreen.js
-│   ├── ui.js          # UI components
-│   ├── generators.js  # Utility functions
-│   └── gameObjects.js # Game objects config
+├── src/                  # Source code
+│   ├── main.js           # Entry point (init + scene registration + go('menu'))
+│   ├── appInit.js        # Kaplay init, asset loading, layers, global state
+│   ├── scenes/           # Game scenes
+│   │   ├── menu.js       # Title screen (animated background)
+│   │   ├── game.js       # Main gameplay scene
+│   │   └── end.js        # End-of-game screen
+│   ├── entities/         # Characters
+│   │   ├── player.js     # Player logic & state machine
+│   │   └── enemy.js      # Enemy AI
+│   ├── systems/          # Game systems & builders
+│   │   ├── objects.js    # Collectible objects config (scores, combos)
+│   │   ├── generators.js # Entity spawners (trees, objects, flowers)
+│   │   ├── ui.js         # UI components & buttons
+│   │   └── map.js        # Tiled grass map generation
+│   └── lib/              # Reusable, domain-agnostic utilities
+│       ├── helpers.js    # Random positions, bump effects, rect builder
+│       └── audio.js      # Sound randomizers (quack, fart, tree pops)
 ├── public/
-│   ├── img/           # Sprites & graphics
-│   ├── sound/         # Audio files
-│   └── font/          # Custom fonts
-├── index.html         # Entry point
-└── vite.config.js     # Vite configuration
+│   ├── img/              # Sprites & graphics
+│   ├── sound/            # Audio files
+│   └── font/             # Custom fonts
+├── index.html            # HTML entry (loads src/main.js)
+└── vite.config.js        # Vite configuration
 ```
 
 ## INSTALLATION & DEVELOPMENT
 
 Prerequisites:
-- Node.js v20 or higher (required by Vite 7).
+- Node.js v20.19+ or v22.12+ (required by Vite 8).
 - npm.
 
 Install dependencies:
@@ -90,7 +100,7 @@ Create a distribution package:
 ```sh
 npm run zip
 ```
-Creates a `dist/game.zip` ready for deployment to itch.io, Newgrounds, or web hosting.
+Creates a `dist/fnd-x.zip` ready for deployment to itch.io, Newgrounds, or web hosting.
 
 Lint code:
 ```sh
@@ -109,5 +119,5 @@ RG Beaumont.
 
 ---
 
-Version: 0.9.1  
+Version: 0.9.5  
 Made with [Kaplay.js](https://kaplayjs.com/).
