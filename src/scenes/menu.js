@@ -1,4 +1,4 @@
-import { addButton } from './generators.js';
+import { addButton } from '../systems/ui.js';
 
 scene('menu', () => {
 

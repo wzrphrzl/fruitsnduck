@@ -243,6 +243,8 @@ loadSprite('enemy', './img/enemy.png', {
     },
 });
 
+loadSprite('particle', './img/particle_hexagon_filled.png');
+
 loadSprite('poop', './img/poop.png', {
     sliceX: 2,
     anims: {

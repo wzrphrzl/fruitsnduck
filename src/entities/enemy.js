@@ -1,4 +1,4 @@
-import { scoreStats } from './appInit.js';
+import { scoreStats } from '../appInit.js';
 import { playerStats } from './player.js';
 
 export function createEnemy(player, score) {
