@@ -70,6 +70,10 @@ loadSprite('grass-2', './img/grass-2.png');
 loadSprite('grass-3', './img/grass-3.png');
 loadSprite('grass-4', './img/grass-4.png');
 loadSprite('grass-5', './img/grass-5.png');
+loadSprite('grass-6', './img/grass-6.png');
+loadSprite('grass-7', './img/grass-7.png');
+loadSprite('grass-8', './img/grass-8.png');
+loadSprite('grass-9', './img/grass-9.png');
 // OBJECTS, TREE, PLAYER, ENEMY SPRITES
 loadSprite('tomato', './img/tomato.png');
 loadSprite('pear', './img/pear.png');
