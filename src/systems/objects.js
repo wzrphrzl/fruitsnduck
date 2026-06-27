@@ -1,4 +1,5 @@
-import { player, playerStats, addDustTrail } from '../entities/player.js';
+import { player, playerStats } from '../entities/player.js';
+import { addDustTrail } from '../lib/effects.js';
 import { addObject } from './generators.js';
 import { addRareObject_UI } from './ui.js';
 

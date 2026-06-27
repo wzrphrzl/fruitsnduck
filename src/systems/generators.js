@@ -132,17 +132,17 @@ export function addObject(objectType) {
 }
 
 // ACORN SPAWNING (GENERATES A TREE WHEN COLLECTED)
-export function acornBonus(posX, posY) {
+export function acornBonus() {
     return add([
         sprite('acorn'),
-        pos(posX, posY),
+        pos(setXs(player), setYs(player)),
         rotate(0),
         scale(.75),
         anchor('center'),
         area(),
         body(),
         layer('game'),
-        'star',
+        'acorn',
     ]);
 }
 

@@ -1,11 +1,6 @@
 import { k } from '../appInit.js';
 
-/*
- * Generic, domain-agnostic helpers:
- * - Random position calculation around the player
- * - Reusable scale-pop ("bump") effects
- * - Rectangle primitive builder (backgrounds, walls, UI boxes)
- */
+// GENERIC HELPERS
 
 // GENERATE RANDOM POSITIONS FROM PLAYER
 export function setXs(player) {
@@ -24,22 +19,7 @@ export function setYs(player) {
     }
 }
 
-// BUMP EFFECTS
-export function bump(param1) {
-    param1.scale = vec2(1.15);
-    wait(0.2, () => {
-        param1.scale = vec2(1);
-    });
-}
-
-export function bumpMini(param1) {
-    param1.scale = vec2(.6);
-    wait(0.2, () => {
-        param1.scale = vec2(.5);
-    });
-}
-
-// RECTANGLE CREATION
+// RECTANGLE CREATION (FOR MAPPING)
 export function addRect(width, height, radiusVal, posX, posY, colorName, layerName, options = {}, rectName = 'rect') {
     const rectangle = [
         rect(width, height, { radius: radiusVal }),
