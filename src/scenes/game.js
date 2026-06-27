@@ -10,7 +10,7 @@ import { addTiledMap } from '../systems/map.js';
 scene('game', () => {
 
     // DEBUG FUNCTION
-    debug.inspect = true;
+    //debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
