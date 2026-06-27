@@ -10,6 +10,8 @@ import { treePops } from '../lib/audio.js';
 // TREE CREATION
 // Each new tree gets a z one lower than the previous (1000, 999, 998...),
 let treeZ = 1000;
+let objectZ = 1000;
+
 
 export function addTree(x, y) {
 
@@ -64,43 +66,65 @@ export function addObject(objectType) {
     const filteredObject = Object.keys(gameObjectList).filter(filterParam => gameObjectList[filterParam].objectType === objectType);
     // SELECTS A RANDOM OBJECT FROM THE FILTERED ARRAY
     const getRandomObjectFromList = Math.floor(Math.random() * filteredObject.length);
-
     const spriteName = filteredObject[getRandomObjectFromList];
 
     const posX_Final = setXs(player);
-
     const posY_Final = setYs(player);
-
     const posY_Spawn = -height();
 
+    const duration = rand(1.25, 1.85);
+
+
     // A TRANSPARENT CONTAINER WHICH GATHERS THE POSITION AND THE SPRITE'S AREA
-    const gameObject = add([
+    const gameObjectContainer = add([
         sprite(spriteName),
-        opacity(0),
-        area({ scale: 0.9, isSensor: true }),
         pos(posX_Final, posY_Final),
-        scale( .8),
-        anchor('top'),
+        opacity(0),
+        anchor('center'),
         'gameObject',
      ]);
 
-    const fallingObject = gameObject.add([
+    const fallingObject = gameObjectContainer.add([
         sprite(spriteName),
+        scale(.75),
+        opacity(1),
         pos(0, posY_Spawn),
-        anchor('top'),
+        anchor('center'),
         layer('game'),
+        z(objectZ),
     ]);
 
-    onUpdate(() => {
-        fallingObject.moveTo(0, 0, 1500);
+    objectZ++;
+    fallingObject.fadeIn(.5);
+
+    // FALLING FUNCTION WITH EASING
+
+    wait(.75, () => {
+
+        tween(
+            //START VALUE
+            fallingObject.pos,
+            //DESTINATION VALUE
+            vec2(0, 0),
+            //DURATION
+            duration,
+            //HOW VALUE SHOULD BE UPDATED
+            (val) => fallingObject.pos = val,
+            //INTERPOLATION FUNCTION
+            easings.easeOutBounce,
+        );
+                
+        gameObjectContainer.use(area({ scale: .75, isSensor: true }));
+
     });
 
+
     // ADDS A SHADOW BELOW THE OBJECT
-    gameObject.add([
+    gameObjectContainer.add([
         ellipse(34, 10),
-        pos(0, gameObject.height * 0.8 + 12),
+        pos(0, gameObjectContainer.height / 2 -10),
         color(Color.fromHex('#03193F')),
-        anchor('top'),
+        anchor('center'),
         opacity(0.3),
         layer('bg'),
     ]);

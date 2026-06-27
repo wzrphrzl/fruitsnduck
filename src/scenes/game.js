@@ -42,12 +42,10 @@ scene('game', () => {
 
             bump(touchedTree);
 
-            wait(.1, () => {
-                for (let i = 0; i < 5; i++) {
-                    addObject('defaultObject');
-                }
-                touchedTree.enterState('default');
-            });
+            for (let i = 0; i < 3; i++) {
+                addObject('defaultObject');
+            }
+            touchedTree.enterState('default');
         }
         else if (touchedTree.state == 'default') return
 

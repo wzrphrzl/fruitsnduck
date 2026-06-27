@@ -8,7 +8,7 @@ const TILES_COUNT = 40; // 40 x 128 = 5120, covers the 5040 map
 
 // RANDOM GRASS SELECTOR
 function getRandomGrassTile() {
-    const grassTileList = ['grass-1', 'grass-2', 'grass-3', 'grass-4', 'grass-5'];
+    const grassTileList = ['grass-1', 'grass-2', 'grass-3', 'grass-4', 'grass-5', 'grass-6', 'grass-7'];
     return grassTileList[Math.floor(Math.random() * grassTileList.length)];
 }
 
