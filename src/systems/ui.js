@@ -1,4 +1,4 @@
-import { k, fontStyleMed, fontStyleTiny } from '../appInit.js';
+import { k, fontStyleMed, fontStyleTiny, fontStyleSmall } from '../appInit.js';
 import { addRect } from '../lib/helpers.js';
 
 export function createUI() {
@@ -6,7 +6,7 @@ export function createUI() {
     // SCORE UI
     const initialScore = 0;
     const score = add([
-        text('Score : ' + initialScore, fontStyleTiny),
+        text('Score : ' + initialScore, fontStyleSmall),
         pos(32, 24),
         fixed(),
         anchor('topleft'),

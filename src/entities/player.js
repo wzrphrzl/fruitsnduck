@@ -85,6 +85,7 @@ function createPlayer() {
 
     let footstepTimer = 0;
     player.onUpdate(() => {
+        
         const delay = FOOTSTEP_DELAY[player.state];
         if (delay === undefined) {     // NOT RUNNING → NO FOOTSTEP SOUND
             footstepTimer = 0;
