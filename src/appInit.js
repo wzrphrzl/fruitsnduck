@@ -97,6 +97,8 @@ loadSprite('superGrape', './img/super-grape.png');
 loadSprite('blueberry', './img/blueberry.png');
 loadSprite('acorn', './img/acorn.png');
 loadSprite('egg', './img/egg.png');
+loadSprite('heartFull', './img/heart-full.png');
+loadSprite('heartEmpty', './img/heart-empty.png');
 
 loadSprite('flower-1', './img/flower-1.png', {
     sliceX: 4,

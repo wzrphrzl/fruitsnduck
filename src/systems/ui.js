@@ -42,6 +42,41 @@ export function createUI() {
     return { score, box1, box2, box3 };
 }
 
+// HP HEART BAR : ONE HEART PER MAX HP, REFLECTING player.hp.
+// FULL HEARTS WHILE WITHIN CURRENT HP, EMPTY (heartEmpty) ONCE LOST.
+// REFRESHES ON onHurt / onHeal (player.hp is the single source of truth).
+export function createHearts(player) {
+    const HEART_SIZE = { width: 36, height: 32 };
+    const HEART_BASE_X = 1332;   // X OF THE LEFTMOST HEART
+    const HEART_Y = 24;
+    const HEART_SPACING = 48;    // X STEP BETWEEN HEARTS
+
+    const hearts = [];
+    for (let i = 0; i < player.maxHP; i++) {
+        hearts.push(add([
+            sprite('heartFull', HEART_SIZE),
+            pos(HEART_BASE_X + i * HEART_SPACING, HEART_Y),
+            fixed(),
+            anchor('topleft'),
+            layer('ui'),
+        ]));
+    }
+
+    function refresh() {
+        hearts.forEach((heart, i) => {
+            heart.use(sprite(i < player.hp ? 'heartFull' : 'heartEmpty', HEART_SIZE));
+        });
+    }
+
+    player.onHurt(refresh);
+    player.onHeal(refresh);
+    refresh();
+
+    return hearts;
+}
+
+
+// RARE OBJECTS
 let rareObjStats_UI = {
     count: 0,
     posX: 32,
