@@ -10,7 +10,7 @@ import { addTiledMap } from '../systems/map.js';
 scene('game', () => {
 
     // DEBUG FUNCTION
-    debug.inspect = true;
+    //debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
@@ -42,12 +42,10 @@ scene('game', () => {
 
             bump(touchedTree);
 
-            wait(.1, () => {
-                for (let i = 0; i < 5; i++) {
-                    addObject('defaultObject');
-                }
-                touchedTree.enterState('default');
-            });
+            for (let i = 0; i < 3; i++) {
+                addObject('defaultObject');
+            }
+            touchedTree.enterState('default');
         }
         else if (touchedTree.state == 'default') return
 
