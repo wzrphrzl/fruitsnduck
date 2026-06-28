@@ -121,7 +121,7 @@ export function addObject(objectType) {
 
     // ADDS A SHADOW BELOW THE OBJECT
     gameObjectContainer.add([
-        ellipse(34, 10),
+        ellipse(gameObjectContainer.width /2 *.75, 10),
         pos(0, gameObjectContainer.height / 2 -10),
         color(Color.fromHex('#03193F')),
         anchor('center'),
@@ -132,17 +132,17 @@ export function addObject(objectType) {
 }
 
 // ACORN SPAWNING (GENERATES A TREE WHEN COLLECTED)
-export function acornBonus(posX, posY) {
+export function acornBonus() {
     return add([
         sprite('acorn'),
-        pos(posX, posY),
+        pos(setXs(player), setYs(player)),
         rotate(0),
         scale(.75),
         anchor('center'),
         area(),
         body(),
         layer('game'),
-        'star',
+        'acorn',
     ]);
 }
 

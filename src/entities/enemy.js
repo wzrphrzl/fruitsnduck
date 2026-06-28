@@ -1,7 +1,4 @@
-import { scoreStats } from '../appInit.js';
-import { playerStats } from './player.js';
-
-export function createEnemy(player, score) {
+export function createEnemy(player) {
 
     //ENEMY
     const enemyStats = {
@@ -13,7 +10,7 @@ export function createEnemy(player, score) {
 
     const enemy = add([
         sprite('enemy'),
-        pos(width() + 212, height() + 124),
+        pos(400, 400),
         anchor('center'),
         area({ scale: 0.75 }),
         body(),
@@ -47,7 +44,6 @@ export function createEnemy(player, score) {
         }
         enemyStats.previousPosX = enemy.pos.x;
 
-
         if (player.exists()) {
             // const dir = player.pos.sub(enemy.pos).unit();
             SOUND_enemy;
@@ -55,23 +51,6 @@ export function createEnemy(player, score) {
             enemy.move(dir.scale(enemyStats.speed));
         }
         if (!player.exists()) return;
-    });
-
-    enemy.onCollide('duck', () => {
-        //destroy(player);
-        //SOUND_enemy.paused = !SOUND_enemy.paused;
-
-        playerStats.speed = 0
-        play('player-death');
-        player.enterState('lose');
-        player.paused = true;
-        enemy.paused = true; 
-
-        scoreStats.savedScore = score.value;
-        wait(2, () => {
-            play('lose');
-            go('lose');
-        });
     });
 
     enemy.onCollide('poop', (poop) => {
@@ -93,7 +72,6 @@ export function createEnemy(player, score) {
     enemy.onCollide('tree', (gameObject) => {
         destroy(gameObject);
     });
-
 
 
     return { enemy, enemyStats };

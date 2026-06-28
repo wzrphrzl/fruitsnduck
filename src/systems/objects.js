@@ -1,4 +1,5 @@
-import { player, playerStats, addDustTrail } from '../entities/player.js';
+import { player, playerStats } from '../entities/player.js';
+import { addDustTrail } from '../lib/effects.js';
 import { addObject } from './generators.js';
 import { addRareObject_UI } from './ui.js';
 
@@ -174,6 +175,21 @@ export const gameObjectList = {
         objectType: 'bonusObject',
         scoreValue: 20,
         comboEvent: () => { }
+    },
+
+    heartIngame: {
+        objectType: 'heartIngame',
+        scoreValue: 0,
+        comboEvent: () => { 
+
+        }
+    },
+    heartPlus: {
+        objectType: 'heartPlus',
+        scoreValue: 0,
+        comboEvent: () => { 
+
+        }
     },
 
 };
