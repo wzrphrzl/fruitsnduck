@@ -184,5 +184,12 @@ export const gameObjectList = {
 
         }
     },
+    heartPlus: {
+        objectType: 'heartPlus',
+        scoreValue: 0,
+        comboEvent: () => { 
+
+        }
+    },
 
 };

@@ -98,6 +98,7 @@ loadSprite('blueberry', './img/blueberry.png');
 loadSprite('acorn', './img/acorn.png');
 loadSprite('egg', './img/egg.png');
 loadSprite('heartIngame', './img/heart-ingame.png');
+loadSprite('heartPlus', './img/heart-plus.png');
 
 loadSprite('heart', './img/heart.png', {
     sliceX: 2,
