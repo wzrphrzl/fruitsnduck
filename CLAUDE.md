@@ -6,6 +6,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Fruits'n'Duck** is a fast-paced arcade game built with [Kaplay.js](https://kaplayjs.com/), a modern 2D game engine. The game centers on a duck collecting fruits while avoiding an enemy, with a combo system that grants power-ups for collecting 3 identical fruits in sequence.
 
+## Kaplay API Reference
+
+Before using or modifying any Kaplay component/function, consult the bundled TypeScript definitions (authoritative for the installed version):
+
+- `node_modules/kaplay/dist/types.d.ts` — full API with JSDoc descriptions for every component and option
+
+Prefer this over web docs (it matches the exact installed version and is offline). Fallback: https://kaplayjs.com/doc
+
+For usage patterns, grep the example scripts vendored locally (gitignored, ~130 self-contained `.js` files):
+
+- `.kaplay-examples/*.js` — runnable examples (animation.js, sprite, camera, button, etc.)
+
+Refresh them with: `npx degit kaplayjs/kaplay/examples .kaplay-examples`
+
 ## Quick Start Commands
 
 ```bash

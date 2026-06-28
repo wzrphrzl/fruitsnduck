@@ -1,5 +1,7 @@
 import { k, fontStyleMed, fontStyleTiny, fontStyleSmall } from '../appInit.js';
 import { addRect } from '../lib/helpers.js';
+import { player } from '../entities/player.js';
+import { bumpHp } from '../lib/effects.js';
 
 export function createUI() {
 
@@ -29,19 +31,49 @@ export function createUI() {
     const box2 = addRect(96, 96, 20, 1192, 672, '#03193F', 'ui', { fixed: true });
     const box3 = addRect(96, 96, 20, 1312, 672, '#03193F', 'ui', { fixed: true });
 
-/*     add([
-        text('Rare Fruits', fontStyleTiny),
-        pos(1408, 116),
-        fixed(),
-        anchor('topright'),
-        { value: 0 },
-        color('#92A1B9'),
-        layer('ui'),
-    ]); */
-
     return { score, box1, box2, box3 };
 }
 
+// HEALTH POINTS
+// bumpIndex (optional): index of the heart that just changed, to pop it; omit to pop none
+export function healthPointsUI(bumpIndex) {
+
+    // CLEAR EXISTING HEARTS
+    destroyAll('hp');
+
+    function addHeart(index) {
+
+        get('hp').forEach((heart) => {
+            heart.pos.x += -44;
+        });
+
+        // FULL IF WITHIN CURRENT HP, ELSE EMPTY (anim set at creation: no override = no timing race)
+        const heart = add([
+            sprite('heart', { anim: index < player.hp ? 'heartFull' : 'heartEmpty' }),
+            scale(0.47),
+            pos(1386, 48),
+            fixed(),
+            opacity(1),
+            layer('ui'),
+            anchor('center'),
+            'hp',
+        ]);
+
+        // POP ONLY THE HEART THAT CHANGED
+        if (index === bumpIndex) {
+            bumpHp(heart);
+        }
+    }
+
+    // ADDS ONE HEART PER MAX HP POINT
+    for (let i = 0; i < player.maxHP; i++) {
+        addHeart(i);
+    }
+    
+}
+
+
+// RARE OBJECTS
 let rareObjStats_UI = {
     count: 0,
     posX: 32,

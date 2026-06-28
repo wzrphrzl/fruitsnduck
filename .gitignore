@@ -6,3 +6,4 @@ dist/
 *.log
 grenier/
 .claude/
+.kaplay-examples/
