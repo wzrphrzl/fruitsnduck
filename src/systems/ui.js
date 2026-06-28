@@ -1,5 +1,7 @@
 import { k, fontStyleMed, fontStyleTiny, fontStyleSmall } from '../appInit.js';
 import { addRect } from '../lib/helpers.js';
+import { player } from '../entities/player.js';
+import { bumpHp } from '../lib/effects.js';
 
 export function createUI() {
 
@@ -29,50 +31,45 @@ export function createUI() {
     const box2 = addRect(96, 96, 20, 1192, 672, '#03193F', 'ui', { fixed: true });
     const box3 = addRect(96, 96, 20, 1312, 672, '#03193F', 'ui', { fixed: true });
 
-/*     add([
-        text('Rare Fruits', fontStyleTiny),
-        pos(1408, 116),
-        fixed(),
-        anchor('topright'),
-        { value: 0 },
-        color('#92A1B9'),
-        layer('ui'),
-    ]); */
-
     return { score, box1, box2, box3 };
 }
 
-// HP HEART BAR : ONE HEART PER MAX HP, REFLECTING player.hp.
-// FULL HEARTS WHILE WITHIN CURRENT HP, EMPTY (heartEmpty) ONCE LOST.
-// REFRESHES ON onHurt / onHeal (player.hp is the single source of truth).
-export function createHearts(player) {
-    const HEART_SIZE = { width: 36, height: 32 };
-    const HEART_BASE_X = 1332;   // X OF THE LEFTMOST HEART
-    const HEART_Y = 24;
-    const HEART_SPACING = 48;    // X STEP BETWEEN HEARTS
+// HEALTH POINTS
+// bumpIndex (optional): index of the heart that just changed, to pop it; omit to pop none
+export function healthPointsUI(bumpIndex) {
 
-    const hearts = [];
-    for (let i = 0; i < player.maxHP; i++) {
-        hearts.push(add([
-            sprite('heartFull', HEART_SIZE),
-            pos(HEART_BASE_X + i * HEART_SPACING, HEART_Y),
-            fixed(),
-            anchor('topleft'),
-            layer('ui'),
-        ]));
-    }
+    // CLEAR EXISTING HEARTS
+    destroyAll('hp');
 
-    function refresh() {
-        hearts.forEach((heart, i) => {
-            heart.use(sprite(i < player.hp ? 'heartFull' : 'heartEmpty', HEART_SIZE));
+    function addHeart(index) {
+
+        get('hp').forEach((heart) => {
+            heart.pos.x += -44;
         });
+
+        // FULL IF WITHIN CURRENT HP, ELSE EMPTY (anim set at creation: no override = no timing race)
+        const heart = add([
+            sprite('heart', { anim: index < player.hp ? 'heartFull' : 'heartEmpty' }),
+            scale(0.47),
+            pos(1386, 48),
+            fixed(),
+            opacity(1),
+            layer('ui'),
+            anchor('center'),
+            'hp',
+        ]);
+
+        // POP ONLY THE HEART THAT CHANGED
+        if (index === bumpIndex) {
+            bumpHp(heart);
+        }
     }
 
-    player.onHurt(refresh);
-    player.onHeal(refresh);
-    refresh();
-
-    return hearts;
+    // ADDS ONE HEART PER MAX HP POINT
+    for (let i = 0; i < player.maxHP; i++) {
+        addHeart(i);
+    }
+    
 }
 
 

@@ -1,8 +1,8 @@
-import { addTiledMap } from '../systems/map.js';
+import { addTiledMap } from '../lib/map.js';
 import { scoreStats } from '../appInit.js';
 import { createPlayer, playerStats } from '../entities/player.js';
 import { createEnemy } from '../entities/enemy.js';
-import { createUI, createHearts } from '../systems/ui.js';
+import { createUI, healthPointsUI } from '../systems/ui.js';
 import { addTree, addObject, acornBonus } from '../systems/generators.js';
 import { setXs, setYs, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
@@ -29,15 +29,14 @@ scene('game', () => {
     playerStats.speed = 400;
     const { enemy, enemyStats } = createEnemy(player, score);
 
-    // HP HEART BAR (REFLECTS player.hp)
-    createHearts(player);
-
     // INITIALIZES THE INVENTORY SYSTEM
+    healthPointsUI();
+
     setupInventory({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
 
 
     // ADD THE FIRST TREE
-    addTree( 880, player.pos.y);
+    addTree(880, player.pos.y);
 
     // GENERATE ACORNS FOR NEW TREES 
     loop(10, () => {
@@ -48,9 +47,19 @@ scene('game', () => {
 
     // COLLISIONS 
 
+
+    for (let i = 0; i < 10; i++) {
+        addObject('heartIngame');
+    }
+
+
     player.onCollide('tree', (touchedTree) => {
 
+
+
+
         if (touchedTree.state == 'fruity') {
+
 
             play('treeHit');
 
@@ -70,8 +79,6 @@ scene('game', () => {
         addTree(setXs(player), setYs(player));
         destroy(acorn);
     });
-
-    debug.log(player.hp);
  
     player.onCollide('enemy', () => {
         scoreStats.savedScore = score.value;
@@ -82,6 +89,11 @@ scene('game', () => {
     //HP SYSTEM
     player.onHurt(() => {
         tween(RED, WHITE, 0.3, (p) => player.color = p);
+        healthPointsUI(player.hp);   // POP THE HEART THAT JUST EMPTIED (player.hp already lowered)
+    });
+
+    player.onHeal(() => {
+        healthPointsUI(player.hp - 1);   // POP THE HEART THAT JUST FILLED (player.hp already raised)
     });
 
     player.onDeath(() => {

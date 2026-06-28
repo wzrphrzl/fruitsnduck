@@ -18,10 +18,19 @@ function createPlayer() {
         area({ scale: .8 }),
         body(),
         z(10),
-        health(2),
+        health(3),
         state('defaultIdle', playerStateList),
         layer('game'),
         'duck',
+    ]);
+
+    player.add([
+        ellipse(48, 8),
+        pos(0, player.height / 2),
+        color(Color.fromHex('#03193F')),
+        anchor('center'),
+        opacity(0.15),
+        layer('bg'),
     ]);
 
     playerStateList.forEach(state => {
@@ -137,7 +146,7 @@ function createPlayer() {
         player.move(moveDir.scale(playerStats.speed * factor));
     });
 
-    
+
     return player;
 }
 

@@ -2,6 +2,7 @@ import { scoreStats } from '../appInit.js';
 import { gameObjectList } from './objects.js';
 import { addFlower } from './generators.js';
 import { bump, bumpMini } from '../lib/effects.js';
+import { healthPointsUI } from '../systems/ui.js';
 
 /*
  * OBJECT PICKUP SYSTEM : registers the player's 'gameObject' collision handler
@@ -22,10 +23,17 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
 
-            if (gameObject.sprite === 'virusPurple') {
-                player.hp -= 1;
-                debug.log('max hp : ' + player.maxHP)
-            }
+        if (gameObject.sprite === 'heartIngame') {
+            player.maxHP += 1;
+            healthPointsUI(player.maxHP - 1);   // POP THE NEWLY ADDED HEART
+            debug.log('Log player.maxHP : ' + player.maxHP);
+            debug.log('Log player.hp : ' + player.hp);
+        }
+
+        if (gameObject.sprite === 'virusPurple') {
+            player.hp -= 1;
+            debug.log('max hp : ' + player.maxHP)
+        }
 
 
         // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM

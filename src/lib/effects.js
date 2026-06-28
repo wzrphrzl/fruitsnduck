@@ -11,10 +11,24 @@ export function bump(param1) {
 }
 
 export function bumpMini(param1) {
-    param1.scale = vec2(.6);
-    wait(0.5, () => {
-        param1.scale = vec2(.5);
-    });
+    tween(
+        vec2(.6),                       // FROM
+        vec2(.5),                       // TO
+        1,                            // DURATION
+        (s) => param1.scale = s,        // SETTER
+        easings.easeOutBack,            // SPRINGY EASING (SLIGHT OVERSHOOT)
+    );
+}
+
+export function bumpHp(param1) {
+    // POP: START BIGGER, THEN SPRING BACK TO THE RESTING SCALE WITH EASING
+    tween(
+        vec2(.8),                       // FROM
+        vec2(.47),                      // TO (RESTING SCALE)
+        1,                            // DURATION
+        (s) => param1.scale = s,        // SETTER
+        easings.easeOutBack,            // SPRINGY EASING (SLIGHT OVERSHOOT)
+    );
 }
 
 // DUST PARTICLE TRAIL (ON PLAYER, WHEN THE SAMARA SPEED IS PICKED)
