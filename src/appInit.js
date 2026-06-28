@@ -97,8 +97,23 @@ loadSprite('superGrape', './img/super-grape.png');
 loadSprite('blueberry', './img/blueberry.png');
 loadSprite('acorn', './img/acorn.png');
 loadSprite('egg', './img/egg.png');
-loadSprite('heartFull', './img/heart-full.png');
-loadSprite('heartEmpty', './img/heart-empty.png');
+loadSprite('heartIngame', './img/heart-ingame.png');
+
+loadSprite('heart', './img/heart.png', {
+    sliceX: 2,
+    anims: {
+        'heartFull': {
+            from: 0,
+            to: 0,
+            loop: false,
+        },
+        'heartEmpty': {
+            from: 1,
+            to: 1,
+            loop: false,
+        },
+    }
+});
 
 loadSprite('flower-1', './img/flower-1.png', {
     sliceX: 4,

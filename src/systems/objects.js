@@ -177,4 +177,12 @@ export const gameObjectList = {
         comboEvent: () => { }
     },
 
+    heartIngame: {
+        objectType: 'heartIngame',
+        scoreValue: 0,
+        comboEvent: () => { 
+
+        }
+    },
+
 };
