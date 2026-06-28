@@ -47,10 +47,16 @@ scene('game', () => {
 
     // COLLISIONS 
 
+    wait(0, () => {
+        for (let i = 0; i < 4; i++) {
+            addObject('heartIngame');
+        }
 
-    for (let i = 0; i < 10; i++) {
-        addObject('heartIngame');
-    }
+        for (let i = 0; i < 4; i++) {
+            addObject('heartPlus');
+        }
+    });
+
 
 
     player.onCollide('tree', (touchedTree) => {

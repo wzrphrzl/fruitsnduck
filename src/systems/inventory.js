@@ -24,6 +24,12 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
     player.onCollide('gameObject', (gameObject) => {
 
         if (gameObject.sprite === 'heartIngame') {
+            player.hp += 1;
+            debug.log('HP : ' + player.hp);
+            debug.log('player.hp : ' + player.hp);
+        }
+
+        if (gameObject.sprite === 'heartPlus') {
             player.maxHP += 1;
             healthPointsUI(player.maxHP - 1);   // POP THE NEWLY ADDED HEART
             debug.log('Log player.maxHP : ' + player.maxHP);
@@ -69,7 +75,7 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
                         sprite(spriteName),
                         anchor("center"),
                         pos(48, 48),
-                        scale(.5),
+                        scale(.6),
                         layer('ui'),
                     ]);
 

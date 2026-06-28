@@ -121,7 +121,7 @@ export function addObject(objectType) {
 
     // ADDS A SHADOW BELOW THE OBJECT
     gameObjectContainer.add([
-        ellipse(34, 10),
+        ellipse(gameObjectContainer.width /2 *.75, 10),
         pos(0, gameObjectContainer.height / 2 -10),
         color(Color.fromHex('#03193F')),
         anchor('center'),
