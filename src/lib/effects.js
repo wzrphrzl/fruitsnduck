@@ -4,8 +4,8 @@ import { k } from '../appInit.js';
 
 // BUMP EFFECTS
 export function bump(param1) {
-    param1.scale = vec2(1.15);
-    wait(0.2, () => {
+    param1.scale = vec2(1.1);
+    wait(0.185, () => {
         param1.scale = vec2(1);
     });
 }

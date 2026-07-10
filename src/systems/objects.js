@@ -157,7 +157,7 @@ export const gameObjectList = {
           player.enterState('armorIdle');
             if (gameObjectList.superTomatoArmor.count < 1) {
                 addRareObject_UI('superTomatoArmor');
-                playerStats.speed = playerStats.speed - 100;
+                playerStats.speed = playerStats.speed - 110;
                 gameObjectList.superTomatoArmor.count++; 
             }
         }

@@ -2,7 +2,7 @@ import { addTiledMap } from '../lib/map.js';
 import { scoreStats } from '../appInit.js';
 import { createPlayer, playerStats } from '../entities/player.js';
 import { createEnemy } from '../entities/enemy.js';
-import { createUI, healthPointsUI } from '../systems/ui.js';
+import { createUI, healthPointsUI, createTimer } from '../systems/ui.js';
 import { addTree, addObject, acornBonus } from '../systems/generators.js';
 import { setXs, setYs, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
@@ -33,6 +33,17 @@ scene('game', () => {
     healthPointsUI();
 
     setupInventory({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
+
+    // COUNTDOWN TIMER : 1 MINUTE, LOSES THE GAME AT 0
+    createTimer(60, () => {
+        player.enterState('lose');
+        player.paused = true;
+        enemy.paused = true;
+        wait(2, () => {
+            play('lose');
+            go('lose');
+        });
+    });
 
 
     // ADD THE FIRST TREE

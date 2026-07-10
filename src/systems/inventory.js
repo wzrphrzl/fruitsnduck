@@ -2,6 +2,7 @@ import { scoreStats } from '../appInit.js';
 import { gameObjectList } from './objects.js';
 import { addFlower } from './generators.js';
 import { bump, bumpMini } from '../lib/effects.js';
+import { showScoreTile } from './ui.js';
 
 /*
  * OBJECT PICKUP SYSTEM : registers the player's 'gameObject' collision handler
@@ -61,7 +62,7 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
                         sprite(spriteName),
                         anchor("center"),
                         pos(48, 48),
-                        scale(.6),
+                        scale(.75),
                         layer('ui'),
                     ]);
 
@@ -109,9 +110,11 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
 
         if (scoreChange > 0) {
             score.value += scoreChange;
+            showScoreTile(scoreChange);
             play('fruit-collected', { volume: 0.1, loop:  false, paused: false });
         } else if (scoreChange < 0) {
             score.value += scoreChange;
+            showScoreTile(scoreChange);
             scoreStats.virusCount++;
             play('debuff');
         }

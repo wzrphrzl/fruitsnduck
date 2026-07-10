@@ -4,4 +4,4 @@ import './scenes/menu.js';
 import './scenes/game.js';
 import './scenes/end.js';
 
-go('menu');
+go('game');
