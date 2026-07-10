@@ -49,7 +49,7 @@ export function healthPointsUI(bumpIndex) {
 
         // FULL IF WITHIN CURRENT HP, ELSE EMPTY (anim set at creation: no override = no timing race)
         const heart = add([
-            sprite('heart', { anim: index < player.hp ? 'heartFull' : 'heartEmpty' }),
+            sprite('heartUI', { anim: index < player.hp ? 'heartFull' : 'heartEmpty' }),
             scale(0.47),
             pos(1386, 48),
             fixed(),

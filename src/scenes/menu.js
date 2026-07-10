@@ -10,7 +10,7 @@ scene('menu', () => {
     const tileSize = 120; 
     const fruitSize = 128;
     const tilesSpeed = 40;
-    const fruits = ['banana', 'tomato', 'pear'];
+    const fruits = ['banana', 'sTomato1', 'pear'];
     let tilesOffset = 0;   // CURRENT SUB-TILE OFFSET, KEPT IN [0, TILESIZE)
     let tilesScrolled = 0; // HOW MANY WHOLE TILES HAVE SCROLLED (FOR SEAMLESS WRAPPING)
 

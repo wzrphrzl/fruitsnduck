@@ -29,14 +29,14 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
             debug.log('player.hp : ' + player.hp);
         }
 
-        if (gameObject.sprite === 'heartPlus') {
+        if (gameObject.sprite === 'superHeart') {
             player.maxHP += 1;
             healthPointsUI(player.maxHP - 1);   // POP THE NEWLY ADDED HEART
             debug.log('Log player.maxHP : ' + player.maxHP);
             debug.log('Log player.hp : ' + player.hp);
         }
 
-        if (gameObject.sprite === 'virusPurple') {
+        if (gameObject.sprite === 'virus3Red') {
             player.hp -= 1;
             debug.log('max hp : ' + player.maxHP)
         }
@@ -107,9 +107,9 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
         }
 
         // FLOWER EFFECTS WHEN IN ARMOR MODE
-        if (player.state === 'armorRun' && gameObject.sprite === 'virusPurple'
-            || player.state === 'armorRun' && gameObject.sprite === 'virusBlue'
-            || player.state === 'armorRun' && gameObject.sprite === 'virusBrown'
+        if (player.state === 'armorRun' && gameObject.sprite === 'virus3Red'
+            || player.state === 'armorRun' && gameObject.sprite === 'virus4Blue'
+            || player.state === 'armorRun' && gameObject.sprite === 'virus5Brown'
         ) {
             addFlower(gameObject.pos.x, gameObject.pos.y);
         }

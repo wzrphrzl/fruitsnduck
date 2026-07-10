@@ -75,32 +75,30 @@ loadSprite('grass-7', './img/grass-7.png');
 loadSprite('grass-8', './img/grass-8.png');
 loadSprite('grass-9', './img/grass-9.png');
 // OBJECTS, TREE, PLAYER, ENEMY SPRITES
-loadSprite('tomato', './img/tomato.png');
+loadSprite('sTomato1', './img/stomato-1.png');
 loadSprite('pear', './img/pear.png');
 loadSprite('banana', './img/banana.png');
-loadSprite('virusBlue', './img/virus-blue.png');
-loadSprite('virusPurple', './img/virus-purple.png');
-loadSprite('virusBrown', './img/virus-brown.png');
+loadSprite('virus4Blue', './img/virus-4-blue.png');
+loadSprite('virus3Red', './img/virus-3-red.png');
+loadSprite('virus5Brown', './img/virus-5-brown.png');
 
-loadSprite('orange', './img/orange.png');
 loadSprite('lemon', './img/lemon.png');
 loadSprite('watermelon', './img/watermelon.png');
-loadSprite('kumquat', './img/kumquat.png');
-loadSprite('grape', './img/grape.png');
-loadSprite('piment', './img/piment.png');
+loadSprite('sKumquat1', './img/skumquat-1.png');
+loadSprite('sGrape1', './img/sgrape-1.png');
+loadSprite('sPiment1', './img/spiment-1.png');
 loadSprite('strawberry', './img/strawberry.png');
 
-loadSprite('tomatoArmor', './img/tomato-armor.png');
-loadSprite('superPiment', './img/super-piment.png');
+loadSprite('superTomatoArmor', './img/supertomato-armor.png');
+loadSprite('superPiment', './img/superpiment.png');
 loadSprite('samaraSpeed', './img/samara-speed.png');
-loadSprite('superGrape', './img/super-grape.png');
-loadSprite('blueberry', './img/blueberry.png');
+loadSprite('sGrape2', './img/sgrape-2.png');
 loadSprite('acorn', './img/acorn.png');
 loadSprite('egg', './img/egg.png');
 loadSprite('heartIngame', './img/heart-ingame.png');
-loadSprite('heartPlus', './img/heart-plus.png');
+loadSprite('superHeart', './img/super-heart.png');
 
-loadSprite('heart', './img/heart.png', {
+loadSprite('heartUI', './img/heart-ui.png', {
     sliceX: 2,
     anims: {
         'heartFull': {
@@ -150,7 +148,7 @@ loadSprite('flower-3', './img/flower-3.png', {
     }
 });
 
-loadSprite('tree', './img/tree.png', {
+loadSprite('tree', './img/tree-full.png', {
     sliceX: 5,
     anims: {
         'default': {
@@ -207,9 +205,9 @@ loadSprite('duck', './img/duck.png', {
             from: 6,
             to: 6,
             loop: false,
-        },      
+        },
         'orangeIdle': {
-            from:7,
+            from: 7,
             to: 7,
             loop: false,
         },

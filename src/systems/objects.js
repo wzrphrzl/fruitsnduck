@@ -32,7 +32,7 @@ export const gameObjectList = {
             play('buff', { volume: .25});
             if (gameObjectList.superPiment.count < 1) {
                 addRareObject_UI('superPiment');
-                gameObjectList.superPiment.count++; 
+                gameObjectList.superPiment.count++;
             }
             if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
                 player.enterState('orangeIdle');
@@ -58,8 +58,8 @@ export const gameObjectList = {
             }
         }
     },
-    superGrape: {
-        objectType: 'superGrape',
+    sGrape1: {
+        objectType: 'sGrape1',
         scoreValue: -15,
         comboMessage: 'YOU GOT THE SUPER GRAPE !',
         comboEvent: () => {
@@ -87,7 +87,7 @@ export const gameObjectList = {
             });
         }
     },
-    tomato: {
+    sTomato1: {
         objectType: 'defaultObject',
         scoreValue: 5,
         comboMessage: 'COMBO TOMATES !',
@@ -98,15 +98,15 @@ export const gameObjectList = {
             });
         }
     },
-    virusPurple: {
+    virus3Red: {
         objectType: 'defaultObject',
         scoreValue: -10,
-        comboMessage: 'COMBO VIRUS PURPLE !',
+        comboMessage: 'COMBO VIRUS RED !',
         isActive: false,
-        comboEvent: () => {  
+        comboEvent: () => {
 
-                if (gameObjectList.virusPurple.isActive) return;
-                gameObjectList.virusPurple.isActive = true;
+                if (gameObjectList.virus3Red.isActive) return;
+                gameObjectList.virus3Red.isActive = true;
                 const previousState = player.state;
 
                 if (player.state == 'armorRun' || player.state == 'armorIdle') {
@@ -117,17 +117,17 @@ export const gameObjectList = {
                 }
                 wait(1.5, () => {
                     player.enterState(previousState);
-                    gameObjectList.virusPurple.isActive = false;
+                    gameObjectList.virus3Red.isActive = false;
                 });
 
         }
     },
-    virusBlue: {
+    virus4Blue: {
         objectType: 'defaultObjectX',
         scoreValue: -15,
         comboEvent: () => { }
     },
-    virusBrown: {
+    virus5Brown: {
         objectType: 'defaultObjectX',
         scoreValue: -20,
         comboScore: 150,
@@ -146,27 +146,17 @@ export const gameObjectList = {
         scoreValue: 5,
         comboEvent: () => { }
     },
-    blueberry: {
-        objectType: 'bonusObject',
-        scoreValue: 20,
-        comboEvent: () => { }
-    },
     watermelon: {
         objectType: 'bonusObject',
         scoreValue: 20,
         comboEvent: () => { }
     },
-    orange: {
-        claobjectType: 'bonusObject',
-        scoreValue: 20,
-        comboEvent: () => { }
-    },
-    piment: {
+    sPiment1: {
         objectType: 'bonusObject',
         scoreValue: 20,
         comboEvent: () => { }
     },
-    grape: {
+    sGrape2: {
         objectType: 'bonusObject',
         scoreValue: 20,
         comboEvent: () => { }
@@ -184,10 +174,10 @@ export const gameObjectList = {
 
         }
     },
-    heartPlus: {
-        objectType: 'heartPlus',
+    superHeart: {
+        objectType: 'superHeart',
         scoreValue: 0,
-        comboEvent: () => { 
+        comboEvent: () => {
 
         }
     },

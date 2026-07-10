@@ -53,7 +53,7 @@ scene('game', () => {
         }
 
         for (let i = 0; i < 4; i++) {
-            addObject('heartPlus');
+            addObject('superHeart');
         }
     });
 
