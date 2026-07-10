@@ -6,12 +6,10 @@ import { addRareObject_UI, healthPointsUI } from './ui.js';
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
 export const gameObjectList = {
 
-    // COMMON OBJECTS
-
+    // COMMON FRUITS
     cbanana: {
-        objectType: 'commonObject',
+        objectType: 'commonFruit',
         scoreValue: 5,
-        comboMessage: '',
         objectEvent: () => {
             wait(.8, () => {
                 addObject('superPiment');
@@ -20,9 +18,8 @@ export const gameObjectList = {
         }
     },
     cpear: {
-        objectType: 'commonObject',
+        objectType: 'commonFruit',
         scoreValue: 5,
-        comboMessage: '',
         objectEvent: () => {
             wait(.8, () => {
                 addObject('samaraSpeed');
@@ -30,10 +27,28 @@ export const gameObjectList = {
             });
         }
     },
-    sTomato1: {
-        objectType: 'commonObject',
+    clemon: {
+        objectType: 'commonFruit',
         scoreValue: 5,
-        comboMessage: '',
+        objectEvent: () => {
+        }
+    },
+    cstrawberry: {
+        objectType: 'commonFruit',
+        scoreValue: 5,
+        objectEvent: () => {
+        }
+    },
+    cwatermelon: {
+        objectType: 'commonFruit',
+        scoreValue: 5,
+        objectEvent: () => {
+        }
+    },
+    // SUPER FRUIT
+    sTomato1: {
+        objectType: 'commonFruit',
+        scoreValue: 5,
         objectEvent: () => {
             wait(.8, () => {
                 addObject('superTomatoArmor');
@@ -41,7 +56,76 @@ export const gameObjectList = {
             });
         }
     },
-
+    sGrape1: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sGrape2: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sGrape3: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sKumquat1: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sKumquat2: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sKumquat3: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sPiment1: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sPiment2: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sPiment3: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sPlum1: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sPlum2: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sPlum3: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sTomato2: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
+    sTomato3: {
+        objectType: 'superFruit',
+        scoreValue: 10,
+        objectEvent: () => {}
+    },
 
     // TEMPORARY BONUS
     heartIngame: {
@@ -52,7 +136,9 @@ export const gameObjectList = {
         }
     },
 
-    //DEFINITIVE BONUS
+
+
+    // DEFINITIVE BONUS
     superHeart: {
         objectType: 'superHeart',
         scoreValue: 0,
@@ -65,7 +151,6 @@ export const gameObjectList = {
         objectType: 'superTomatoArmor',
         scoreValue: 20,
         count: 0,
-        comboMessage: 'YOU GOT THE TOMATO ARMOR !',
         objectEvent: () => {
           play('buff', { volume: .25});
 
@@ -76,12 +161,11 @@ export const gameObjectList = {
                 gameObjectList.superTomatoArmor.count++; 
             }
         }
-    },
+    },   
     superPiment: {
         objectType: 'superPiment',
         scoreValue: 20,
         count: 0,
-        comboMessage: 'YOU GOT THE SUPER PIMENT !',
         objectEvent: () => {
             playerStats.poopCount = 5;
             play('buff', { volume: .25});
@@ -98,7 +182,6 @@ export const gameObjectList = {
         objectType: 'samaraSpeed',
         scoreValue: 20,
         count: 0,
-        comboMessage: 'YOU GOT THE SAMARA SPEED !',
         objectEvent: () => {
             play('buff', { volume: .25});
             if (gameObjectList.samaraSpeed.count < 1) {
@@ -118,7 +201,6 @@ export const gameObjectList = {
     virus3Red: {
         objectType: 'virus',
         scoreValue: -10,
-        comboMessage: 'COMBO VIRUS RED !',
         isActive: false,
         objectEvent: () => {
 

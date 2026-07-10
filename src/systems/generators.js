@@ -86,7 +86,7 @@ export function addObject(objectType) {
 
     const fallingObject = gameObjectContainer.add([
         sprite(spriteName),
-        scale(.75),
+        scale(.85),
         opacity(1),
         pos(0, posY_Spawn),
         anchor('center'),
@@ -121,8 +121,8 @@ export function addObject(objectType) {
 
     // ADDS A SHADOW BELOW THE OBJECT
     gameObjectContainer.add([
-        ellipse(gameObjectContainer.width /2 *.75, 10),
-        pos(0, gameObjectContainer.height / 2 -10),
+        ellipse(gameObjectContainer.width /2 *.85, 10),
+        pos(0, gameObjectContainer.height / 2 -8),
         color(Color.fromHex('#03193F')),
         anchor('center'),
         opacity(0.3),

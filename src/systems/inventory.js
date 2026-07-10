@@ -2,7 +2,6 @@ import { scoreStats } from '../appInit.js';
 import { gameObjectList } from './objects.js';
 import { addFlower } from './generators.js';
 import { bump, bumpMini } from '../lib/effects.js';
-import { healthPointsUI } from '../systems/ui.js';
 
 /*
  * OBJECT PICKUP SYSTEM : registers the player's 'gameObject' collision handler
@@ -29,7 +28,8 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
 
 
         // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM
-        if (gameObjectList[gameObject.sprite].objectType === 'commonObject') {
+        const pickedObjectType = gameObjectList[gameObject.sprite].objectType;
+        if (pickedObjectType === 'commonFruit' || pickedObjectType === 'superFruit') {
 
             // IF INVENTORY IS ALREADY FULL (from the previous trio), CLEAR IT BEFORE ADDING THE NEW FRUIT
             if (inventoryBoxArray.every(f => f !== null)) {

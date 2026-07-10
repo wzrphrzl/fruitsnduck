@@ -71,8 +71,11 @@ scene('game', () => {
 
             bump(touchedTree);
 
-            for (let i = 0; i < 3; i++) {
-                addObject('commonObject');
+            for (let i = 0; i < 4; i++) {
+                addObject('commonFruit');
+            }
+            for (let i = 0; i < 8; i++) {
+                addObject('superFruit');
             }
             touchedTree.enterState('default');
         }
