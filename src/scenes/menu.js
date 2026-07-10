@@ -10,7 +10,7 @@ scene('menu', () => {
     const tileSize = 120; 
     const fruitSize = 128;
     const tilesSpeed = 40;
-    const fruits = ['banana', 'sTomato1', 'pear'];
+    const fruits = ['cbanana', 'sTomato1', 'cpear'];
     let tilesOffset = 0;   // CURRENT SUB-TILE OFFSET, KEPT IN [0, TILESIZE)
     let tilesScrolled = 0; // HOW MANY WHOLE TILES HAVE SCROLLED (FOR SEAMLESS WRAPPING)
 
@@ -42,7 +42,7 @@ scene('menu', () => {
     ]);
 
     add([
-        text('V 0.9.5', { size: 16 }),
+        text('V 0.5', { size: 16 }),
         color(Color.fromHex('#D3FC7E')),
         pos(width() - 40, 40),
         anchor('center'),

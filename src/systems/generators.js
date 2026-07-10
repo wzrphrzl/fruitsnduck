@@ -15,7 +15,7 @@ let objectZ = 1000;
 
 export function addTree(x, y) {
 
-    wait(2, () => {
+    wait(1, () => {
 
         const tree = k.add([
             sprite('tree'),

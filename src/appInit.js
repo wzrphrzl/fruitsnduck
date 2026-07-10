@@ -64,7 +64,15 @@ loadSound('fart-2', './sound/fart/fart-2.mp3');
 loadSound('fart-3', './sound/fart/fart-3.mp3');
 loadSound('fart-4', './sound/fart/fart-4.mp3');
 loadSound('fart-5', './sound/fart/fart-5.mp3');
-// MAP
+// SPRITES IN ALPHABETICAL ORDER
+loadSprite('acorn', './img/acorn.png');
+loadSprite('cbanana', './img/cbanana.png');
+loadSprite('clemon', './img/clemon.png');
+loadSprite('cpear', './img/cpear.png');
+loadSprite('cstrawberry', './img/cstrawberry.png');
+loadSprite('cwatermelon', './img/cwatermelon.png');
+loadSprite('egg', './img/egg.png');
+loadSprite('gameRules', './img/game-rules.png');
 loadSprite('grass-1', './img/grass-1.png');
 loadSprite('grass-2', './img/grass-2.png');
 loadSprite('grass-3', './img/grass-3.png');
@@ -74,29 +82,20 @@ loadSprite('grass-6', './img/grass-6.png');
 loadSprite('grass-7', './img/grass-7.png');
 loadSprite('grass-8', './img/grass-8.png');
 loadSprite('grass-9', './img/grass-9.png');
-// OBJECTS, TREE, PLAYER, ENEMY SPRITES
-loadSprite('sTomato1', './img/stomato-1.png');
-loadSprite('pear', './img/pear.png');
-loadSprite('banana', './img/banana.png');
-loadSprite('virus4Blue', './img/virus-4-blue.png');
-loadSprite('virus3Red', './img/virus-3-red.png');
-loadSprite('virus5Brown', './img/virus-5-brown.png');
-
-loadSprite('lemon', './img/lemon.png');
-loadSprite('watermelon', './img/watermelon.png');
-loadSprite('sKumquat1', './img/skumquat-1.png');
-loadSprite('sGrape1', './img/sgrape-1.png');
-loadSprite('sPiment1', './img/spiment-1.png');
-loadSprite('strawberry', './img/strawberry.png');
-
-loadSprite('superTomatoArmor', './img/supertomato-armor.png');
-loadSprite('superPiment', './img/superpiment.png');
-loadSprite('samaraSpeed', './img/samara-speed.png');
-loadSprite('sGrape2', './img/sgrape-2.png');
-loadSprite('acorn', './img/acorn.png');
-loadSprite('egg', './img/egg.png');
 loadSprite('heartIngame', './img/heart-ingame.png');
+loadSprite('particle', './img/particle_hexagon_filled.png');
+loadSprite('samaraSpeed', './img/samara-speed.png');
+loadSprite('sGrape1', './img/sgrape-1.png');
+loadSprite('sGrape2', './img/sgrape-2.png');
+loadSprite('sKumquat1', './img/skumquat-1.png');
+loadSprite('sPiment1', './img/spiment-1.png');
+loadSprite('sTomato1', './img/stomato-1.png');
 loadSprite('superHeart', './img/super-heart.png');
+loadSprite('superPiment', './img/superpiment.png');
+loadSprite('superTomatoArmor', './img/supertomato-armor.png');
+loadSprite('virus3Red', './img/virus-3-red.png');
+loadSprite('virus4Blue', './img/virus-4-blue.png');
+loadSprite('virus5Brown', './img/virus-5-brown.png');
 
 loadSprite('heartUI', './img/heart-ui.png', {
     sliceX: 2,
@@ -263,8 +262,6 @@ loadSprite('enemy', './img/enemy.png', {
     },
 });
 
-loadSprite('particle', './img/particle_hexagon_filled.png');
-
 loadSprite('poop', './img/poop.png', {
     sliceX: 2,
     anims: {
@@ -289,7 +286,5 @@ loadSprite('titleScreen', './img/title-screen.png', {
         },
     }
 });
-
-loadSprite('gameRules', './img/game-rules.png');
 
 export { k, scoreStats, fontStyleMed, fontStyleSmall, fontStyleTiny };

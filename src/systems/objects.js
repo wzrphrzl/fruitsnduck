@@ -1,24 +1,79 @@
 import { player, playerStats } from '../entities/player.js';
 import { addDustTrail } from '../lib/effects.js';
 import { addObject } from './generators.js';
-import { addRareObject_UI } from './ui.js';
+import { addRareObject_UI, healthPointsUI } from './ui.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
 export const gameObjectList = {
 
-    tomatoArmor: {
-        objectType: 'tomatoArmor',
+    // COMMON OBJECTS
+
+    cbanana: {
+        objectType: 'commonObject',
+        scoreValue: 5,
+        comboMessage: '',
+        objectEvent: () => {
+            wait(.8, () => {
+                addObject('superPiment');
+                play('fallen-precious-object');
+            });
+        }
+    },
+    cpear: {
+        objectType: 'commonObject',
+        scoreValue: 5,
+        comboMessage: '',
+        objectEvent: () => {
+            wait(.8, () => {
+                addObject('samaraSpeed');
+                play('fallen-precious-object');
+            });
+        }
+    },
+    sTomato1: {
+        objectType: 'commonObject',
+        scoreValue: 5,
+        comboMessage: '',
+        objectEvent: () => {
+            wait(.8, () => {
+                addObject('superTomatoArmor');
+                play('fallen-precious-object');
+            });
+        }
+    },
+
+
+    // TEMPORARY BONUS
+    heartIngame: {
+        objectType: 'heartIngame',
+        scoreValue: 0,
+        objectEvent: () => {
+            player.hp += 1;
+        }
+    },
+
+    //DEFINITIVE BONUS
+    superHeart: {
+        objectType: 'superHeart',
+        scoreValue: 0,
+        objectEvent: () => {
+            player.maxHP += 1;
+            healthPointsUI(player.maxHP - 1);
+        }
+    },
+    superTomatoArmor: {
+        objectType: 'superTomatoArmor',
         scoreValue: 20,
         count: 0,
         comboMessage: 'YOU GOT THE TOMATO ARMOR !',
-        comboEvent: () => {
+        objectEvent: () => {
           play('buff', { volume: .25});
 
           player.enterState('armorIdle');
-            if (gameObjectList.tomatoArmor.count < 1) {
-                addRareObject_UI('tomatoArmor');
+            if (gameObjectList.superTomatoArmor.count < 1) {
+                addRareObject_UI('superTomatoArmor');
                 playerStats.speed = playerStats.speed - 100;
-                gameObjectList.tomatoArmor.count++; 
+                gameObjectList.superTomatoArmor.count++; 
             }
         }
     },
@@ -27,7 +82,7 @@ export const gameObjectList = {
         scoreValue: 20,
         count: 0,
         comboMessage: 'YOU GOT THE SUPER PIMENT !',
-        comboEvent: () => {
+        objectEvent: () => {
             playerStats.poopCount = 5;
             play('buff', { volume: .25});
             if (gameObjectList.superPiment.count < 1) {
@@ -44,7 +99,7 @@ export const gameObjectList = {
         scoreValue: 20,
         count: 0,
         comboMessage: 'YOU GOT THE SAMARA SPEED !',
-        comboEvent: () => {
+        objectEvent: () => {
             play('buff', { volume: .25});
             if (gameObjectList.samaraSpeed.count < 1) {
                 addRareObject_UI('samaraSpeed');
@@ -58,52 +113,14 @@ export const gameObjectList = {
             }
         }
     },
-    sGrape1: {
-        objectType: 'sGrape1',
-        scoreValue: -15,
-        comboMessage: 'YOU GOT THE SUPER GRAPE !',
-        comboEvent: () => {
-        }
-    },
-    banana: {
-        objectType: 'defaultObject',
-        scoreValue: 5,
-        comboMessage: 'COMBO BANANES !',
-        comboEvent: () => {
-            wait(.8, () => {
-                addObject('superPiment');
-                play('fallen-precious-object');
-            });    
-        }
-    },
-    pear: {
-        objectType: 'defaultObject',
-        scoreValue: 5,
-        comboMessage: 'COMBO POIRES !',
-        comboEvent: () => {
-            wait(.8, () => {    
-                addObject('samaraSpeed');
-                play('fallen-precious-object');
-            });
-        }
-    },
-    sTomato1: {
-        objectType: 'defaultObject',
-        scoreValue: 5,
-        comboMessage: 'COMBO TOMATES !',
-        comboEvent: () => {
-            wait(.8, () => {
-                addObject('tomatoArmor');
-                play('fallen-precious-object');
-            });
-        }
-    },
+
+    // VIRUS
     virus3Red: {
-        objectType: 'defaultObject',
+        objectType: 'virus',
         scoreValue: -10,
         comboMessage: 'COMBO VIRUS RED !',
         isActive: false,
-        comboEvent: () => {
+        objectEvent: () => {
 
                 if (gameObjectList.virus3Red.isActive) return;
                 gameObjectList.virus3Red.isActive = true;
@@ -119,65 +136,6 @@ export const gameObjectList = {
                     player.enterState(previousState);
                     gameObjectList.virus3Red.isActive = false;
                 });
-
-        }
-    },
-    virus4Blue: {
-        objectType: 'defaultObjectX',
-        scoreValue: -15,
-        comboEvent: () => { }
-    },
-    virus5Brown: {
-        objectType: 'defaultObjectX',
-        scoreValue: -20,
-        comboScore: 150,
-        comboMessage: 'COMBO VIRUS BROWN !',
-        comboEvent: () => {
-            // player.enterState('armorIdle');
-            // score.value += gameObjectList.banana.comboScore;
-            // enemyStats.speed = Math.max(obj.effectMin, enemyStats.speed + obj.effectValue);
-            // enemyStats.size = Math.max(obj.effectMin, enemyStats.size + obj.effectValue);
-            // debug.log('Ennemi ralenti !');
-            // play('ring');
-        }
-    },
-    lemon: {
-        objectType: 'bonusObject',
-        scoreValue: 5,
-        comboEvent: () => { }
-    },
-    watermelon: {
-        objectType: 'bonusObject',
-        scoreValue: 20,
-        comboEvent: () => { }
-    },
-    sPiment1: {
-        objectType: 'bonusObject',
-        scoreValue: 20,
-        comboEvent: () => { }
-    },
-    sGrape2: {
-        objectType: 'bonusObject',
-        scoreValue: 20,
-        comboEvent: () => { }
-    },
-    strawberry: {
-        objectType: 'bonusObject',
-        scoreValue: 20,
-        comboEvent: () => { }
-    },
-
-    heartIngame: {
-        objectType: 'heartIngame',
-        scoreValue: 0,
-        comboEvent: () => { 
-
-        }
-    },
-    superHeart: {
-        objectType: 'superHeart',
-        scoreValue: 0,
-        comboEvent: () => {
 
         }
     },

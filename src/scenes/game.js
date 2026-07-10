@@ -41,7 +41,7 @@ scene('game', () => {
     // GENERATE ACORNS FOR NEW TREES 
     loop(10, () => {
         const poppedAcorn = acornBonus();
-        wait(5, () => { destroy(poppedAcorn); });
+        wait(10, () => { destroy(poppedAcorn); });
     });
 
 
@@ -72,7 +72,7 @@ scene('game', () => {
             bump(touchedTree);
 
             for (let i = 0; i < 3; i++) {
-                addObject('defaultObject');
+                addObject('commonObject');
             }
             touchedTree.enterState('default');
         }

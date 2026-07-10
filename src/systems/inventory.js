@@ -23,27 +23,13 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
 
-        if (gameObject.sprite === 'heartIngame') {
-            player.hp += 1;
-            debug.log('HP : ' + player.hp);
-            debug.log('player.hp : ' + player.hp);
-        }
-
-        if (gameObject.sprite === 'superHeart') {
-            player.maxHP += 1;
-            healthPointsUI(player.maxHP - 1);   // POP THE NEWLY ADDED HEART
-            debug.log('Log player.maxHP : ' + player.maxHP);
-            debug.log('Log player.hp : ' + player.hp);
-        }
-
         if (gameObject.sprite === 'virus3Red') {
             player.hp -= 1;
-            debug.log('max hp : ' + player.maxHP)
         }
 
 
         // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM
-        if (gameObjectList[gameObject.sprite].objectType === 'defaultObject') {
+        if (gameObjectList[gameObject.sprite].objectType === 'commonObject') {
 
             // IF INVENTORY IS ALREADY FULL (from the previous trio), CLEAR IT BEFORE ADDING THE NEW FRUIT
             if (inventoryBoxArray.every(f => f !== null)) {
@@ -93,17 +79,21 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
             // trigger that fruit's combo event (spawns a special object)
             if (inventoryBoxArray.every(f => f !== null && f === inventoryBoxArray[0])) {
                 console.log('fruit combo !');
-                gameObjectList[inventoryBoxArray[0]].comboEvent();
+                gameObjectList[inventoryBoxArray[0]].objectEvent();
             }
         }
 
         // RARE OBJECT EFFECTS
-        if (gameObject.sprite === 'tomatoArmor') {
-            gameObjectList.tomatoArmor.comboEvent();
+        if (gameObject.sprite === 'heartIngame') {
+            gameObjectList.heartIngame.objectEvent();
+        } else if (gameObject.sprite === 'superHeart') {
+            gameObjectList.superHeart.objectEvent();
+        } else if (gameObject.sprite === 'superTomatoArmor') {
+            gameObjectList.superTomatoArmor.objectEvent();
         } else if (gameObject.sprite === 'superPiment') {
-            gameObjectList.superPiment.comboEvent();
+            gameObjectList.superPiment.objectEvent();
         } else if (gameObject.sprite === 'samaraSpeed') {
-            gameObjectList.samaraSpeed.comboEvent();
+            gameObjectList.samaraSpeed.objectEvent();
         }
 
         // FLOWER EFFECTS WHEN IN ARMOR MODE
