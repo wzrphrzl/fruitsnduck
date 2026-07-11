@@ -58,7 +58,7 @@ scene('game', () => {
 
     // COLLISIONS 
 
-    wait(0, () => {
+/*     wait(0, () => {
         for (let i = 0; i < 4; i++) {
             addObject('heartIngame');
         }
@@ -66,7 +66,7 @@ scene('game', () => {
         for (let i = 0; i < 4; i++) {
             addObject('superHeart');
         }
-    });
+    }); */
 
 
 
@@ -82,11 +82,11 @@ scene('game', () => {
 
             bump(touchedTree);
 
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 3; i++) {
                 addObject('commonFruit');
             }
-            for (let i = 0; i < 8; i++) {
-                addObject('superFruit');
+            for (let i = 0; i < 2; i++) {
+                addObject('superFruitT1');
             }
             touchedTree.enterState('default');
         }

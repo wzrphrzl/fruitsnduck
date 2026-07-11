@@ -1,4 +1,4 @@
-import { addButton } from '../systems/ui.js';
+import { addButton } from '../lib/helpers.js';
 
 scene('menu', () => {
 

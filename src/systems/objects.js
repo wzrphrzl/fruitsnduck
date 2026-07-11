@@ -46,18 +46,8 @@ export const gameObjectList = {
         }
     },
     // SUPER FRUIT
-    sTomato1: {
-        objectType: 'commonFruit',
-        scoreValue: 5,
-        objectEvent: () => {
-            wait(.8, () => {
-                addObject('superTomatoArmor');
-                play('fallen-precious-object');
-            });
-        }
-    },
     sGrape1: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT1',
         scoreValue: 10,
         objectEvent: () => {}
     },
@@ -72,7 +62,7 @@ export const gameObjectList = {
         objectEvent: () => {}
     },
     sKumquat1: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT1',
         scoreValue: 10,
         objectEvent: () => {}
     },
@@ -87,7 +77,7 @@ export const gameObjectList = {
         objectEvent: () => {}
     },
     sPiment1: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT1',
         scoreValue: 10,
         objectEvent: () => {}
     },
@@ -102,7 +92,7 @@ export const gameObjectList = {
         objectEvent: () => {}
     },
     sPlum1: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT1',
         scoreValue: 10,
         objectEvent: () => {}
     },
@@ -115,6 +105,16 @@ export const gameObjectList = {
         objectType: 'superFruit',
         scoreValue: 10,
         objectEvent: () => {}
+    },
+    sTomato1: {
+        objectType: 'superFruitT1',
+        scoreValue: 5,
+        objectEvent: () => {
+            wait(.8, () => {
+                addObject('superTomatoArmor');
+                play('fallen-precious-object');
+            });
+        }
     },
     sTomato2: {
         objectType: 'superFruit',

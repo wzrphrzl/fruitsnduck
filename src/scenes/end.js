@@ -1,6 +1,5 @@
 import { scoreStats, fontStyleSmall } from '../appInit.js';
-import { addButton } from '../systems/ui.js';
-import { addRect } from '../lib/helpers.js';
+import { addRect, addButton } from '../lib/helpers.js';
 
 scene('lose', () => {
 

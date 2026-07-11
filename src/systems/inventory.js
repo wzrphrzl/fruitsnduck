@@ -30,7 +30,7 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
 
         // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM
         const pickedObjectType = gameObjectList[gameObject.sprite].objectType;
-        if (pickedObjectType === 'commonFruit' || pickedObjectType === 'superFruit') {
+        if (pickedObjectType === 'commonFruit' || pickedObjectType === 'superFruitT1') {
 
             // IF INVENTORY IS ALREADY FULL (from the previous trio), CLEAR IT BEFORE ADDING THE NEW FRUIT
             if (inventoryBoxArray.every(f => f !== null)) {
