@@ -1,7 +1,7 @@
-import { fontStyleTiny } from '../appInit.js';
+import { fontStyleSmall, fontStyleTiny } from '../appInit.js';
 import { addRect } from '../lib/helpers.js';
 import { player } from '../entities/player.js';
-import { bumpHp } from '../lib/effects.js';
+import { bumpHp, bumpMini } from '../lib/effects.js';
 
 // FLOATING SCORE TILES (STAIRCASE) — SHARED STATE
 // Each score change spawns a tile at the top slot, just under the score.
@@ -49,7 +49,7 @@ export function createUI() {
     // SCORE UI
     const initialScore = 0;
     const score = add([
-        text('Score : ' + initialScore, fontStyleTiny),
+        text('Score : ' + initialScore, fontStyleSmall),
         pos(32, 24),
         fixed(),
         anchor('topleft'),
@@ -79,6 +79,36 @@ export function createUI() {
     return { score, box1, box2, box3 };
 }
 
+// COMBO BOXES : (re)draws the fruits currently held in the 3 inventory boxes.
+// Destroys the previously drawn fruits, redraws the current slots centered in
+// their box, and bumps the one at bumpIndex (the fruit that was just collected).
+const COMBO_FRUIT_SCALE = .65;
+
+export function renderComboBoxes(boxes, comboSlots, previousSprites, bumpIndex) {
+
+    // REMOVE THE PREVIOUSLY DRAWN FRUITS
+    previousSprites.forEach((s) => { if (s) destroy(s); });
+
+    // DRAW THE CURRENT SLOTS, EACH CENTERED IN ITS BOX
+    return comboSlots.map((spriteName, index) => {
+        if (!spriteName) return null;
+
+        const box = boxes[index];
+        const fruit = box.add([
+            sprite(spriteName),
+            anchor('center'),
+            pos(box.width / 2, box.height / 2),
+            scale(COMBO_FRUIT_SCALE),
+            layer('ui'),
+        ]);
+
+        // POP THE FRUIT THAT WAS JUST COLLECTED
+        if (index === bumpIndex) bumpMini(fruit);
+
+        return fruit;
+    });
+}
+
 // amount : signed score change (e.g. 5 → '+5', -10 → '-10')
 export function showScoreTile(amount) {
 
@@ -101,7 +131,6 @@ export function showScoreTile(amount) {
         'scoreTile',
     ]);
 
-    // LABEL : NUNITO 16px, #B4B4B4, CENTERED ON THE TILE (own opacity, unaffected by the bg)
     const textObj = add([
         text(labelText, { size: 16, font: 'Nunito' }),
         pos(SCORE_TILE.x + SCORE_TILE.w / 2, SCORE_TILE.topY + SCORE_TILE.h / 2),
@@ -130,54 +159,7 @@ export function showScoreTile(amount) {
     repositionScoreTiles();
 }
 
-// COUNTDOWN TIMER
-// startSeconds : initial time in seconds (e.g. 60 → starts at 01:00)
-// onTimeout    : callback fired once when the timer reaches 0 (loses the game)
-export function createTimer(startSeconds, onTimeout) {
-
-    // FORMAT A TIME IN SECONDS AS XX:XX (e.g. 60 → '01:00', 59 → '00:59')
-    function formatTime(totalSeconds) {
-        const clamped = Math.max(0, Math.ceil(totalSeconds));
-        const minutes = Math.floor(clamped / 60);
-        const seconds = clamped % 60;
-        return String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-    }
-
-    // ALIGNED WITH THE SCORE (SAME Y / FONT SIZE), HORIZONTALLY CENTERED
-    const timer = add([
-        text(formatTime(startSeconds), fontStyleTiny),
-        pos(width() / 2, 24),
-        fixed(),
-        anchor('top'),
-        layer('ui'),
-        {
-            remaining: startSeconds,
-            stopped: false,
-        },
-    ]);
-
-    // COUNT DOWN FRAME-BY-FRAME WITH dt(), REFRESH THE XX:XX LABEL EACH FRAME
-    timer.onUpdate(() => {
-        if (timer.stopped) return;
-
-        timer.remaining -= dt();
-
-        if (timer.remaining <= 0) {
-            timer.remaining = 0;
-            timer.stopped = true;
-            timer.text = formatTime(0);
-            onTimeout();
-            return;
-        }
-
-        timer.text = formatTime(timer.remaining);
-    });
-
-    return timer;
-}
-
 // HEALTH POINTS
-// bumpIndex (optional): index of the heart that just changed, to pop it; omit to pop none
 export function healthPointsUI(bumpIndex) {
 
     // CLEAR EXISTING HEARTS
@@ -186,13 +168,13 @@ export function healthPointsUI(bumpIndex) {
     function addHeart(index) {
 
         get('hp').forEach((heart) => {
-            heart.pos.x += -44;
+            heart.pos.x += -48;
         });
 
         // FULL IF WITHIN CURRENT HP, ELSE EMPTY (anim set at creation: no override = no timing race)
         const heart = add([
             sprite('heartUI', { anim: index < player.hp ? 'heartFull' : 'heartEmpty' }),
-            scale(0.47),
+            scale(0.5),
             pos(1386, 48),
             fixed(),
             opacity(1),

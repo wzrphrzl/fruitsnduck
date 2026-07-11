@@ -2,11 +2,12 @@ import { addTiledMap } from '../lib/map.js';
 import { scoreStats } from '../appInit.js';
 import { createPlayer, playerStats } from '../entities/player.js';
 import { createEnemy } from '../entities/enemy.js';
-import { createUI, healthPointsUI, createTimer } from '../systems/ui.js';
-import { addTree, addObject, acornBonus } from '../systems/generators.js';
+import { createUI, healthPointsUI } from '../systems/ui.js';
+import { createTimer } from '../systems/timer.js';
+import { addTree, addThistle, addObject, acornBonus, addDandelionChrono } from '../systems/generators.js';
 import { setXs, setYs, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
-import { setupInventory } from '../systems/inventory.js';
+import { fruitCombo } from '../systems/fruitcombo.js';
 
 scene('game', () => {
 
@@ -32,10 +33,11 @@ scene('game', () => {
     // INITIALIZES THE INVENTORY SYSTEM
     healthPointsUI();
 
-    setupInventory({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
+    fruitCombo({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
 
-    // COUNTDOWN TIMER : 1 MINUTE, LOSES THE GAME AT 0
-    createTimer(60, () => {
+    // COUNTDOWN TIMER : LOSES THE GAME AT 0
+    const timer = createTimer(70, () => {
+        scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
         player.enterState('lose');
         player.paused = true;
         enemy.paused = true;
@@ -46,8 +48,14 @@ scene('game', () => {
     });
 
 
-    // ADD THE FIRST TREE
-    addTree(880, player.pos.y);
+    // ADD THE FIRST TREES    
+     
+    wait(2, () => {
+        addTree(920, player.pos.y);
+
+/*         addDandelionChrono(920, player.pos.y + 144); 
+        addThistle(920, player.pos.y + 220);  */
+    });
 
     // GENERATE ACORNS FOR NEW TREES 
     loop(10, () => {
@@ -56,7 +64,6 @@ scene('game', () => {
     });
 
 
-    // COLLISIONS 
 
 /*     wait(0, () => {
         for (let i = 0; i < 4; i++) {
@@ -69,20 +76,17 @@ scene('game', () => {
     }); */
 
 
+    // COLLISIONS 
+
 
     player.onCollide('tree', (touchedTree) => {
 
-
-
-
         if (touchedTree.state == 'fruity') {
 
-
             play('treeHit');
-
             bump(touchedTree);
 
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 4; i++) {
                 addObject('commonFruit');
             }
             for (let i = 0; i < 2; i++) {
@@ -92,7 +96,9 @@ scene('game', () => {
         }
         else if (touchedTree.state == 'default') return
 
-        addTree(setXs(player), setYs(player));
+        wait(1, () => {
+            addTree(setXs(player), setYs(player));
+        });
     });
 
     player.onCollide('acorn', (acorn) => {
@@ -100,15 +106,26 @@ scene('game', () => {
         destroy(acorn);
     });
  
+    player.onCollide('thistle', (thistle) => {
+        player.hp -= 1;
+        destroy(thistle);
+    });
+
+    player.onCollide('dandelionChrono', (dandelionChrono) => {
+        timer.addTime(20);
+        destroy(dandelionChrono);
+        debug.log( 'TIME + 20')
+    });
+
     player.onCollide('enemy', () => {
         scoreStats.savedScore = score.value;
-        //player.maxHP += 1;
+        player.hp -= 1;
         debug.log(player.hp);
     });
     
     //HP SYSTEM
     player.onHurt(() => {
-        tween(RED, WHITE, 0.3, (p) => player.color = p);
+        tween(RED, WHITE, 0.4, (p) => player.color = p);
         healthPointsUI(player.hp);   // POP THE HEART THAT JUST EMPTIED (player.hp already lowered)
     });
 
@@ -117,9 +134,11 @@ scene('game', () => {
     });
 
     player.onDeath(() => {
+        timer.stop();
+        scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
         player.enterState('lose');
         player.paused = true;
-        enemy.paused = true; 
+        enemy.paused = true;
         wait(2, () => {
             play('lose');
             go('lose');

@@ -4,28 +4,12 @@ import { addFlower } from './generators.js';
 import { bump, bumpMini } from '../lib/effects.js';
 import { showScoreTile } from './ui.js';
 
-/*
- * OBJECT PICKUP SYSTEM : registers the player's 'gameObject' collision handler
- * and owns the inventory/combo state (kept private in this closure so the
- * reassignments below stay encapsulated).
- *
- * @param {object}   deps
- * @param {GameObj}  deps.player
- * @param {GameObj}  deps.score       UI score text object
- * @param {GameObj[]} deps.boxes      the 3 inventory box containers [box1, box2, box3]
- * @param {GameObj}  deps.enemy
- * @param {object}   deps.enemyStats
- */
 export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
     let inventoryBoxArray = [null, null, null];
     let objectsInBoxesArray = [null, null, null];
 
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
-
-        if (gameObject.sprite === 'virus3Red') {
-            player.hp -= 1;
-        }
 
 
         // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM
@@ -62,7 +46,7 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
                         sprite(spriteName),
                         anchor("center"),
                         pos(48, 48),
-                        scale(.75),
+                        scale(.65),
                         layer('ui'),
                     ]);
 

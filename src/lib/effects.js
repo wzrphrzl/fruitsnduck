@@ -12,8 +12,8 @@ export function bump(param1) {
 
 export function bumpMini(param1) {
     tween(
-        vec2(1.5),                       // FROM
-        vec2(.6),                       // TO
+        vec2(2),                       // FROM
+        vec2(.65),                       // TO
         .5,                            // DURATION
         (s) => param1.scale = s,        // SETTER
         easings.easeOutBack,            // SPRINGY EASING (SLIGHT OVERSHOOT)

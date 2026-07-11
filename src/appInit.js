@@ -1,9 +1,9 @@
 import kaplay from 'kaplay';
 import 'kaplay/global';
 
-// INITIALIZE KAPLAY 
+// INITIALIZE KAPLAY
 
-// KAPLAY 
+// KAPLAY
 const k = kaplay({
     // without specifying "width" and "height", kaboom will size to the container (document.body by default)
     width: 1440,
@@ -24,13 +24,13 @@ const k = kaplay({
 
 // FONT STYLES, GAME LAYERS AND SCORE STATE
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
-const fontStyleSmall = { size: 32, font: 'Nunito' };
 const fontStyleMed = { size: 48, font: 'Nunito' };
+const fontStyleSmall = { size: 28, font: 'Nunito' };
 const fontStyleTiny = { size: 24, font: 'Nunito' };
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 
-const scoreStats = { savedScore: '', virusCount: '', };
+const scoreStats = { savedScore: '', virusCount: '', gameTime: 0, };
 
 // SOUND EFFECTS
 loadSound('fallen-precious-object', './sound/bonus/fallen-precious-object.mp3');
@@ -71,7 +71,6 @@ loadSprite('clemon', './img/clemon.png');
 loadSprite('cpear', './img/cpear.png');
 loadSprite('cstrawberry', './img/cstrawberry.png');
 loadSprite('cwatermelon', './img/cwatermelon.png');
-loadSprite('dandelionChrono', './img/dandelion-chrono.png');
 loadSprite('egg', './img/egg.png');
 loadSprite('gameRules', './img/game-rules.png');
 loadSprite('grass-1', './img/grass-1.png');
@@ -106,11 +105,10 @@ loadSprite('superHeart', './img/super-heart.png');
 loadSprite('superHeartLegend', './img/super-heart-legend.png');
 loadSprite('superPiment', './img/superpiment.png');
 loadSprite('superPimentLegend', './img/superpiment-legend.png');
-loadSprite('superstar', './img/superstar.png');
+loadSprite('superStar', './img/superstar.png');
 loadSprite('superstarLegend', './img/superstar-legend.png');
 loadSprite('superTomatoArmor', './img/supertomato-armor.png');
 loadSprite('superTomatoArmorLegend', './img/supertomato-armor-legend.png');
-loadSprite('thistle', './img/thistle.png');
 loadSprite('treeSmall', './img/tree-small.png');
 loadSprite('virus3Red', './img/virus-3-red.png');
 loadSprite('virus4Blue', './img/virus-4-blue.png');
@@ -118,67 +116,14 @@ loadSprite('virus5Brown', './img/virus-5-brown.png');
 loadSprite('virusPink', './img/virus-1-pink.png');
 loadSprite('virusYellow', './img/virus-2-yellow.png');
 
-loadSprite('heartUI', './img/heart-ui.png', {
-    sliceX: 2,
-    anims: {
-        'heartFull': {
-            from: 0,
-            to: 0,
-            loop: false,
-        },
-        'heartEmpty': {
-            from: 1,
-            to: 1,
-            loop: false,
-        },
-    }
-});
-
-loadSprite('flower-1', './img/flower-1.png', {
+// ANIMATED SPRITES
+loadSprite('dandelionChrono', './img/dandelion-chrono.png', {
     sliceX: 4,
     anims: {
         'default': {
             from: 0,
             to: 3,
             speed: 12,
-            loop: false,
-        },
-    }
-});
-loadSprite('flower-2', './img/flower-2.png', {
-    sliceX: 4,
-    anims: {
-        'default': {
-            from: 0,
-            to: 3,
-            speed: 12,
-            loop: false,
-        },
-    }
-});
-loadSprite('flower-3', './img/flower-3.png', {
-    sliceX: 4,
-    anims: {
-        'default': {
-            from: 0,
-            to: 3,
-            speed: 12,
-            loop: false,
-        },
-    }
-});
-
-loadSprite('tree', './img/tree-full.png', {
-    sliceX: 5,
-    anims: {
-        'default': {
-            from: 4,
-            to: 4,
-        },
-        'fruity': {
-            from: 0,
-            to: 3,
-            speed: 16,
             loop: false,
         },
     }
@@ -220,7 +165,7 @@ loadSprite('duck', './img/duck.png', {
             to: 4,
             speed: 6,
             loop: true,
-        }, 
+        },
         'win': {
             from: 6,
             to: 6,
@@ -257,13 +202,13 @@ loadSprite('duck', './img/duck.png', {
             from: 12,
             to: 12,
             loop: false,
-        },        
+        },
         'lose': {
             from: 13,
             to: 13,
             loop: false,
-        }, 
-    },    
+        },
+    },
 });
 
 loadSprite('enemy', './img/enemy.png', {
@@ -283,6 +228,58 @@ loadSprite('enemy', './img/enemy.png', {
     },
 });
 
+loadSprite('flower-1', './img/flower-1.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+
+loadSprite('flower-2', './img/flower-2.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+
+loadSprite('flower-3', './img/flower-3.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+
+loadSprite('heartUI', './img/heart-ui.png', {
+    sliceX: 2,
+    anims: {
+        'heartFull': {
+            from: 0,
+            to: 0,
+            loop: false,
+        },
+        'heartEmpty': {
+            from: 1,
+            to: 1,
+            loop: false,
+        },
+    }
+});
+
 loadSprite('poop', './img/poop.png', {
     sliceX: 2,
     anims: {
@@ -295,7 +292,18 @@ loadSprite('poop', './img/poop.png', {
     }
 });
 
-// MENU SPRITES
+loadSprite('thistle', './img/thistle.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 14,
+            loop: false,
+        },
+    }
+});
+
 loadSprite('titleScreen', './img/title-screen.png', {
     sliceX: 0,
     anims: {
@@ -307,5 +315,22 @@ loadSprite('titleScreen', './img/title-screen.png', {
         },
     }
 });
+
+loadSprite('tree', './img/tree-full.png', {
+    sliceX: 5,
+    anims: {
+        'default': {
+            from: 4,
+            to: 4,
+        },
+        'fruity': {
+            from: 0,
+            to: 3,
+            speed: 16,
+            loop: false,
+        },
+    }
+});
+
 
 export { k, scoreStats, fontStyleMed, fontStyleSmall, fontStyleTiny };

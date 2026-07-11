@@ -16,6 +16,6 @@ export function fart() {
     playRandom(['fart-1', 'fart-2', 'fart-3', 'fart-4', 'fart-5']);
 }
 
-export function treePops() {
+export function plantGrows() {
     playRandom(['treePops-1', 'treePops-2', 'treePops-3', 'treePops-4', 'treePops-5']);
 }

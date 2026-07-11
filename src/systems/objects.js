@@ -4,7 +4,7 @@ import { addObject } from './generators.js';
 import { addRareObject_UI, healthPointsUI } from './ui.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
-export const gameObjectList = {
+export const objectList = {
 
     // COMMON FRUITS
     cbanana: {
@@ -12,36 +12,31 @@ export const gameObjectList = {
         scoreValue: 5,
         objectEvent: () => {
             wait(.8, () => {
-                addObject('superPiment');
-                play('fallen-precious-object');
+
             });
         }
     },
     cpear: {
         objectType: 'commonFruit',
-        scoreValue: 5,
+        scoreValue: 6,
         objectEvent: () => {
-            wait(.8, () => {
-                addObject('samaraSpeed');
-                play('fallen-precious-object');
-            });
         }
     },
     clemon: {
         objectType: 'commonFruit',
-        scoreValue: 5,
+        scoreValue: 7,
         objectEvent: () => {
         }
     },
     cstrawberry: {
         objectType: 'commonFruit',
-        scoreValue: 5,
+        scoreValue: 8,
         objectEvent: () => {
         }
     },
     cwatermelon: {
         objectType: 'commonFruit',
-        scoreValue: 5,
+        scoreValue: 9,
         objectEvent: () => {
         }
     },
@@ -49,60 +44,69 @@ export const gameObjectList = {
     sGrape1: {
         objectType: 'superFruitT1',
         scoreValue: 10,
-        objectEvent: () => {}
+        objectEvent: () => {
+            addObject('superStar');
+        }
     },
     sGrape2: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT2',
         scoreValue: 10,
         objectEvent: () => {}
     },
     sGrape3: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT3',
         scoreValue: 10,
         objectEvent: () => {}
     },
     sKumquat1: {
         objectType: 'superFruitT1',
         scoreValue: 10,
-        objectEvent: () => {}
+        objectEvent: () => {
+            addObject('samaraSpeed');
+        }
     },
     sKumquat2: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT2',
         scoreValue: 10,
         objectEvent: () => {}
     },
     sKumquat3: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT3',
         scoreValue: 10,
         objectEvent: () => {}
     },
     sPiment1: {
         objectType: 'superFruitT1',
         scoreValue: 10,
-        objectEvent: () => {}
+        objectEvent: () => {
+                addObject('superPiment');
+                wait(2, () => {play('fallen-precious-object')});
+        }
     },
     sPiment2: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT2',
         scoreValue: 10,
         objectEvent: () => {}
     },
     sPiment3: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT3',
         scoreValue: 10,
         objectEvent: () => {}
     },
     sPlum1: {
         objectType: 'superFruitT1',
         scoreValue: 10,
-        objectEvent: () => {}
+        objectEvent: () => {
+            addObject('superHeart');
+        }
     },
     sPlum2: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT2',
         scoreValue: 10,
         objectEvent: () => {}
     },
     sPlum3: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT3',
         scoreValue: 10,
         objectEvent: () => {}
     },
@@ -117,12 +121,12 @@ export const gameObjectList = {
         }
     },
     sTomato2: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT2',
         scoreValue: 10,
         objectEvent: () => {}
     },
     sTomato3: {
-        objectType: 'superFruit',
+        objectType: 'superFruitT3',
         scoreValue: 10,
         objectEvent: () => {}
     },
@@ -136,9 +140,14 @@ export const gameObjectList = {
         }
     },
 
-
-
     // DEFINITIVE BONUS
+    superStar: {
+        objectType: 'superStar',
+        scoreValue: 0,
+        objectEvent: () => {
+        }
+    },
+
     superHeart: {
         objectType: 'superHeart',
         scoreValue: 0,
@@ -155,10 +164,10 @@ export const gameObjectList = {
           play('buff', { volume: .25});
 
           player.enterState('armorIdle');
-            if (gameObjectList.superTomatoArmor.count < 1) {
+            if (objectList.superTomatoArmor.count < 1) {
                 addRareObject_UI('superTomatoArmor');
                 playerStats.speed = playerStats.speed - 110;
-                gameObjectList.superTomatoArmor.count++; 
+                objectList.superTomatoArmor.count++; 
             }
         }
     },   
@@ -169,9 +178,9 @@ export const gameObjectList = {
         objectEvent: () => {
             playerStats.poopCount = 5;
             play('buff', { volume: .25});
-            if (gameObjectList.superPiment.count < 1) {
+            if (objectList.superPiment.count < 1) {
                 addRareObject_UI('superPiment');
-                gameObjectList.superPiment.count++;
+                objectList.superPiment.count++;
             }
             if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
                 player.enterState('orangeIdle');
@@ -184,15 +193,15 @@ export const gameObjectList = {
         count: 0,
         objectEvent: () => {
             play('buff', { volume: .25});
-            if (gameObjectList.samaraSpeed.count < 1) {
+            if (objectList.samaraSpeed.count < 1) {
                 addRareObject_UI('samaraSpeed');
                 addDustTrail(player);   
-                gameObjectList.samaraSpeed.count++;
+                objectList.samaraSpeed.count++;
            }
 
-            if (gameObjectList.samaraSpeed.count < 2) {
+            if (objectList.samaraSpeed.count < 2) {
                 playerStats.speed = playerStats.speed + 100;
-                gameObjectList.samaraSpeed.count++; 
+                objectList.samaraSpeed.count++; 
             }
         }
     },
@@ -204,8 +213,8 @@ export const gameObjectList = {
         isActive: false,
         objectEvent: () => {
 
-                if (gameObjectList.virus3Red.isActive) return;
-                gameObjectList.virus3Red.isActive = true;
+                if (objectList.virus3Red.isActive) return;
+                objectList.virus3Red.isActive = true;
                 const previousState = player.state;
 
                 if (player.state == 'armorRun' || player.state == 'armorIdle') {
@@ -216,7 +225,7 @@ export const gameObjectList = {
                 }
                 wait(1.5, () => {
                     player.enterState(previousState);
-                    gameObjectList.virus3Red.isActive = false;
+                    objectList.virus3Red.isActive = false;
                 });
 
         }

@@ -1,5 +1,6 @@
 import { scoreStats, fontStyleSmall } from '../appInit.js';
 import { addRect, addButton } from '../lib/helpers.js';
+import { formatTime } from '../systems/timer.js';
 
 scene('lose', () => {
 
@@ -36,8 +37,8 @@ scene('lose', () => {
         // SCORE DISPLAY
 
         const scoreMenu = add([
-            rect(392, 256, { radius: 8 }),
-            pos(width() /2 - 196, height() /2 - 128),
+            rect(392, 328, { radius: 8 }),
+            pos(width() /2 - 196, height() /2 - 164),
             anchor('topleft'),
             color(Color.fromHex('#134C4C')),
             outline(4, Color.fromHex('#33984B') ),
@@ -65,6 +66,15 @@ scene('lose', () => {
         scoreMenu.add([
             text('Collected Viruses : ' + scoreStats.virusCount, fontStyleSmall),
             pos(32, 184),
+            scale(1),
+            anchor('topleft'),
+            layer('ui'),
+        ]);
+
+        //TIME SURVIVED
+        scoreMenu.add([
+            text('Time survived : ' + formatTime(scoreStats.gameTime), fontStyleSmall),
+            pos(32, 256),
             scale(1),
             anchor('topleft'),
             layer('ui'),
