@@ -3,6 +3,7 @@ import { player } from '../entities/player.js';
 import { objectList } from './objects.js';
 import { setXs, setYs } from '../lib/helpers.js';
 import { plantGrows } from '../lib/audio.js';
+import { palette } from '../lib/colorpalette.js';
 
 
 // GAME ENTITIES GENERATION
@@ -33,7 +34,7 @@ export function addTree(x, y) {
     tree.add([
         ellipse(tree.width / 2, 10),
         pos(0, 56),
-        color(Color.fromHex('#03193F')),
+        color(Color.fromHex(palette.blue.darkest)),
         anchor('top'),
         opacity(0.25),
         layer('bg'),
@@ -158,7 +159,12 @@ export function addObject(objectType) {
             easings.easeOutBounce,
         );
                 
-        objectContainer.use(area({ scale: .75, isSensor: true }));
+        objectContainer.use(area({ scale: 1, isSensor: true }));
+
+        // TIGHT SPRITE AREA : adapt hitbox shape to sprite outline
+        objectContainer.area.shape = getSpriteOutline(spriteName, 0, true, 1);
+        objectContainer.area.shape.pts = buildConvexHull(objectContainer.area.shape.pts);
+        objectContainer.area.offset = vec2(-objectContainer.width / 2, -objectContainer.height / 2);
 
     });
 
@@ -167,7 +173,7 @@ export function addObject(objectType) {
     objectContainer.add([
         ellipse(objectContainer.width /2 *.85, 10),
         pos(0, objectContainer.height / 2 -8),
-        color(Color.fromHex('#03193F')),
+        color(Color.fromHex(palette.blue.darkest)),
         anchor('center'),
         opacity(0.3),
         layer('bg'),

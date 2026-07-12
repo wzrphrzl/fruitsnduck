@@ -4,6 +4,7 @@ import { createPlayer, playerStats } from '../entities/player.js';
 import { createEnemy } from '../entities/enemy.js';
 import { createUI, healthPointsUI } from '../systems/ui.js';
 import { createTimer } from '../systems/timer.js';
+import { palette } from '../lib/colorpalette.js';
 import { addTree, addObject, acornBonus, addDandelionChrono } from '../systems/generators.js';
 import { setXs, setYs, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
@@ -14,7 +15,7 @@ scene('game', () => {
    debug.inspect = true;
 
     // MAP SETTINGS
-    addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
+    addRect(1440, 800, 0, 0, 0, palette.green.darker, 'bg', { fixed: true, area: false });
     addTiledMap();
     //WALLS
     /*TOP*/   addRect(9360, 1080, 0, -3960, -2680, '#000000', 'ui', { area: true });

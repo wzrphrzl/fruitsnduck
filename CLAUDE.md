@@ -117,7 +117,7 @@ Three fruits of the same type collected consecutively → special power-up spawn
 
 ## Known Integrations
 
-- **Figma** — Design system / color palette lives in the "FND-CLAUDE" Figma file (see project memory). Permissions configured in `.claude/settings.local.json` for asset sync and variable export. Note: there is currently no generated `palette.js` in the repo; colors are set inline via hex strings.
+- **Figma** — Design system / color palette lives in the "FND-CLAUDE" Figma file (see project memory). Permissions configured in `.claude/settings.local.json` for asset sync and variable export. The Figma variables are exported (DTCG format) to `src/lib/fnd-color-palette-75.json`, then `npm run palette` (`scripts/gen-palette.js`) generates the flat `src/lib/colorpalette.js` consumed by the game (e.g. `palette.blue.darkest`). Do not edit `src/lib/colorpalette.js` by hand — change colors in Figma, re-export, and re-run. Pure black is the one exception (kept as `'#000000'`, not in the palette).
 - **Vite** — Dev server with hot reload; configured in `vite.config.js`
 - **ESLint** — Linting config in `eslint.config.js`
 

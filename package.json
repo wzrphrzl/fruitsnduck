@@ -7,7 +7,8 @@
 		"preview": "vite preview",
 		"zip": "npm run build && cd dist && zip -r fnd-x.zip . -x \"*.DS_Store\" \"fnd-x.zip\"",
 		"lint": "eslint",
-		"lint:fix": "eslint --fix"
+		"lint:fix": "eslint --fix",
+		"palette": "node scripts/gen-palette.js"
 	},
 	"dependencies": {
 		"kaplay": "^4000.0.0-alpha.27.1"

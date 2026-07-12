@@ -1,10 +1,11 @@
 import { addButton } from '../lib/helpers.js';
+import { palette } from '../lib/colorpalette.js';
 
 scene('menu', () => {
 
     // ANIMATED animatedBackground (inspired by Kaplay's logo demo)
     // A CHECKERBOARD OF FRUIT TILES SCROLLS DIAGONALLY OVER A SOLID animatedBackground.
-    const bgColor = '#0C3131';
+    const bgColor = palette.green.darkest;
     const bgWidth = 1440;  
     const bgHeight = 800;
     const tileSize = 120; 
@@ -43,7 +44,7 @@ scene('menu', () => {
 
     add([
         text('V 0.5', { size: 16 }),
-        color(Color.fromHex('#D3FC7E')),
+        color(Color.fromHex(palette.green.lighter)),
         pos(width() - 40, 40),
         anchor('center'),
         anchor('right'),

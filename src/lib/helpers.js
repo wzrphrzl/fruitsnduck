@@ -1,4 +1,5 @@
 import { k, fontStyleMed } from '../appInit.js';
+import { palette } from './colorpalette.js';
 
 // GENERIC HELPERS
 
@@ -51,8 +52,8 @@ export function addButton(texte, posX, posY) {
             area(),
             scale(1),
             anchor('center'),
-            outline(3, Color.fromHex('#FFEB57')),
-            color('#00396D'),
+            outline(3, Color.fromHex(palette.yellowOrange.bright)),
+            color(palette.blue.dark),
             layer('ui'),
         ]);
 
@@ -60,19 +61,19 @@ export function addButton(texte, posX, posY) {
             text(txt, fontStyleMed),
             anchor('center'),
             pos(0, -4),
-            color(Color.fromHex('#FFEB57')),
+            color(Color.fromHex(palette.yellowOrange.bright)),
             layer('ui'),
         ]);
 
         btn.onHoverUpdate(() => {
-            btn.color = Color.fromHex('#0D79BC');
+            btn.color = Color.fromHex(palette.cyan.dark);
             btn.scale = vec2(1.05);
             setCursor('pointer');
         });
 
         btn.onHoverEnd(() => {
             btn.scale = vec2(1);
-            btn.color = Color.fromHex('#00396D');
+            btn.color = Color.fromHex(palette.blue.dark);
         });
 
         btn.onClick(f);

@@ -1,10 +1,11 @@
 import { scoreStats, fontStyleSmall } from '../appInit.js';
 import { addRect, addButton } from '../lib/helpers.js';
 import { formatTime } from '../systems/timer.js';
+import { palette } from '../lib/colorpalette.js';
 
 scene('lose', () => {
 
-    addRect(1440, 800, 0, 0, 0, '#0C3131', 'bg', { fixed: true, area: false });
+    addRect(1440, 800, 0, 0, 0, palette.green.darkest, 'bg', { fixed: true, area: false });
 
 
     // SET A DIFFERENT ENDING BASED ON SCORE (POSITIVE OR NEGATIVE)
@@ -18,7 +19,7 @@ scene('lose', () => {
         add([
             ellipse(120, 120),
             pos(posX, posY),
-            color(Color.fromHex('#134C4C')),
+            color(Color.fromHex(palette.green.darker)),
             anchor('center'),
             layer('game'),
         ]);
@@ -40,8 +41,8 @@ scene('lose', () => {
             rect(392, 328, { radius: 8 }),
             pos(width() /2 - 196, height() /2 - 164),
             anchor('topleft'),
-            color(Color.fromHex('#134C4C')),
-            outline(4, Color.fromHex('#33984B') ),
+            color(Color.fromHex(palette.green.darker)),
+            outline(4, Color.fromHex(palette.green.default) ),
             body({ isStatic: true }),
             layer('bg'),
             'scoreMenu',

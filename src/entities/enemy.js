@@ -33,7 +33,6 @@ export function createEnemy(player) {
         enemy.enterState('idle');
     });
 
-
     enemy.onStateUpdate('run', async () => {
         
         if (enemy.pos.x > enemyStats.previousPosX) {
@@ -63,22 +62,11 @@ export function createEnemy(player) {
         enemyStats.speed -= 20;
     });
 
-    enemy.onCollide('objectContainer', (gameObject) => {
-        //if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
-        destroy(gameObject);
-        //}
+    ['objectContainer', 'thistle', 'tree'].forEach((tag) => {
+        enemy.onCollide(tag, (gameObject) => {
+            destroy(gameObject);
+        });
     });
-
-    enemy.onCollide('thistle', (gameObject) => {
-        //if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
-        destroy(gameObject);
-        //}
-    });
-
-    enemy.onCollide('tree', (gameObject) => {
-        destroy(gameObject);
-    });
-
 
     return { enemy, enemyStats };
 }

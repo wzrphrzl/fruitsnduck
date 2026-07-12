@@ -1,5 +1,6 @@
 import { k } from '../appInit.js';
 import { kwak, fart } from '../lib/audio.js';
+import { palette } from '../lib/colorpalette.js';
 
 const playerStats = { speed: 400, poopCount: 10 };
 
@@ -27,7 +28,7 @@ function createPlayer() {
     player.add([
         ellipse(48, 8),
         pos(0, player.height / 2),
-        color(Color.fromHex('#03193F')),
+        color(Color.fromHex(palette.blue.darkest)),
         anchor('center'),
         opacity(0.15),
         layer('bg'),

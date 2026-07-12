@@ -2,21 +2,18 @@ import { fontStyleSmall, fontStyleTiny } from '../appInit.js';
 import { addRect } from '../lib/helpers.js';
 import { player } from '../entities/player.js';
 import { bumpHp, bumpMini } from '../lib/effects.js';
+import { palette } from '../lib/colorpalette.js';
 
-// FLOATING SCORE TILES (STAIRCASE) — SHARED STATE
-// Each score change spawns a tile at the top slot, just under the score.
-// Older tiles shift down one slot; at most 3 are shown at once (a 4th drops
-// the oldest). Each tile lives 3s, fading out via tween + easeInOutQuad.
+// FLOATING SCORE TILES
 const SCORE_TILE = {
-    x: 32,          // LEFT-ALIGNED WITH THE SCORE
-    topY: 64,       // TOP SLOT, JUST BELOW THE SCORE
+    x: 32,          
+    topY: 64,       
     w: 56,
     h: 28,
-    gap: 6,         // VERTICAL GAP BETWEEN STACKED TILES
-    life: 3,        // SECONDS BEFORE A TILE IS GONE
-    max: 3,         // MAX TILES ON SCREEN
+    gap: 6,         
+    life: 3,        
+    max: 3,         
 };
-
 // MOST RECENT TILE FIRST : index 0 = top slot
 let scoreTiles = [];
 
@@ -45,7 +42,6 @@ function removeScoreTile(tile) {
 
 export function createUI() {
 
-
     // SCORE UI
     const initialScore = 0;
     const score = add([
@@ -60,7 +56,6 @@ export function createUI() {
     // SCORE TILES
     scoreTiles = [];
 
-
     // INVENTORY UI
     add([
         text('Fruit Combo', fontStyleTiny),
@@ -68,21 +63,18 @@ export function createUI() {
         fixed(),
         anchor('topright'),
         { value: 0 },
-        color('#92A1B9'),
+        color(palette.slate.lighter),
         layer('ui'),
     ]);
 
-    const box1 = addRect(96, 96, 20, 1072, 672, '#03193F', 'ui', { fixed: true });
-    const box2 = addRect(96, 96, 20, 1192, 672, '#03193F', 'ui', { fixed: true });
-    const box3 = addRect(96, 96, 20, 1312, 672, '#03193F', 'ui', { fixed: true });
+    const box1 = addRect(96, 96, 20, 1072, 672, palette.blue.darkest, 'ui', { fixed: true });
+    const box2 = addRect(96, 96, 20, 1192, 672, palette.blue.darkest, 'ui', { fixed: true });
+    const box3 = addRect(96, 96, 20, 1312, 672, palette.blue.darkest, 'ui', { fixed: true });
 
     return { score, box1, box2, box3 };
 }
 
-// COMBO BOXES : (re)draws the fruits currently held in the 3 inventory boxes.
-// Destroys the previously drawn fruits, redraws the current slots centered in
-// their box, and bumps the one at bumpIndex (the fruit that was just collected).
-const COMBO_FRUIT_SCALE = .65;
+// COMBO BOXES
 
 export function renderComboBoxes(boxes, comboSlots, previousSprites, bumpIndex) {
 
@@ -98,7 +90,7 @@ export function renderComboBoxes(boxes, comboSlots, previousSprites, bumpIndex) 
             sprite(spriteName),
             anchor('center'),
             pos(box.width / 2, box.height / 2),
-            scale(COMBO_FRUIT_SCALE),
+            scale(.65),
             layer('ui'),
         ]);
 
@@ -124,7 +116,7 @@ export function showScoreTile(amount) {
         rect(SCORE_TILE.w, SCORE_TILE.h, { radius: 16 }),
         pos(SCORE_TILE.x, SCORE_TILE.topY),
         anchor('topleft'),
-        color(Color.fromHex('#03193F')),
+        color(Color.fromHex(palette.blue.darkest)),
         opacity(0.5),
         fixed(),
         layer('ui'),
@@ -135,7 +127,7 @@ export function showScoreTile(amount) {
         text(labelText, { size: 16, font: 'Nunito' }),
         pos(SCORE_TILE.x + SCORE_TILE.w / 2, SCORE_TILE.topY + SCORE_TILE.h / 2),
         anchor('center'),
-        color(Color.fromHex('#B4B4B4')),
+        color(Color.fromHex(palette.gray.lighter)),
         opacity(1),
         fixed(),
         layer('ui'),
@@ -210,7 +202,7 @@ export function addRareObject_UI(spriteName) {
     if (rareObjStats_UI.count < 3) {
         rareObjStats_UI.posX = rareObjStats_UI.posX + 88;
 
-        const addedBox = addRect(80, 80, 40, posX, 696, '#03193F', 'ui', { fixed: true });
+        const addedBox = addRect(80, 80, 40, posX, 696, palette.blue.darkest, 'ui', { fixed: true });
         addedBox.add([
             sprite( spriteName ),
             anchor("center"),
