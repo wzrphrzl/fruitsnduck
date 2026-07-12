@@ -11,7 +11,7 @@ import { fruitCombo } from '../systems/fruitcombo.js';
 
 scene('game', () => {
 
-    //debug.inspect = true;
+   debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, '#134C4C', 'bg', { fixed: true, area: false });
