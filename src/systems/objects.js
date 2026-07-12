@@ -1,7 +1,7 @@
 import { player, playerStats } from '../entities/player.js';
 import { addDustTrail } from '../lib/effects.js';
 import { addObject } from './generators.js';
-import { addRareObject_UI, healthPointsUI } from './ui.js';
+import { addUpgrade_UI, healthPointsUI } from './ui.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
 export const objectList = {
@@ -146,7 +146,7 @@ export const objectList = {
         scoreValue: 0,
         objectEvent: () => {
             playerStats.superStar += 1;
-            addRareObject_UI('superStar');
+            addUpgrade_UI('superStar');
         }
     },
 
@@ -167,7 +167,7 @@ export const objectList = {
 
           playerStats.armor = 1;
           player.enterState('armorIdle');
-          addRareObject_UI('superTomatoArmor');
+          addUpgrade_UI('superTomatoArmor');
             if (objectList.superTomatoArmor.count < 1) {
                 playerStats.speedKaplay = playerStats.speedKaplay - 110;
                 objectList.superTomatoArmor.count++;
@@ -181,7 +181,7 @@ export const objectList = {
         objectEvent: () => {
             playerStats.mines += 5;
             play('buff', { volume: .25});
-            addRareObject_UI('superPiment');
+            addUpgrade_UI('superPiment');
             if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
                 player.enterState('orangeIdle');
             }
@@ -194,7 +194,7 @@ export const objectList = {
         objectEvent: () => {
             play('buff', { volume: .25});
             playerStats.speed += 1;
-            addRareObject_UI('samaraSpeed');
+            addUpgrade_UI('samaraSpeed');
             if (objectList.samaraSpeed.count < 1) {
                 addDustTrail(player);
                 objectList.samaraSpeed.count++;

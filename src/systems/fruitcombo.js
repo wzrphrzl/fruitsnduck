@@ -2,7 +2,7 @@ import { scoreStats } from '../appInit.js';
 import { objectList } from './objects.js';
 import { addFlower } from './generators.js';
 import { bump } from '../lib/effects.js';
-import { showScoreTile, renderComboBoxes, showComboName } from './ui.js';
+import { showScoreTile, renderFruitBoxes, showComboName } from './ui.js';
 import { classifyCombo, resolveCombo } from './loots.js';
 
 
@@ -42,7 +42,7 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
         comboSlots[nextAvailableIndex] = objectContainer.sprite;
 
         // REDRAW THE BOXES (pop the fruit that was just collected)
-        comboSprites = renderComboBoxes(boxes, comboSlots, comboSprites, nextAvailableIndex);
+        comboSprites = renderFruitBoxes(boxes, comboSlots, comboSprites, nextAvailableIndex);
 
         // TRIO COMPLETE → CLASSIFY, TRIGGER ITS OUTCOME, THEN AUTO-CLEAR AFTER 2s
         if (comboSlots.every(f => f !== null)) {
@@ -60,7 +60,7 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
 
             // EMPTY THE INVENTORY (STATE + UI) AFTER 2s
             wait(2, () => {
-                comboSprites = renderComboBoxes(boxes, [null, null, null], comboSprites, -1);
+                comboSprites = renderFruitBoxes(boxes, [null, null, null], comboSprites, -1);
                 comboSlots = [null, null, null];
             });
         }
