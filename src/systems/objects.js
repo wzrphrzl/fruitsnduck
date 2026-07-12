@@ -10,35 +10,22 @@ export const objectList = {
     cbanana: {
         objectType: 'commonFruit',
         scoreValue: 5,
-        objectEvent: () => {
-            wait(.8, () => {
-
-            });
-        }
     },
     cpear: {
         objectType: 'commonFruit',
         scoreValue: 6,
-        objectEvent: () => {
-        }
     },
     clemon: {
         objectType: 'commonFruit',
         scoreValue: 7,
-        objectEvent: () => {
-        }
     },
     cstrawberry: {
         objectType: 'commonFruit',
         scoreValue: 8,
-        objectEvent: () => {
-        }
     },
     cwatermelon: {
         objectType: 'commonFruit',
         scoreValue: 9,
-        objectEvent: () => {
-        }
     },
     // SUPER FRUIT
     sGrape1: {
@@ -46,34 +33,32 @@ export const objectList = {
         scoreValue: 8,
         objectEvent: () => {
             addObject('superStar');
-        }
+            wait(2, () => {play('fallen-precious-object')});
+      }
     },
     sGrape2: {
         objectType: 'superFruitT2',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sGrape3: {
         objectType: 'superFruitT3',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sKumquat1: {
         objectType: 'superFruitT1',
         scoreValue: 9,
         objectEvent: () => {
             addObject('samaraSpeed');
+            wait(2, () => {play('fallen-precious-object')});
         }
     },
     sKumquat2: {
         objectType: 'superFruitT2',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sKumquat3: {
         objectType: 'superFruitT3',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sPiment1: {
         objectType: 'superFruitT1',
@@ -86,12 +71,10 @@ export const objectList = {
     sPiment2: {
         objectType: 'superFruitT2',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sPiment3: {
         objectType: 'superFruitT3',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sPlum1: {
         objectType: 'superFruitT1',
@@ -103,12 +86,10 @@ export const objectList = {
     sPlum2: {
         objectType: 'superFruitT2',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sPlum3: {
         objectType: 'superFruitT3',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sTomato1: {
         objectType: 'superFruitT1',
@@ -116,19 +97,17 @@ export const objectList = {
         objectEvent: () => {
             wait(.8, () => {
                 addObject('superTomatoArmor');
-                play('fallen-precious-object');
+                wait(2, () => {play('fallen-precious-object')});
             });
         }
     },
     sTomato2: {
         objectType: 'superFruitT2',
         scoreValue: 10,
-        objectEvent: () => {}
     },
     sTomato3: {
         objectType: 'superFruitT3',
         scoreValue: 10,
-        objectEvent: () => {}
     },
 
     // TEMPORARY BONUS

@@ -128,6 +128,8 @@ scene('game', () => {
     
     //HP SYSTEM
     player.onHurt(() => {
+        player.enterState('stressRun');
+        play('soundStress');
         tween(RED, WHITE, 0.4, (p) => player.color = p);
         healthPointsUI(player.hp);   // POP THE HEART THAT JUST EMPTIED (player.hp already lowered)
     });
