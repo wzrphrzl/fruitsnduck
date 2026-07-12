@@ -4,7 +4,7 @@ import { createPlayer, playerStats } from '../entities/player.js';
 import { createEnemy } from '../entities/enemy.js';
 import { createUI, healthPointsUI } from '../systems/ui.js';
 import { createTimer } from '../systems/timer.js';
-import { addTree, addThistle, addObject, acornBonus, addDandelionChrono } from '../systems/generators.js';
+import { addTree, addObject, acornBonus, addDandelionChrono } from '../systems/generators.js';
 import { setXs, setYs, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
 import { fruitCombo } from '../systems/fruitcombo.js';
