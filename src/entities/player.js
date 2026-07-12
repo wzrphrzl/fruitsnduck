@@ -12,16 +12,18 @@ function createPlayer() {
     // PLAYER SPRITES AND STATES
     const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop', 'lose'];
 
+
     player = k.add([
         sprite('duck'),
         pos(center()),
         anchor('center'),
-        area({ scale: .8 }),
+        area({ shape: new Circle(vec2(0), 50), offset: vec2(0, 16) }),
         body(),
         z(10),
         health(3),
         state('defaultIdle', playerStateList),
         layer('game'),
+        z(9999),
         'duck',
     ]);
 
@@ -30,7 +32,7 @@ function createPlayer() {
         pos(0, player.height / 2),
         color(Color.fromHex(palette.blue.darkest)),
         anchor('center'),
-        opacity(0.15),
+        opacity(0.5),
         layer('bg'),
     ]);
 
