@@ -2,20 +2,8 @@ import { scoreStats } from '../appInit.js';
 import { gameObjectList } from './objects.js';
 import { addFlower } from './generators.js';
 import { bump, bumpMini } from '../lib/effects.js';
-import { healthPointsUI } from '../systems/ui.js';
+import { showScoreTile } from './ui.js';
 
-/*
- * OBJECT PICKUP SYSTEM : registers the player's 'gameObject' collision handler
- * and owns the inventory/combo state (kept private in this closure so the
- * reassignments below stay encapsulated).
- *
- * @param {object}   deps
- * @param {GameObj}  deps.player
- * @param {GameObj}  deps.score       UI score text object
- * @param {GameObj[]} deps.boxes      the 3 inventory box containers [box1, box2, box3]
- * @param {GameObj}  deps.enemy
- * @param {object}   deps.enemyStats
- */
 export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
     let inventoryBoxArray = [null, null, null];
     let objectsInBoxesArray = [null, null, null];
@@ -23,27 +11,10 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'gameObject' TAG
     player.onCollide('gameObject', (gameObject) => {
 
-        if (gameObject.sprite === 'heartIngame') {
-            player.hp += 1;
-            debug.log('HP : ' + player.hp);
-            debug.log('player.hp : ' + player.hp);
-        }
-
-        if (gameObject.sprite === 'heartPlus') {
-            player.maxHP += 1;
-            healthPointsUI(player.maxHP - 1);   // POP THE NEWLY ADDED HEART
-            debug.log('Log player.maxHP : ' + player.maxHP);
-            debug.log('Log player.hp : ' + player.hp);
-        }
-
-        if (gameObject.sprite === 'virusPurple') {
-            player.hp -= 1;
-            debug.log('max hp : ' + player.maxHP)
-        }
-
 
         // DEFAULT OBJECT EFFECTS AND COMBO SYSTEM
-        if (gameObjectList[gameObject.sprite].objectType === 'defaultObject') {
+        const pickedObjectType = gameObjectList[gameObject.sprite].objectType;
+        if (pickedObjectType === 'commonFruit' || pickedObjectType === 'superFruitT1') {
 
             // IF INVENTORY IS ALREADY FULL (from the previous trio), CLEAR IT BEFORE ADDING THE NEW FRUIT
             if (inventoryBoxArray.every(f => f !== null)) {
@@ -75,7 +46,7 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
                         sprite(spriteName),
                         anchor("center"),
                         pos(48, 48),
-                        scale(.6),
+                        scale(.65),
                         layer('ui'),
                     ]);
 
@@ -93,23 +64,27 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
             // trigger that fruit's combo event (spawns a special object)
             if (inventoryBoxArray.every(f => f !== null && f === inventoryBoxArray[0])) {
                 console.log('fruit combo !');
-                gameObjectList[inventoryBoxArray[0]].comboEvent();
+                gameObjectList[inventoryBoxArray[0]].objectEvent();
             }
         }
 
         // RARE OBJECT EFFECTS
-        if (gameObject.sprite === 'tomatoArmor') {
-            gameObjectList.tomatoArmor.comboEvent();
+        if (gameObject.sprite === 'heartIngame') {
+            gameObjectList.heartIngame.objectEvent();
+        } else if (gameObject.sprite === 'superHeart') {
+            gameObjectList.superHeart.objectEvent();
+        } else if (gameObject.sprite === 'superTomatoArmor') {
+            gameObjectList.superTomatoArmor.objectEvent();
         } else if (gameObject.sprite === 'superPiment') {
-            gameObjectList.superPiment.comboEvent();
+            gameObjectList.superPiment.objectEvent();
         } else if (gameObject.sprite === 'samaraSpeed') {
-            gameObjectList.samaraSpeed.comboEvent();
+            gameObjectList.samaraSpeed.objectEvent();
         }
 
         // FLOWER EFFECTS WHEN IN ARMOR MODE
-        if (player.state === 'armorRun' && gameObject.sprite === 'virusPurple'
-            || player.state === 'armorRun' && gameObject.sprite === 'virusBlue'
-            || player.state === 'armorRun' && gameObject.sprite === 'virusBrown'
+        if (player.state === 'armorRun' && gameObject.sprite === 'virus3Red'
+            || player.state === 'armorRun' && gameObject.sprite === 'virus4Blue'
+            || player.state === 'armorRun' && gameObject.sprite === 'virus5Brown'
         ) {
             addFlower(gameObject.pos.x, gameObject.pos.y);
         }
@@ -119,9 +94,11 @@ export function setupInventory({ player, score, boxes, enemy, enemyStats }) {
 
         if (scoreChange > 0) {
             score.value += scoreChange;
+            showScoreTile(scoreChange);
             play('fruit-collected', { volume: 0.1, loop:  false, paused: false });
         } else if (scoreChange < 0) {
             score.value += scoreChange;
+            showScoreTile(scoreChange);
             scoreStats.virusCount++;
             play('debuff');
         }

@@ -1,8 +1,8 @@
 import { k } from '../appInit.js';
 import { player } from '../entities/player.js';
-import { gameObjectList } from './objects.js';
+import { objectList } from './objects.js';
 import { setXs, setYs } from '../lib/helpers.js';
-import { treePops } from '../lib/audio.js';
+import { plantGrows } from '../lib/audio.js';
 
 
 // GAME ENTITIES GENERATION
@@ -15,55 +15,99 @@ let objectZ = 1000;
 
 export function addTree(x, y) {
 
-    wait(2, () => {
+    const tree = k.add([
+        sprite('tree'),
+        pos(x, y),
+        scale(1),
+        anchor('center'),
+        area(),
+        body({ isStatic: true }),
+        state('fruity', ['fruity', 'default']),
+        layer('game'),
+        z(treeZ),
+        'tree',
+    ]);
 
-        const tree = k.add([
-            sprite('tree'),
-            pos(x, y),
-            scale(1),
-            anchor('center'),
-            area(),
-            body({ isStatic: true }),
-            state('fruity', ['fruity', 'default']),
-            layer('game'),
-            z(treeZ),
-            'tree',
-        ]);
+    treeZ--;
 
-        treeZ--;
+    tree.add([
+        ellipse(tree.width / 2, 10),
+        pos(0, 56),
+        color(Color.fromHex('#03193F')),
+        anchor('top'),
+        opacity(0.25),
+        layer('bg'),
+    ]);
 
-        tree.add([
-            ellipse(tree.width / 2, 10),
-            pos(0, 56),
-            color(Color.fromHex('#03193F')),
-            anchor('top'),
-            opacity(0.25),
-            layer('bg'),
-        ]);
-
-        tree.onStateEnter('default', () => {
-            tree.play('default');
-
-        });
-
-        tree.onStateEnter('fruity', () => {
-            tree.play('fruity');
-        });
-
-        treePops();
-
-        return tree;
+    tree.onStateEnter('default', () => {
+        tree.play('default');
 
     });
 
+    tree.onStateEnter('fruity', () => {
+        tree.play('fruity');
+    });
+
+    plantGrows();
+
+    return tree;
 
 }
+
+export function addThistle(x, y) {
+
+        const thistle = k.add([
+            sprite('thistle'),
+            pos(x, y),
+            scale(.75),
+            anchor('center'),
+            area(),
+            body({ isStatic: true }),
+            state('default', ['default']),
+            layer('game'),
+            z(treeZ),
+            'thistle',
+        ]);
+
+        thistle.onStateEnter('default', () => {
+            thistle.play('default');
+        });
+
+        plantGrows();
+        return thistle;
+
+}
+
+export function addDandelionChrono(x, y) {
+
+        const dandelionChrono = k.add([
+            sprite('dandelionChrono'),
+            pos(x, y),
+            scale(.75),
+            anchor('center'),
+            area(),
+            body({ isStatic: true }),
+            state('default', ['default']),
+            layer('game'),
+            z(treeZ),
+            'dandelionChrono',
+        ]);
+
+        dandelionChrono.onStateEnter('default', () => {
+            dandelionChrono.play('default');
+        });
+
+        plantGrows();
+        return dandelionChrono;
+
+}
+
 
 // OBJECT SPAWNING
 export function addObject(objectType) {
 
     // FILTERS GAMEOBJECTLIST AND RETURNS AN ARRAY OF THE SPECIFIED OBJECT TYPE
-    const filteredObject = Object.keys(gameObjectList).filter(filterParam => gameObjectList[filterParam].objectType === objectType);
+    const filteredObject = Object.keys(objectList).filter(filterParam => objectList[filterParam].objectType === objectType);
     // SELECTS A RANDOM OBJECT FROM THE FILTERED ARRAY
     const getRandomObjectFromList = Math.floor(Math.random() * filteredObject.length);
     const spriteName = filteredObject[getRandomObjectFromList];
@@ -76,17 +120,17 @@ export function addObject(objectType) {
 
 
     // A TRANSPARENT CONTAINER WHICH GATHERS THE POSITION AND THE SPRITE'S AREA
-    const gameObjectContainer = add([
+    const objectContainer = add([
         sprite(spriteName),
         pos(posX_Final, posY_Final),
         opacity(0),
         anchor('center'),
-        'gameObject',
+        'objectContainer',
      ]);
 
-    const fallingObject = gameObjectContainer.add([
+    const fallingObject = objectContainer.add([
         sprite(spriteName),
-        scale(.75),
+        scale(.85),
         opacity(1),
         pos(0, posY_Spawn),
         anchor('center'),
@@ -114,15 +158,15 @@ export function addObject(objectType) {
             easings.easeOutBounce,
         );
                 
-        gameObjectContainer.use(area({ scale: .75, isSensor: true }));
+        objectContainer.use(area({ scale: .75, isSensor: true }));
 
     });
 
 
     // ADDS A SHADOW BELOW THE OBJECT
-    gameObjectContainer.add([
-        ellipse(gameObjectContainer.width /2 *.75, 10),
-        pos(0, gameObjectContainer.height / 2 -10),
+    objectContainer.add([
+        ellipse(objectContainer.width /2 *.85, 10),
+        pos(0, objectContainer.height / 2 -8),
         color(Color.fromHex('#03193F')),
         anchor('center'),
         opacity(0.3),

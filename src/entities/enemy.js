@@ -2,7 +2,7 @@ export function createEnemy(player) {
 
     //ENEMY
     const enemyStats = {
-        speed: 20,
+        speed: 10,
         size: 1,
         previousPosX: width() + 212,
     };
@@ -23,7 +23,7 @@ export function createEnemy(player) {
 
     enemy.onStateEnter('idle', async () => {
         enemy.play('idle');
-        await wait(9999)
+        await wait(2)
         enemy.enterState('run');
     });
 
@@ -60,10 +60,16 @@ export function createEnemy(player) {
 
         enemyStats.size -= 0.25;
         enemy.scale = vec2(enemyStats.size);
-        enemyStats.speed -= 15;
+        enemyStats.speed -= 20;
     });
 
-    enemy.onCollide('gameObject', (gameObject) => {
+    enemy.onCollide('objectContainer', (gameObject) => {
+        //if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
+        destroy(gameObject);
+        //}
+    });
+
+    enemy.onCollide('thistle', (gameObject) => {
         //if (objet.sprite == 'virusBlue' || objet.sprite == 'virusBrown') {
         destroy(gameObject);
         //}

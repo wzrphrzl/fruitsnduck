@@ -1,9 +1,9 @@
 import kaplay from 'kaplay';
 import 'kaplay/global';
 
-// INITIALIZE KAPLAY 
+// INITIALIZE KAPLAY
 
-// KAPLAY 
+// KAPLAY
 const k = kaplay({
     // without specifying "width" and "height", kaboom will size to the container (document.body by default)
     width: 1440,
@@ -24,13 +24,13 @@ const k = kaplay({
 
 // FONT STYLES, GAME LAYERS AND SCORE STATE
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
-const fontStyleSmall = { size: 32, font: 'Nunito' };
 const fontStyleMed = { size: 48, font: 'Nunito' };
+const fontStyleSmall = { size: 28, font: 'Nunito' };
 const fontStyleTiny = { size: 24, font: 'Nunito' };
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 
-const scoreStats = { savedScore: '', virusCount: '', };
+const scoreStats = { savedScore: '', virusCount: '', gameTime: 0, };
 
 // SOUND EFFECTS
 loadSound('fallen-precious-object', './sound/bonus/fallen-precious-object.mp3');
@@ -64,7 +64,15 @@ loadSound('fart-2', './sound/fart/fart-2.mp3');
 loadSound('fart-3', './sound/fart/fart-3.mp3');
 loadSound('fart-4', './sound/fart/fart-4.mp3');
 loadSound('fart-5', './sound/fart/fart-5.mp3');
-// MAP
+// SPRITES IN ALPHABETICAL ORDER
+loadSprite('acorn', './img/acorn.png');
+loadSprite('cbanana', './img/cbanana.png');
+loadSprite('clemon', './img/clemon.png');
+loadSprite('cpear', './img/cpear.png');
+loadSprite('cstrawberry', './img/cstrawberry.png');
+loadSprite('cwatermelon', './img/cwatermelon.png');
+loadSprite('egg', './img/egg.png');
+loadSprite('gameRules', './img/game-rules.png');
 loadSprite('grass-1', './img/grass-1.png');
 loadSprite('grass-2', './img/grass-2.png');
 loadSprite('grass-3', './img/grass-3.png');
@@ -74,93 +82,48 @@ loadSprite('grass-6', './img/grass-6.png');
 loadSprite('grass-7', './img/grass-7.png');
 loadSprite('grass-8', './img/grass-8.png');
 loadSprite('grass-9', './img/grass-9.png');
-// OBJECTS, TREE, PLAYER, ENEMY SPRITES
-loadSprite('tomato', './img/tomato.png');
-loadSprite('pear', './img/pear.png');
-loadSprite('banana', './img/banana.png');
-loadSprite('virusBlue', './img/virus-blue.png');
-loadSprite('virusPurple', './img/virus-purple.png');
-loadSprite('virusBrown', './img/virus-brown.png');
-
-loadSprite('orange', './img/orange.png');
-loadSprite('lemon', './img/lemon.png');
-loadSprite('watermelon', './img/watermelon.png');
-loadSprite('kumquat', './img/kumquat.png');
-loadSprite('grape', './img/grape.png');
-loadSprite('piment', './img/piment.png');
-loadSprite('strawberry', './img/strawberry.png');
-
-loadSprite('tomatoArmor', './img/tomato-armor.png');
-loadSprite('superPiment', './img/super-piment.png');
-loadSprite('samaraSpeed', './img/samara-speed.png');
-loadSprite('superGrape', './img/super-grape.png');
-loadSprite('blueberry', './img/blueberry.png');
-loadSprite('acorn', './img/acorn.png');
-loadSprite('egg', './img/egg.png');
 loadSprite('heartIngame', './img/heart-ingame.png');
-loadSprite('heartPlus', './img/heart-plus.png');
+loadSprite('particle', './img/particle_hexagon_filled.png');
+loadSprite('samaraLegend', './img/samara-legend.png');
+loadSprite('samaraSpeed', './img/samara-speed.png');
+loadSprite('sGrape1', './img/sgrape-1.png');
+loadSprite('sGrape2', './img/sgrape-2.png');
+loadSprite('sGrape3', './img/sgrape-3.png');
+loadSprite('sKumquat1', './img/skumquat-1.png');
+loadSprite('sKumquat2', './img/skumquat-2.png');
+loadSprite('sKumquat3', './img/skumquat-3.png');
+loadSprite('sPiment1', './img/spiment-1.png');
+loadSprite('sPiment2', './img/spiment-2.png');
+loadSprite('sPiment3', './img/spiment-3.png');
+loadSprite('sPlum1', './img/splum-1.png');
+loadSprite('sPlum2', './img/splum-2.png');
+loadSprite('sPlum3', './img/splum-3.png');
+loadSprite('sTomato1', './img/stomato-1.png');
+loadSprite('sTomato2', './img/stomato-2.png');
+loadSprite('sTomato3', './img/stomato-3.png');
+loadSprite('superHeart', './img/super-heart.png');
+loadSprite('superHeartLegend', './img/super-heart-legend.png');
+loadSprite('superPiment', './img/superpiment.png');
+loadSprite('superPimentLegend', './img/superpiment-legend.png');
+loadSprite('superStar', './img/superstar.png');
+loadSprite('superstarLegend', './img/superstar-legend.png');
+loadSprite('superTomatoArmor', './img/supertomato-armor.png');
+loadSprite('superTomatoArmorLegend', './img/supertomato-armor-legend.png');
+loadSprite('treeSmall', './img/tree-small.png');
+loadSprite('virus3Red', './img/virus-3-red.png');
+loadSprite('virus4Blue', './img/virus-4-blue.png');
+loadSprite('virus5Brown', './img/virus-5-brown.png');
+loadSprite('virusPink', './img/virus-1-pink.png');
+loadSprite('virusYellow', './img/virus-2-yellow.png');
 
-loadSprite('heart', './img/heart.png', {
-    sliceX: 2,
-    anims: {
-        'heartFull': {
-            from: 0,
-            to: 0,
-            loop: false,
-        },
-        'heartEmpty': {
-            from: 1,
-            to: 1,
-            loop: false,
-        },
-    }
-});
-
-loadSprite('flower-1', './img/flower-1.png', {
+// ANIMATED SPRITES
+loadSprite('dandelionChrono', './img/dandelion-chrono.png', {
     sliceX: 4,
     anims: {
         'default': {
             from: 0,
             to: 3,
             speed: 12,
-            loop: false,
-        },
-    }
-});
-loadSprite('flower-2', './img/flower-2.png', {
-    sliceX: 4,
-    anims: {
-        'default': {
-            from: 0,
-            to: 3,
-            speed: 12,
-            loop: false,
-        },
-    }
-});
-loadSprite('flower-3', './img/flower-3.png', {
-    sliceX: 4,
-    anims: {
-        'default': {
-            from: 0,
-            to: 3,
-            speed: 12,
-            loop: false,
-        },
-    }
-});
-
-loadSprite('tree', './img/tree.png', {
-    sliceX: 5,
-    anims: {
-        'default': {
-            from: 4,
-            to: 4,
-        },
-        'fruity': {
-            from: 0,
-            to: 3,
-            speed: 16,
             loop: false,
         },
     }
@@ -202,14 +165,14 @@ loadSprite('duck', './img/duck.png', {
             to: 4,
             speed: 6,
             loop: true,
-        }, 
+        },
         'win': {
             from: 6,
             to: 6,
             loop: false,
-        },      
+        },
         'orangeIdle': {
-            from:7,
+            from: 7,
             to: 7,
             loop: false,
         },
@@ -239,13 +202,13 @@ loadSprite('duck', './img/duck.png', {
             from: 12,
             to: 12,
             loop: false,
-        },        
+        },
         'lose': {
             from: 13,
             to: 13,
             loop: false,
-        }, 
-    },    
+        },
+    },
 });
 
 loadSprite('enemy', './img/enemy.png', {
@@ -265,7 +228,57 @@ loadSprite('enemy', './img/enemy.png', {
     },
 });
 
-loadSprite('particle', './img/particle_hexagon_filled.png');
+loadSprite('flower-1', './img/flower-1.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+
+loadSprite('flower-2', './img/flower-2.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+
+loadSprite('flower-3', './img/flower-3.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+
+loadSprite('heartUI', './img/heart-ui.png', {
+    sliceX: 2,
+    anims: {
+        'heartFull': {
+            from: 0,
+            to: 0,
+            loop: false,
+        },
+        'heartEmpty': {
+            from: 1,
+            to: 1,
+            loop: false,
+        },
+    }
+});
 
 loadSprite('poop', './img/poop.png', {
     sliceX: 2,
@@ -279,7 +292,18 @@ loadSprite('poop', './img/poop.png', {
     }
 });
 
-// MENU SPRITES
+loadSprite('thistle', './img/thistle.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 14,
+            loop: false,
+        },
+    }
+});
+
 loadSprite('titleScreen', './img/title-screen.png', {
     sliceX: 0,
     anims: {
@@ -292,6 +316,21 @@ loadSprite('titleScreen', './img/title-screen.png', {
     }
 });
 
-loadSprite('gameRules', './img/game-rules.png');
+loadSprite('tree', './img/tree-full.png', {
+    sliceX: 5,
+    anims: {
+        'default': {
+            from: 4,
+            to: 4,
+        },
+        'fruity': {
+            from: 0,
+            to: 3,
+            speed: 16,
+            loop: false,
+        },
+    }
+});
+
 
 export { k, scoreStats, fontStyleMed, fontStyleSmall, fontStyleTiny };
