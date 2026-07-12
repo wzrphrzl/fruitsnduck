@@ -201,7 +201,6 @@ export function addObject(objectType) {
 
     });
 
-
     // ADDS A SHADOW BELOW THE OBJECT
     objectContainer.add([
         ellipse(objectContainer.width /2 *.85, 10),

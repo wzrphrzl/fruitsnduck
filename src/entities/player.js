@@ -2,7 +2,7 @@ import { k } from '../appInit.js';
 import { kwak, fart } from '../lib/audio.js';
 import { palette } from '../lib/colorpalette.js';
 
-const playerStats = { speed: 400, poopCount: 10 };
+const playerStats = { speedKaplay: 10, mines: 0, armor: 0, speed: 0, superStar: 0 };
 
 let player;
 let poop;
@@ -54,7 +54,7 @@ function createPlayer() {
             });
         }
 
-        if (['orangeIdle', 'orangeRun', 'armorIdle', 'armorRun'].includes(player.state) && playerStats.poopCount > 0) {
+        if (['orangeIdle', 'orangeRun', 'armorIdle', 'armorRun'].includes(player.state) && playerStats.mines > 0) {
 
             fart();
 
@@ -77,7 +77,7 @@ function createPlayer() {
 
             poop.play('idle');
 
-            playerStats.poopCount--;
+            playerStats.mines--;
         }
     });
 
@@ -146,7 +146,7 @@ function createPlayer() {
 
         // NORMALIZE DIAGONALS SO ALL 8 DIRECTIONS SHARE THE SAME SPEED
         const factor = (moveDir.x && moveDir.y) ? DIAGONAL_FACTOR : 1;
-        player.move(moveDir.scale(playerStats.speed * factor));
+        player.move(moveDir.scale(playerStats.speedKaplay * factor));
     });
 
 

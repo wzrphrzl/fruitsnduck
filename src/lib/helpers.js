@@ -1,4 +1,4 @@
-import { k, fontStyleMed } from '../appInit.js';
+import { k, fontStyleBig } from '../appInit.js';
 import { palette } from './colorpalette.js';
 
 // GENERIC HELPERS
@@ -58,7 +58,7 @@ export function addButton(texte, posX, posY) {
         ]);
 
         btn.add([
-            text(txt, fontStyleMed),
+            text(txt, fontStyleBig),
             anchor('center'),
             pos(0, -4),
             color(Color.fromHex(palette.yellowOrange.bright)),

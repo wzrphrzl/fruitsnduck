@@ -12,7 +12,7 @@ import { fruitCombo } from '../systems/fruitcombo.js';
 
 scene('game', () => {
 
-   debug.inspect = true;
+   //debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, palette.green.darker, 'bg', { fixed: true, area: false });
@@ -28,7 +28,7 @@ scene('game', () => {
 
     // CREATES THE FIRST ENTITIES
     const player = createPlayer();
-    playerStats.speed = 400;
+    playerStats.speedKaplay = 600;
     const { enemy, enemyStats } = createEnemy(player, score);
 
     // INITIALIZES THE INVENTORY SYSTEM
@@ -37,7 +37,7 @@ scene('game', () => {
     fruitCombo({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
 
     // COUNTDOWN TIMER : LOSES THE GAME AT 0
-    const timer = createTimer(70, () => {
+    const timer = createTimer(180, () => {
         scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
         player.enterState('lose');
         player.paused = true;
@@ -64,7 +64,9 @@ scene('game', () => {
         wait(10, () => { destroy(poppedAcorn); });
     });
 
-
+            for (let i = 0; i < 30; i++) {
+                addObject('superFruitT1');
+            }
 
 /*     wait(0, () => {
         for (let i = 0; i < 4; i++) {
@@ -90,7 +92,7 @@ scene('game', () => {
             for (let i = 0; i < 4; i++) {
                 addObject('commonFruit');
             }
-            for (let i = 0; i < 2; i++) {
+            for (let i = 0; i < 10; i++) {
                 addObject('superFruitT1');
             }
             touchedTree.enterState('default');

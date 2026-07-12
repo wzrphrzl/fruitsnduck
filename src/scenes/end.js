@@ -1,4 +1,4 @@
-import { scoreStats, fontStyleSmall } from '../appInit.js';
+import { scoreStats, fontStyleMedium } from '../appInit.js';
 import { addRect, addButton } from '../lib/helpers.js';
 import { formatTime } from '../systems/timer.js';
 import { palette } from '../lib/colorpalette.js';
@@ -49,14 +49,14 @@ scene('lose', () => {
         ]);
         
         scoreMenu.add([
-            text(param2, fontStyleSmall),
+            text(param2, fontStyleMedium),
             pos(32, 40),
             anchor('topleft'),
             layer('ui'),
         ]);
     
         scoreMenu.add([
-            text('Score : ' + scoreStats.savedScore, fontStyleSmall),
+            text('Score : ' + scoreStats.savedScore, fontStyleMedium),
             pos(32, 112),
             scale(1),
             anchor('topleft'),
@@ -65,7 +65,7 @@ scene('lose', () => {
 
         //VIRUS COUNT
         scoreMenu.add([
-            text('Collected Viruses : ' + scoreStats.virusCount, fontStyleSmall),
+            text('Collected Viruses : ' + scoreStats.virusCount, fontStyleMedium),
             pos(32, 184),
             scale(1),
             anchor('topleft'),
@@ -74,7 +74,7 @@ scene('lose', () => {
 
         //TIME SURVIVED
         scoreMenu.add([
-            text('Time survived : ' + formatTime(scoreStats.gameTime), fontStyleSmall),
+            text('Time survived : ' + formatTime(scoreStats.gameTime), fontStyleMedium),
             pos(32, 256),
             scale(1),
             anchor('topleft'),

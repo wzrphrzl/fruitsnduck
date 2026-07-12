@@ -1,4 +1,4 @@
-import { fontStyleSmall } from '../appInit.js';
+import { fontStyleMedium } from '../appInit.js';
 
 // FORMAT A TIME IN SECONDS AS XX:XX (e.g. 60 → '01:00', 59 → '00:59')
 export function formatTime(totalSeconds) {
@@ -12,7 +12,7 @@ export function createTimer(startSeconds, onTimeout) {
 
     // ALIGNED WITH THE SCORE (SAME Y / FONT SIZE), HORIZONTALLY CENTERED
     const timer = add([
-        text(formatTime(startSeconds), fontStyleSmall),
+        text(formatTime(startSeconds), fontStyleMedium),
         pos(width() / 2, 24),
         fixed(),
         anchor('top'),

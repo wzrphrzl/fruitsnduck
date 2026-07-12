@@ -1,6 +1,6 @@
-import { fontStyleSmall, fontStyleTiny } from '../appInit.js';
+import { fontStyleMedium, fontStyleRegular, fontStyleMention, fontStyleCaveat } from '../appInit.js';
 import { addRect } from '../lib/helpers.js';
-import { player } from '../entities/player.js';
+import { player, playerStats } from '../entities/player.js';
 import { bumpHp, bumpMini } from '../lib/effects.js';
 import { palette } from '../lib/colorpalette.js';
 
@@ -9,7 +9,7 @@ const SCORE_TILE = {
     x: 32,          
     topY: 64,       
     w: 56,
-    h: 28,
+    h: 32,
     gap: 6,         
     life: 3,        
     max: 3,         
@@ -45,7 +45,7 @@ export function createUI() {
     // SCORE UI
     const initialScore = 0;
     const score = add([
-        text('Score : ' + initialScore, fontStyleSmall),
+        text('Score : ' + initialScore, fontStyleMedium),
         pos(32, 24),
         fixed(),
         anchor('topleft'),
@@ -56,10 +56,16 @@ export function createUI() {
     // SCORE TILES
     scoreTiles = [];
 
+    // COMBO NAME POPUP
+    comboPopup = null;
+
+    // ABILITIES PANEL
+    resetAbilitiesUI();
+
     // INVENTORY UI
     add([
-        text('Fruit Combo', fontStyleTiny),
-        pos(1408, 632),
+        text('Fruit Combo', fontStyleRegular),
+        pos(1404, 632),
         fixed(),
         anchor('topright'),
         { value: 0 },
@@ -101,6 +107,64 @@ export function renderComboBoxes(boxes, comboSlots, previousSprites, bumpIndex) 
     });
 }
 
+// COMBO NAME POPUP : shown above the fruit combo boxes when a combo is made
+const COMBO_BOX = {
+    w: 328,
+    h: 64,
+    cx: 1240,       // horizontally centered over the 3 fruit boxes (1072 → 1408)
+    bottomY: 656,   // 16px above the boxes' top edge (672)
+    radius: 12,
+    z: 100,         // above the static "Fruit Combo" label
+    delay: 2,       // visible time before the fade-out (matches the combo inventory clear)
+    fadeTime: 0.5,  // fade-out duration
+};
+
+// single reusable popup : { box, label, timer, fade } — or null when hidden
+let comboPopup = null;
+
+export function showComboName(name) {
+    const cy = COMBO_BOX.bottomY - COMBO_BOX.h / 2;
+
+    if (!comboPopup || !comboPopup.box.exists()) {
+        // CREATE
+        const box = add([
+            rect(COMBO_BOX.w, COMBO_BOX.h, { radius: COMBO_BOX.radius }),
+            pos(COMBO_BOX.cx, cy), anchor('center'),
+            color(Color.fromHex(palette.blue.darkest)),
+            outline(2, Color.fromHex(palette.green.lighter)),
+            opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
+        ]);
+        const label = add([
+            text(name, fontStyleCaveat),
+            pos(COMBO_BOX.cx, cy -2), anchor('center'),
+            color(Color.fromHex(palette.green.lighter)),
+            opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
+        ]);
+        comboPopup = { box, label, timer: null, fade: null };
+    } else {
+        // REUSE : a new combo while it's still shown → update text, cancel the pending fade-out
+        comboPopup.timer?.cancel();
+        comboPopup.fade?.cancel();
+        comboPopup.label.text = name;
+        comboPopup.box.opacity = 1;
+        comboPopup.label.opacity = 1;
+    }
+
+    // (RE)START : wait `delay`, then fade out and remove
+    const popup = comboPopup;
+    popup.timer = wait(COMBO_BOX.delay, () => {
+        popup.fade = tween(1, 0, COMBO_BOX.fadeTime, (p) => {
+            if (popup.box.exists()) popup.box.opacity = p;
+            if (popup.label.exists()) popup.label.opacity = p;
+        }, easings.easeInOutQuad);
+        popup.fade.onEnd(() => {
+            if (popup.box.exists()) destroy(popup.box);
+            if (popup.label.exists()) destroy(popup.label);
+            if (comboPopup === popup) comboPopup = null;
+        });
+    });
+}
+
 // amount : signed score change (e.g. 5 → '+5', -10 → '-10')
 export function showScoreTile(amount) {
 
@@ -110,24 +174,26 @@ export function showScoreTile(amount) {
     }
 
     const labelText = (amount > 0 ? '+' : '') + amount;
+    // GAIN → green, LOSS → red (color only; fade below still just tweens opacity)
+    const textColor = amount > 0 ? palette.green.bright : palette.red.dark;
 
-    // BACKGROUND : 56x28, RADIUS 16, #03193F @ 50% OPACITY
+    // BACKGROUND : same fill/opacity as the abilities panel (#03193F @ 66%), radius 8
     const bg = add([
-        rect(SCORE_TILE.w, SCORE_TILE.h, { radius: 16 }),
+        rect(SCORE_TILE.w, SCORE_TILE.h, { radius: 8 }),
         pos(SCORE_TILE.x, SCORE_TILE.topY),
         anchor('topleft'),
         color(Color.fromHex(palette.blue.darkest)),
-        opacity(0.5),
+        opacity(0.66),
         fixed(),
         layer('ui'),
         'scoreTile',
     ]);
 
     const textObj = add([
-        text(labelText, { size: 16, font: 'Nunito' }),
+        text(labelText, fontStyleMention),
         pos(SCORE_TILE.x + SCORE_TILE.w / 2, SCORE_TILE.topY + SCORE_TILE.h / 2),
         anchor('center'),
-        color(Color.fromHex(palette.gray.lighter)),
+        color(Color.fromHex(textColor)),
         opacity(1),
         fixed(),
         layer('ui'),
@@ -138,8 +204,8 @@ export function showScoreTile(amount) {
 
     // FADE OUT OVER ITS 3s LIFETIME (easeInOutQuad), THEN REMOVE
     tile.fade = tween(1, 0, SCORE_TILE.life, (p) => {
-        bg.opacity = p * 0.5;   // BG CAPS AT 50%
-        textObj.opacity = p;    // LABEL CAPS AT 100%
+        bg.opacity = p * 0.66;   // BG CAPS AT 66%
+        textObj.opacity = p;     // LABEL CAPS AT 100%
     }, easings.easeInOutQuad);
     tile.fade.onEnd(() => {
         tile.finished = true;
@@ -189,27 +255,92 @@ export function healthPointsUI(bumpIndex) {
 }
 
 
-// RARE OBJECTS
-let rareObjStats_UI = {
-    count: 0,
-    posX: 32,
-};;
+// ABILITIES PANEL (legendary objects collected by the player)
+// Per-ability display size (all same width) + the playerStats key it maps to.
+const ABILITY_META = {
+    superPiment:      { width: 24, height: 30, label: 'mines', statKey: 'mines' },
+    superTomatoArmor: { width: 24, height: 32, label: 'armor', statKey: 'armor' },
+    samaraSpeed:      { width: 24, height: 30, label: 'speed', statKey: 'speed' },
+    superStar:        { width: 24, height: 22, label: 'stars', statKey: 'superStar' },
+};
+
+const ABILITY_PANEL = {
+    x: 32,            // left edge (screen)
+    bottomY: 768,     // bottom edge — aligned with the combo boxes' bottom (672 + 96)
+    width: 148,
+    radius: 12,
+    padX: 16,         // rect left edge → sprite left edge
+    padTop: 16,       // rect top edge → first sprite top
+    padBottom: 16,    // last sprite bottom → rect bottom edge
+    itemGap: 12,      // vertical gap between two abilities
+    labelGap: 12,     // sprite right edge → label left edge
+    titleGap: 16,     // title bottom edge → rect top edge
+};
+
+let abilities = [];      // collected ability sprite names, in pickup order
+let abilityUIObjs = [];  // spawned UI objects, torn down and rebuilt on each change
+
+function clearAbilitiesPanel() {
+    abilityUIObjs.forEach(o => o.exists() && destroy(o));
+    abilityUIObjs = [];
+}
+
+function resetAbilitiesUI() {
+    clearAbilitiesPanel();
+    abilities = [];
+}
 
 export function addRareObject_UI(spriteName) {
+    if (!ABILITY_META[spriteName] || abilities.includes(spriteName)) return;
+    abilities.push(spriteName);
+    renderAbilitiesPanel();
+}
 
-    let posX = rareObjStats_UI.posX;
+function renderAbilitiesPanel() {
+    clearAbilitiesPanel();
+    if (abilities.length === 0) return;
 
-    if (rareObjStats_UI.count < 3) {
-        rareObjStats_UI.posX = rareObjStats_UI.posX + 88;
+    const P = ABILITY_PANEL;
+    // spawn a fixed UI object on the 'ui' layer and track it for teardown
+    const ui = (comps) => { const o = add([...comps, fixed(), layer('ui')]); abilityUIObjs.push(o); return o; };
 
-        const addedBox = addRect(80, 80, 40, posX, 696, palette.blue.darkest, 'ui', { fixed: true });
-        addedBox.add([
-            sprite( spriteName ),
-            anchor("center"),
-            pos(40, 40),
-            scale(.5),
-            layer('ui'),
+    // height = paddings + items + gaps between them
+    const itemsHeight = abilities.reduce((h, n) => h + ABILITY_META[n].height, 0);
+    const height = P.padTop + itemsHeight + P.itemGap * (abilities.length - 1) + P.padBottom;
+    const topY = P.bottomY - height;   // rect top edge (world y)
+
+    // background (bottom-left anchored → grows upward as abilities are added)
+    ui([
+        rect(P.width, height, { radius: P.radius }), pos(P.x, P.bottomY), anchor('botleft'),
+        color(Color.fromHex(palette.blue.darkest)), opacity(0.5),
+    ]);
+
+    // title "Abilities", above the panel
+    ui([
+        text('Abilities', fontStyleRegular), pos(P.x, topY - P.titleGap), anchor('botleft'),
+        color(Color.fromHex(palette.slate.lighter)),
+    ]);
+
+    // items: first pickup stays at the bottom, later ones stack above it
+    let itemBottom = P.bottomY - P.padBottom;
+    for (const name of abilities) {
+        const meta = ABILITY_META[name];
+        const itemTop = itemBottom - meta.height;
+
+        ui([
+            sprite(name, { width: meta.width, height: meta.height }),
+            pos(P.x + P.padX, itemTop), anchor('topleft'),
         ]);
+
+        // "<name> +<live value>" — value read from playerStats, refreshed each frame
+        const value = () => `${meta.label} +${playerStats[meta.statKey]}`;
+        const label = ui([
+            text(value(), fontStyleMention),
+            pos(P.x + P.padX + meta.width + P.labelGap, itemTop + meta.height / 2), anchor('left'),
+            color(Color.fromHex(palette.slate.lighter)),
+        ]);
+        label.onUpdate(() => { label.text = value(); });
+
+        itemBottom = itemTop - P.itemGap;   // next item sits above
     }
-    rareObjStats_UI.count++;
 }

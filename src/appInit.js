@@ -23,10 +23,13 @@ const k = kaplay({
 });
 
 // FONT STYLES, GAME LAYERS AND SCORE STATE
+loadFont('CaveatRegular', './font/Caveat-Regular.ttf');
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
-const fontStyleMed = { size: 48, font: 'Nunito' };
-const fontStyleSmall = { size: 28, font: 'Nunito' };
-const fontStyleTiny = { size: 24, font: 'Nunito' };
+const fontStyleBig = { size: 48, font: 'Nunito' };
+const fontStyleCaveat = { size: 34, font: 'CaveatRegular' };
+const fontStyleMedium = { size: 28, font: 'Nunito' };
+const fontStyleRegular = { size: 24, font: 'Nunito' };
+const fontStyleMention = { size: 18, font: 'Nunito' };
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 
@@ -333,4 +336,4 @@ loadSprite('tree', './img/tree-full.png', {
 });
 
 
-export { k, scoreStats, fontStyleMed, fontStyleSmall, fontStyleTiny };
+export { k, scoreStats, fontStyleBig, fontStyleCaveat, fontStyleMedium, fontStyleRegular, fontStyleMention };

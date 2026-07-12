@@ -43,7 +43,7 @@ export const objectList = {
     // SUPER FRUIT
     sGrape1: {
         objectType: 'superFruitT1',
-        scoreValue: 10,
+        scoreValue: 8,
         objectEvent: () => {
             addObject('superStar');
         }
@@ -60,7 +60,7 @@ export const objectList = {
     },
     sKumquat1: {
         objectType: 'superFruitT1',
-        scoreValue: 10,
+        scoreValue: 9,
         objectEvent: () => {
             addObject('samaraSpeed');
         }
@@ -77,7 +77,7 @@ export const objectList = {
     },
     sPiment1: {
         objectType: 'superFruitT1',
-        scoreValue: 10,
+        scoreValue: 12,
         objectEvent: () => {
                 addObject('superPiment');
                 wait(2, () => {play('fallen-precious-object')});
@@ -95,7 +95,7 @@ export const objectList = {
     },
     sPlum1: {
         objectType: 'superFruitT1',
-        scoreValue: 10,
+        scoreValue: 13,
         objectEvent: () => {
             addObject('superHeart');
         }
@@ -112,7 +112,7 @@ export const objectList = {
     },
     sTomato1: {
         objectType: 'superFruitT1',
-        scoreValue: 5,
+        scoreValue: 14,
         objectEvent: () => {
             wait(.8, () => {
                 addObject('superTomatoArmor');
@@ -145,6 +145,8 @@ export const objectList = {
         objectType: 'superStar',
         scoreValue: 0,
         objectEvent: () => {
+            playerStats.superStar += 1;
+            addRareObject_UI('superStar');
         }
     },
 
@@ -163,11 +165,12 @@ export const objectList = {
         objectEvent: () => {
           play('buff', { volume: .25});
 
+          playerStats.armor = 1;
           player.enterState('armorIdle');
+          addRareObject_UI('superTomatoArmor');
             if (objectList.superTomatoArmor.count < 1) {
-                addRareObject_UI('superTomatoArmor');
-                playerStats.speed = playerStats.speed - 110;
-                objectList.superTomatoArmor.count++; 
+                playerStats.speedKaplay = playerStats.speedKaplay - 110;
+                objectList.superTomatoArmor.count++;
             }
         }
     },   
@@ -176,12 +179,9 @@ export const objectList = {
         scoreValue: 20,
         count: 0,
         objectEvent: () => {
-            playerStats.poopCount = 5;
+            playerStats.mines += 5;
             play('buff', { volume: .25});
-            if (objectList.superPiment.count < 1) {
-                addRareObject_UI('superPiment');
-                objectList.superPiment.count++;
-            }
+            addRareObject_UI('superPiment');
             if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
                 player.enterState('orangeIdle');
             }
@@ -193,14 +193,15 @@ export const objectList = {
         count: 0,
         objectEvent: () => {
             play('buff', { volume: .25});
+            playerStats.speed += 1;
+            addRareObject_UI('samaraSpeed');
             if (objectList.samaraSpeed.count < 1) {
-                addRareObject_UI('samaraSpeed');
-                addDustTrail(player);   
+                addDustTrail(player);
                 objectList.samaraSpeed.count++;
            }
 
             if (objectList.samaraSpeed.count < 2) {
-                playerStats.speed = playerStats.speed + 100;
+                playerStats.speedKaplay = playerStats.speedKaplay + 100;
                 objectList.samaraSpeed.count++; 
             }
         }
