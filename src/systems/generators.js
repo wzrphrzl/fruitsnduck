@@ -120,11 +120,6 @@ export function addDandelionChrono(x, y) {
             dandelionChrono.play('default');
         });
 
-        // AREA : adapt hitbox shape to sprite outline (grown frame)
-        dandelionChrono.area.shape = getSpriteOutline('dandelionChrono', 3, true, 1);
-        dandelionChrono.area.shape.pts = buildConvexHull(dandelionChrono.area.shape.pts);
-        dandelionChrono.area.offset = vec2(-dandelionChrono.width / 2, -dandelionChrono.height / 2);
-
         plantGrows();
         return dandelionChrono;
 
