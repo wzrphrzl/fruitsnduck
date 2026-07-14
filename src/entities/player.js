@@ -1,5 +1,5 @@
 import { k } from '../appInit.js';
-import { kwak, fart } from '../lib/audio.js';
+import { kwak, fart, armorWalks } from '../lib/audio.js';
 import { palette } from '../lib/colorpalette.js';
 
 const playerStats = { speedKaplay: 10, mines: 0, armor: 0, speed: 0, superStar: 0 };
@@ -107,7 +107,8 @@ function createPlayer() {
         footstepTimer += dt();
         if (footstepTimer >= delay) {
             footstepTimer = 0;
-            play(player.state === 'armorRun' ? 'armor-footstep-1' : 'footstep-1', { volume: .6 });
+            if (player.state === 'armorRun') armorWalks();
+            else play('footstep-1', { volume: .6 });
         }
     });
 

@@ -3,7 +3,7 @@ import { objectList } from './objects.js';
 import { addFlower } from './generators.js';
 import { bump } from '../lib/effects.js';
 import { showScoreTile, renderFruitBoxes, showComboTile } from './ui.js';
-import { classifyCombo, resolveCombo } from './loots.js';
+import { classifyCombo, resolveCombo, playComboSound } from './loots.js';
 
 
 export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
@@ -49,12 +49,13 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
             const category = classifyCombo(comboSlots);
             debug.log('fruitCombo : ' + category);
             showComboTile(category);
+            playComboSound(category);
 
             if (category === 'perfectCombo') {
                 // 3 identical super fruits (T1) → that fruit's own event
                 objectList[comboSlots[0]].objectEvent();
             } else {
-                // baseCombo / imperfectCombo → random loot from the category table
+                // baseCombo / unPerfectCombo / nearPerfectCombo → loot from the category table
                 resolveCombo(category, { player });
             }
 

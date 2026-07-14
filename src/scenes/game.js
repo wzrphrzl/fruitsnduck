@@ -107,6 +107,7 @@ scene('game', () => {
 
     player.onCollide('acorn', (acorn) => {
         const spot = setFreePos(player, 140);
+        play('pickedAcorn'); 
         addTree(spot.x, spot.y);
         destroy(acorn);
     });
@@ -117,6 +118,7 @@ scene('game', () => {
     });
 
     player.onCollide('dandelionChrono', (dandelionChrono) => {
+        play('pickedDandelionChrono'); 
         timer.addTime(20);
         destroy(dandelionChrono);
         debug.log( 'TIME + 20')
@@ -125,6 +127,7 @@ scene('game', () => {
     player.onCollide('enemy', () => {
         scoreStats.savedScore = score.value;
         player.hp -= 1;
+        play('hitByVirus');
         debug.log(player.hp);
     });
     
@@ -162,6 +165,8 @@ scene('game', () => {
     player.onDeath(() => {
         timer.stop();
         scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
+ 
+        play('playerDeath'); 
         player.enterState('lose');
         player.paused = true;
         enemy.paused = true;

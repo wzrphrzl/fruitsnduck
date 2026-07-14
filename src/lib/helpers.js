@@ -94,7 +94,10 @@ export function addButton(texte, posX, posY) {
             btn.color = Color.fromHex(palette.blue.dark);
         });
 
-        btn.onClick(f);
+        btn.onClick(() => {
+            play('buttonClick');
+            f();
+        });
     }
 
     addButton(texte, () => {

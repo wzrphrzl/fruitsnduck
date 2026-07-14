@@ -41,13 +41,13 @@ loadSound('fruit-collected', './sound/bonus/fruit-collected.mp3');
 loadSound('debuff', './sound/bonus/debuff.mp3');
 loadSound('soundStress', './sound/bonus/sound-stress.mp3');
 loadSound('buff', './sound/bonus/buff.mp3');
-loadSound('player-death', './sound/game-state/player-death.mp3');
 loadSound('lose', './sound/game-state/lose.mp3');
 loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
 play('OtherworldlyFoe', { volume: .05, loop: true, paused: false });
 
 loadSound('treeHit', './sound/tree/tree-hit.mp3');
 loadSound('footstep-1', './sound/footsteps/footstep-1.mp3');
+loadSound('footstep-2', './sound/footsteps/footstep-2.mp3');
 loadSound('treePops-1', './sound/tree/tree-pops-1.mp3');
 loadSound('treePops-2', './sound/tree/tree-pops-2.mp3');
 loadSound('treePops-3', './sound/tree/tree-pops-3.mp3');
@@ -67,6 +67,40 @@ loadSound('fart-2', './sound/fart/fart-2.mp3');
 loadSound('fart-3', './sound/fart/fart-3.mp3');
 loadSound('fart-4', './sound/fart/fart-4.mp3');
 loadSound('fart-5', './sound/fart/fart-5.mp3');
+// fruit combos
+loadSound('baseCombo', './sound/fruitcombos/basecombo.mp3');
+loadSound('unPerfectCombo', './sound/fruitcombos/unperfectcombo.mp3');
+loadSound('perfectCombo', './sound/fruitcombos/perfectcombo.mp3');
+// loot box
+loadSound('lootBox-1', './sound/lootBox/lootBox-1.mp3');
+loadSound('lootBox-2', './sound/lootBox/lootBox-2.mp3');
+loadSound('lootBox-3', './sound/lootBox/lootBox-3.mp3');
+// pickups
+loadSound('pickedAcorn', './sound/pickups/pickedAcorn.mp3');
+loadSound('pickedDandelionChrono', './sound/pickups/pickedDandelionChrono.mp3');
+loadSound('pickedHeartInGame', './sound/pickups/pickedHeartInGame.mp3');
+loadSound('pickedSamaraSpeed', './sound/pickups/pickedSamaraSpeed.mp3');
+loadSound('pickedSuperHeart', './sound/pickups/pickedSuperHeart.mp3');
+loadSound('pickedSuperPiment', './sound/pickups/pickedSuperPiment.mp3');
+loadSound('pickedSuperTomatoArmor', './sound/pickups/pickedSuperTomatoArmor.mp3');
+// tomato armor
+loadSound('armor-broken', './sound/tomato-armor/armor-broken.mp3');
+loadSound('armor-empty-1', './sound/tomato-armor/armor-empty-1.mp3');
+loadSound('armor-empty-2', './sound/tomato-armor/armor-empty-2.mp3');
+loadSound('armorHit', './sound/tomato-armor/armorHit.mp3');
+// npc
+loadSound('blackbird', './sound/npc/blackbird.mp3');
+// misc
+loadSound('buttonClick', './sound/buttonClick.mp3');
+loadSound('dandelionChronoGrows', './sound/dandelionChronoGrows.mp3');
+loadSound('thistleGrows', './sound/thistleGrows.mp3');
+loadSound('fallenFruit-1', './sound/fallenFruit-1.mp3');
+loadSound('fallenFruit-2', './sound/fallenFruit-2.mp3');
+loadSound('hitByVirus', './sound/hitByVirus.mp3');
+loadSound('throwAcorn', './sound/throwAcorn.mp3');
+loadSound('timerShort', './sound/timerShort.mp3');
+loadSound('virusMoves', './sound/virusMoves.mp3');
+loadSound('playerDeath', './sound/game-state/playerDeath.mp3');
 // SPRITES IN ALPHABETICAL ORDER
 loadSprite('acorn', './img/acorn.png');
 loadSprite('cbanana', './img/cbanana.png');

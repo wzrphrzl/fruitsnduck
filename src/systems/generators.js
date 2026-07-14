@@ -2,7 +2,7 @@ import { k } from '../appInit.js';
 import { player } from '../entities/player.js';
 import { objectList } from './objects.js';
 import { setFreePos } from '../lib/helpers.js';
-import { plantGrows } from '../lib/audio.js';
+import { treeGrows } from '../lib/audio.js';
 import { palette } from '../lib/colorpalette.js';
 
 
@@ -58,7 +58,7 @@ export function addTree(x, y) {
         tree.area.isSensor = true;
     });
 
-    plantGrows();
+    treeGrows();
 
     return tree;
 
@@ -96,7 +96,6 @@ export function addThistle(x, y) {
             -thistle.height / 2 * THISTLE_AREA_SCALE + THISTLE_AREA_OFFSET_Y,
         );
 
-        plantGrows();
         return thistle;
 
 }
@@ -120,7 +119,7 @@ export function addDandelionChrono(x, y) {
             dandelionChrono.play('default');
         });
 
-        plantGrows();
+        play('dandelionChronoGrows')
         return dandelionChrono;
 
 }
