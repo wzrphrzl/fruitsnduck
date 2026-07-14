@@ -6,13 +6,13 @@ import { createUI, healthPointsUI } from '../systems/ui.js';
 import { createTimer } from '../systems/timer.js';
 import { palette } from '../lib/colorpalette.js';
 import { addTree, addObject, acornBonus, addDandelionChrono } from '../systems/generators.js';
-import { setXs, setYs, addRect } from '../lib/helpers.js';
+import { setFreePos, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
 import { fruitCombo } from '../systems/fruitcombo.js';
 
 scene('game', () => {
 
-   //debug.inspect = true;
+    //debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, palette.green.darker, 'bg', { fixed: true, area: false });
@@ -64,7 +64,7 @@ scene('game', () => {
         wait(10, () => { destroy(poppedAcorn); });
     });
 
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 0; i++) {
                 addObject('superFruitT1');
             }
 
@@ -89,10 +89,10 @@ scene('game', () => {
             play('treeHit');
             bump(touchedTree);
 
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 5; i++) {
                 addObject('commonFruit');
             }
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 2; i++) {
                 addObject('superFruitT1');
             }
             touchedTree.enterState('default');
@@ -100,12 +100,14 @@ scene('game', () => {
         else if (touchedTree.state == 'default') return
 
         wait(1, () => {
-            addTree(setXs(player), setYs(player));
+            const spot = setFreePos(player, 140);
+            addTree(spot.x, spot.y);
         });
     });
 
     player.onCollide('acorn', (acorn) => {
-        addTree(setXs(player), setYs(player));
+        const spot = setFreePos(player, 140);
+        addTree(spot.x, spot.y);
         destroy(acorn);
     });
  
@@ -127,10 +129,29 @@ scene('game', () => {
     });
     
     //HP SYSTEM
+    // ON HURT : flash red + refresh hearts; enter 'stressRun' for 5s, then revert — but never while in armor
+    const ARMOR_STATES = ['armorRun', 'armorIdle', 'armorPoop'];
+    let stressRevertState = null;
+    let stressTimer = null;
+
     player.onHurt(() => {
+        tween(RED, WHITE, .85, (p) => player.color = p);
+        // ARMOR ABSORBS THE HIT WITHOUT STRESS
+        if (ARMOR_STATES.includes(player.state)) return;
+
+        // REMEMBER WHERE TO RETURN TO (skip if already stressed, so we never capture 'stressRun')
+        if (!player.state.startsWith('stress')) stressRevertState = player.state;
+
         player.enterState('stressRun');
         play('soundStress');
-        tween(RED, WHITE, 0.4, (p) => player.color = p);
+
+        // STRESS LASTS 5s, THEN REVERT (unless the player already left the stress state, e.g. via a perk)
+        if (stressTimer) stressTimer.cancel();
+        stressTimer = wait(0.85, () => {
+            stressTimer = null;
+            if (player.state.startsWith('stress')) player.enterState(stressRevertState);
+        });
+
         healthPointsUI(player.hp);   // POP THE HEART THAT JUST EMPTIED (player.hp already lowered)
     });
 

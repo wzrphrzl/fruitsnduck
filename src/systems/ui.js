@@ -3,7 +3,7 @@
 // private state and a reset() called by createUI (in ./ui/hud.js).
 export { createUI } from './ui/hud.js';
 export { showScoreTile } from './ui/scoreTiles.js';
-export { showComboName } from './ui/comboName.js';
+export { showComboTile } from './ui/comboTile.js';
 export { renderFruitBoxes } from './ui/fruitBoxes.js';
 export { healthPointsUI } from './ui/health.js';
 export { addUpgrade_UI } from './ui/upgrades.js';

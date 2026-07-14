@@ -10,14 +10,14 @@ let poop;
 function createPlayer() {
 
     // PLAYER SPRITES AND STATES
-    const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop', 'lose'];
+    const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop', 'lose', 'rage', 'vicious'];
 
 
     player = k.add([
         sprite('duck'),
         pos(center()),
         anchor('center'),
-        area({ shape: new Circle(vec2(0), 50), offset: vec2(0, 16) }),
+        area({ shape: new Circle(vec2(0), 45), offset: vec2(0, 16) }),
         body(),
         z(10),
         health(3),

@@ -2,7 +2,7 @@ import { fontStyleMedium, fontStyleRegular } from '../../appInit.js';
 import { addRect } from '../../lib/helpers.js';
 import { palette } from '../../lib/colorpalette.js';
 import { resetScoreTiles } from './scoreTiles.js';
-import { resetComboName } from './comboName.js';
+import { resetComboTile } from './comboTile.js';
 import { resetUpgrades } from './upgrades.js';
 
 // Builds the static HUD and resets every widget's state for a fresh game.
@@ -10,7 +10,7 @@ export function createUI() {
 
     // RESET EVERY WIDGET'S PERSISTENT STATE
     resetScoreTiles();
-    resetComboName();
+    resetComboTile();
     resetUpgrades();
 
     // SCORE

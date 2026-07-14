@@ -86,7 +86,7 @@ scene('lose', () => {
     if (scoreStats.savedScore > 0) {
         personalizedScore('win', 'Well done!');
     } else if (scoreStats.savedScore <= 0) {
-        personalizedScore('lose', "Better luck next time...");
+        personalizedScore('rage', "Better luck next time...");
     }
 
     addButton('Restart', width() / 2, height() / 2 + 216);

@@ -72,7 +72,7 @@ loadSprite('acorn', './img/acorn.png');
 loadSprite('cbanana', './img/cbanana.png');
 loadSprite('clemon', './img/clemon.png');
 loadSprite('cpear', './img/cpear.png');
-loadSprite('cstrawberry', './img/cstrawberry.png');
+loadSprite('ccherry', './img/ccherry.png');
 loadSprite('cwatermelon', './img/cwatermelon.png');
 loadSprite('egg', './img/egg.png');
 loadSprite('gameRules', './img/game-rules.png');
@@ -134,7 +134,7 @@ loadSprite('dandelionChrono', './img/dandelion-chrono.png', {
 
 loadSprite('duck', './img/duck.png', {
     sliceX: 7,
-    sliceY: 2,
+    sliceY: 3,
     anims: {
         'defaultIdle': {
             from: 0,
@@ -166,7 +166,7 @@ loadSprite('duck', './img/duck.png', {
         'stressRun': {
             from: 5,
             to: 4,
-            speed: 6,
+            speed: 9,
             loop: true,
         },
         'win': {
@@ -211,6 +211,16 @@ loadSprite('duck', './img/duck.png', {
             to: 13,
             loop: false,
         },
+        'rage': {
+            from: 14,
+            to: 14,
+            loop: false,
+        },
+        'vicious': {
+            from: 15,
+            to: 15,
+            loop: false,
+        },                  
     },
 });
 

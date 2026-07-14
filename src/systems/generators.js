@@ -1,7 +1,7 @@
 import { k } from '../appInit.js';
 import { player } from '../entities/player.js';
 import { objectList } from './objects.js';
-import { setXs, setYs } from '../lib/helpers.js';
+import { setFreePos } from '../lib/helpers.js';
 import { plantGrows } from '../lib/audio.js';
 import { palette } from '../lib/colorpalette.js';
 
@@ -130,7 +130,7 @@ export function addDandelionChrono(x, y) {
 export function addObject(objectType) {
 
     // AREA : hitbox scale + optional manual fine-tuning (kept at 0 = auto-centered)
-    const OBJECT_AREA_SCALE = 0.7;
+    const OBJECT_AREA_SCALE = 0.6;
     const OBJECT_AREA_OFFSET_X = 0;
     const OBJECT_AREA_OFFSET_Y = 0;
 
@@ -140,8 +140,9 @@ export function addObject(objectType) {
     const getRandomObjectFromList = Math.floor(Math.random() * filteredObject.length);
     const spriteName = filteredObject[getRandomObjectFromList];
 
-    const posX_Final = setXs(player);
-    const posY_Final = setYs(player);
+    const spawnPos = setFreePos(player, 100);
+    const posX_Final = spawnPos.x;
+    const posY_Final = spawnPos.y;
     const posY_Spawn = -height();
 
     const duration = rand(1.25, 1.85);
@@ -217,7 +218,7 @@ export function addObject(objectType) {
 export function acornBonus() {
     const acorn = add([
         sprite('acorn'),
-        pos(setXs(player), setYs(player)),
+        pos(setFreePos(player, 100)),
         rotate(0),
         scale(.75),
         anchor('center'),

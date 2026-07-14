@@ -1,6 +1,6 @@
 import { objectList } from './objects.js';
 import { addObject, addDandelionChrono, addThistle } from './generators.js';
-import { setXs, setYs } from '../lib/helpers.js';
+import { setFreePos } from '../lib/helpers.js';
 
 // CLASSIFY A COMPLETED TRIO (3 non-null sprite names) INTO A COMBO CATEGORY:
 //   perfectCombo   : 3 identical super fruits (T1)
@@ -24,20 +24,20 @@ const COMBO_REWARDS = {
     // 3 IDENTICAL COMMON FRUITS — a heart and a dandelion (time bonus)
     baseCombo: ({ player }) => {
         addObject('heartIngame');
-        addDandelionChrono(setXs(player), setYs(player));
+        const spot = setFreePos(player, 100);
+        addDandelionChrono(spot.x, spot.y);
     },
 
-    // 2 SAME + 1 DIFFERENT, OR 3 DIFFERENT — 2 super fruits (T1) and 3 thistles
+    // 2 SAME + 1 DIFFERENT, OR 3 DIFFERENT — 2 super fruits (T1), 6 thistles and a dandelion
     imperfectCombo: ({ player }) => {
         addObject('superFruitT1');
         addObject('superFruitT1');
-        addThistle(setXs(player), setYs(player));
-        addThistle(setXs(player), setYs(player));
-        addThistle(setXs(player), setYs(player));
-        addThistle(setXs(player), setYs(player));
-        addThistle(setXs(player), setYs(player));
-        addThistle(setXs(player), setYs(player));
-        addDandelionChrono(setXs(player), setYs(player));
+        for (let i = 0; i < 6; i++) {
+            const spot = setFreePos(player, 100);
+            addThistle(spot.x, spot.y);
+        }
+        const spot = setFreePos(player, 100);
+        addDandelionChrono(spot.x, spot.y);
     },
 };
 

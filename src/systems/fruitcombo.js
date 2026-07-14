@@ -2,7 +2,7 @@ import { scoreStats } from '../appInit.js';
 import { objectList } from './objects.js';
 import { addFlower } from './generators.js';
 import { bump } from '../lib/effects.js';
-import { showScoreTile, renderFruitBoxes, showComboName } from './ui.js';
+import { showScoreTile, renderFruitBoxes, showComboTile } from './ui.js';
 import { classifyCombo, resolveCombo } from './loots.js';
 
 
@@ -11,7 +11,7 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
     let comboSlots   = [null, null, null];   // sprite names currently held in the combo
     let comboSprites = [null, null, null];   // the sprite objects drawn in the boxes
 
-    const definitiveUpgrades = ['heartIngame', 'superHeart', 'superTomatoArmor', 'superPiment', 'samaraSpeed', 'superStar'];
+    const upgrades = ['heartIngame', 'superHeart', 'superTomatoArmor', 'superPiment', 'samaraSpeed', 'superStar'];
     const viruses = ['virus3Red', 'virus4Blue', 'virus5Brown'];
 
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'objectContainer' TAG
@@ -48,7 +48,7 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
         if (comboSlots.every(f => f !== null)) {
             const category = classifyCombo(comboSlots);
             debug.log('fruitCombo : ' + category);
-            showComboName(category);
+            showComboTile(category);
 
             if (category === 'perfectCombo') {
                 // 3 identical super fruits (T1) → that fruit's own event
@@ -68,7 +68,7 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
 
     // PLAYER UPGRADES
     function getDefinitiveBonus(objectContainer, objectCollided) {
-        if (definitiveUpgrades.includes(objectContainer.sprite)) {
+        if (upgrades.includes(objectContainer.sprite)) {
             objectCollided.objectEvent();
         }
     }

@@ -6,18 +6,36 @@ import { palette } from './colorpalette.js';
 // GENERATE RANDOM POSITIONS FROM PLAYER
 export function setXs(player) {
     if (Math.random() < 0.5) {
-        return rand(player.pos.x - 720, player.pos.x - 96);
+        return rand(player.pos.x - 600, player.pos.x - 64);
     } else {
-        return rand(player.pos.x + 96, player.pos.x + 720);
+        return rand(player.pos.x + 64, player.pos.x + 600);
     }
 }
 
 export function setYs(player) {
     if (Math.random() < 0.5) {
-        return rand(player.pos.y - 400, player.pos.y - 96);
+        return rand(player.pos.y - 348, player.pos.y - 64);
     } else {
-        return rand(player.pos.y + 96, player.pos.y + 400);
+        return rand(player.pos.y + 64, player.pos.y + 348);
     }
+}
+
+// SPAWNED-OBJECT TAGS CHECKED FOR OVERLAP WHEN PICKING A FREE SPOT
+const SPAWN_TAGS = ['objectContainer', 'tree', 'thistle', 'acorn', 'dandelionChrono'];
+
+// PICK A RANDOM POSITION NEAR THE PLAYER THAT IS AT LEAST minDist AWAY FROM
+// EVERY SPAWNED OBJECT (rejection sampling : retry up to maxTries, then give up
+// and accept the last candidate — never worse than the old fully-random spawn).
+export function setFreePos(player, minDist = 96, maxTries = 10) {
+    let candidate;
+    for (let i = 0; i < maxTries; i++) {
+        candidate = vec2(setXs(player), setYs(player));
+        const blocked = SPAWN_TAGS.some((tag) =>
+            get(tag).some((obj) => obj.pos.dist(candidate) < minDist),
+        );
+        if (!blocked) return candidate;
+    }
+    return candidate;   // CROWDED AREA : overlap allowed as a fallback
 }
 
 // RECTANGLE CREATION (FOR MAPPING)

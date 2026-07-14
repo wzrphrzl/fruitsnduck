@@ -19,7 +19,7 @@ export const objectList = {
         objectType: 'commonFruit',
         scoreValue: 7,
     },
-    cstrawberry: {
+    ccherry: {
         objectType: 'commonFruit',
         scoreValue: 8,
     },
