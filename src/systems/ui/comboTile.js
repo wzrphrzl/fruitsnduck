@@ -1,13 +1,13 @@
 import { fontStyleCaveat } from '../../appInit.js';
 import { palette } from '../../lib/colorpalette.js';
 
-// COMBO TILE POPUP : shown above the fruit combo boxes when a combo is made
+// COMBO TILE POPUP : shown at the bottom center of the screen when a combo is made
 const COMBO_BOX = {
-    w: 328,
-    h: 64,
-    cx: 1240,       // horizontally centered over the 3 fruit boxes (1072 → 1408)
-    bottomY: 656,   // 16px above the boxes' top edge (672)
-    radius: 12,
+    w: 400,
+    h: 96,          // same height as the fruit boxes
+    cx: 720,        // horizontally centered on the screen (1440 wide)
+    bottomY: 768,   // aligned with the fruit boxes' bottom edge (top 672 + height 96)
+    radius: 24,
     z: 100,         // above the static "Fruit Combo" label
     delay: 2,       // visible time before the fade-out (matches the combo inventory clear)
     fadeTime: 0.5,  // fade-out duration

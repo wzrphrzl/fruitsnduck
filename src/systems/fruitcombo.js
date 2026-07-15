@@ -8,8 +8,8 @@ import { classifyCombo, resolveCombo, playComboSound } from './loots.js';
 
 export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
  
-    let comboSlots   = [null, null, null];   // sprite names currently held in the combo
-    let comboSprites = [null, null, null];   // the sprite objects drawn in the boxes
+    let inventorySlots = [null, null, null];   // sprite names currently held in the combo
+    let fruitSprites   = [null, null, null];   // the sprite objects drawn in the boxes
 
     const upgrades = ['heartIngame', 'superHeart', 'superTomatoArmor', 'superPiment', 'samaraSpeed', 'superStar'];
     const viruses = ['virus3Red', 'virus4Blue', 'virus5Brown'];
@@ -35,25 +35,25 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
         if (objectCollided.objectType !== 'commonFruit' && objectCollided.objectType !== 'superFruitT1') return;
 
         // INVENTORY LOCKED WHILE FULL (until it auto-clears) — IGNORE NEW FRUITS
-        if (comboSlots.every(f => f !== null)) return;
+        if (inventorySlots.every(f => f !== null)) return;
 
         // ADD THE NEW FRUIT TO THE NEXT AVAILABLE SLOT
-        const nextAvailableIndex = comboSlots.findIndex(f => f === null);
-        comboSlots[nextAvailableIndex] = objectContainer.sprite;
+        const nextAvailableIndex = inventorySlots.findIndex(f => f === null);
+        inventorySlots[nextAvailableIndex] = objectContainer.sprite;
 
         // REDRAW THE BOXES (pop the fruit that was just collected)
-        comboSprites = renderFruitBoxes(boxes, comboSlots, comboSprites, nextAvailableIndex);
+        fruitSprites = renderFruitBoxes(boxes, inventorySlots, fruitSprites, nextAvailableIndex);
 
         // TRIO COMPLETE → CLASSIFY, TRIGGER ITS OUTCOME, THEN AUTO-CLEAR AFTER 2s
-        if (comboSlots.every(f => f !== null)) {
-            const category = classifyCombo(comboSlots);
+        if (inventorySlots.every(f => f !== null)) {
+            const category = classifyCombo(inventorySlots);
             debug.log('fruitCombo : ' + category);
             showComboTile(category);
             playComboSound(category);
 
             if (category === 'perfectCombo') {
                 // 3 identical super fruits (T1) → that fruit's own event
-                objectList[comboSlots[0]].objectEvent();
+                objectList[inventorySlots[0]].objectEvent();
             } else {
                 // baseCombo / unPerfectCombo / nearPerfectCombo → loot from the category table
                 resolveCombo(category, { player });
@@ -61,8 +61,8 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
 
             // EMPTY THE INVENTORY (STATE + UI) AFTER 2s
             wait(2, () => {
-                comboSprites = renderFruitBoxes(boxes, [null, null, null], comboSprites, -1);
-                comboSlots = [null, null, null];
+                fruitSprites = renderFruitBoxes(boxes, [null, null, null], fruitSprites, -1);
+                inventorySlots = [null, null, null];
             });
         }
     }

@@ -48,8 +48,20 @@ scene('game', () => {
         });
     });
 
+    // COUNTDOWN WARNING : 'timerShort' EVERY 2s FROM 10s, THEN SPEEDS UP TO EVERY 1s IN THE LAST 5s
+    loop(2, () => {
+        if (!timer.stopped && timer.remaining <= 15 && timer.remaining > 5) {
+            play('timerShort', {volume: .25 });
+        }
+    });
+    loop(1, () => {
+        if (!timer.stopped && timer.remaining <= 5) {
+            play('timerShort', {volume: .25 });
+        }
+    });
 
-    // ADD THE FIRST TREES    
+
+    // ADD THE FIRST TREES
      
     wait(2, () => {
         addTree(920, player.pos.y);
@@ -114,6 +126,7 @@ scene('game', () => {
  
     player.onCollide('thistle', (thistle) => {
         player.hp -= 1;
+        play('soundStress');
         destroy(thistle);
     });
 
@@ -146,7 +159,6 @@ scene('game', () => {
         if (!player.state.startsWith('stress')) stressRevertState = player.state;
 
         player.enterState('stressRun');
-        play('soundStress');
 
         // STRESS LASTS 5s, THEN REVERT (unless the player already left the stress state, e.g. via a perk)
         if (stressTimer) stressTimer.cancel();

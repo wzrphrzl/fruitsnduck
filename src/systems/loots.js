@@ -26,7 +26,7 @@ const COMBO_REWARDS = {
     baseCombo: ({ player }) => {
         addObject('superFruitT1');
         addObject('superFruitT1');
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 2; i++) {
             const spot = setFreePos(player, 100);
             addThistle(spot.x, spot.y);
         }
@@ -38,7 +38,7 @@ const COMBO_REWARDS = {
     unPerfectCombo: ({ player }) => {
         addObject('superFruitT1');
         addObject('superFruitT1');
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 2; i++) {
             const spot = setFreePos(player, 100);
             addThistle(spot.x, spot.y);
         }

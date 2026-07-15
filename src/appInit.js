@@ -26,7 +26,7 @@ const k = kaplay({
 loadFont('CaveatRegular', './font/Caveat-Regular.ttf');
 loadFont('Nunito', './font/Nunito-SemiBold.ttf');
 const fontStyleBig = { size: 48, font: 'Nunito' };
-const fontStyleCaveat = { size: 34, font: 'CaveatRegular' };
+const fontStyleCaveat = { size: 56, font: 'CaveatRegular' };
 const fontStyleMedium = { size: 28, font: 'Nunito' };
 const fontStyleRegular = { size: 24, font: 'Nunito' };
 const fontStyleMention = { size: 18, font: 'Nunito' };

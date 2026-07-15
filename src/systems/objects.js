@@ -115,6 +115,7 @@ export const objectList = {
         objectType: 'heartIngame',
         scoreValue: 0,
         objectEvent: () => {
+            play('pickedHeartInGame');
             player.hp += 1;
         }
     },
@@ -133,6 +134,7 @@ export const objectList = {
         objectType: 'superHeart',
         scoreValue: 0,
         objectEvent: () => {
+            play('pickedSuperHeart'); 
             player.maxHP += 1;
             healthPointsUI(player.maxHP - 1);
         }
@@ -142,7 +144,7 @@ export const objectList = {
         scoreValue: 20,
         count: 0,
         objectEvent: () => {
-          play('buff', { volume: .25});
+          play('pickedSuperTomatoArmor');
 
           playerStats.armor = 1;
           player.enterState('armorIdle');
@@ -159,7 +161,7 @@ export const objectList = {
         count: 0,
         objectEvent: () => {
             playerStats.mines += 5;
-            play('buff', { volume: .25});
+            play('pickedSuperPiment');
             addUpgrade_UI('superPiment');
             if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
                 player.enterState('orangeIdle');
@@ -171,7 +173,7 @@ export const objectList = {
         scoreValue: 20,
         count: 0,
         objectEvent: () => {
-            play('buff', { volume: .25});
+            play('pickedSamaraSpeed');
             playerStats.speed += 1;
             addUpgrade_UI('samaraSpeed');
             if (objectList.samaraSpeed.count < 1) {
