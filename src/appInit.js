@@ -24,11 +24,10 @@ const k = kaplay({
 
 // FONT STYLES, GAME LAYERS AND SCORE STATE
 loadFont('monogram', './font/monogram-extended.ttf');
-const fontStyleBig = { size: 72, font: 'monogram' };
-const fontStyleBold = { size: 56, font: 'monogram' };
-const fontStyleMedium = { size: 48, font: 'monogram' };
-const fontStyleRegular = { size: 28, font: 'monogram' };
-const fontStyleMention = { size: 28, font: 'monogram' };
+const fontStyleBold = { size: 72, font: 'monogram' };
+const fontStyleMedium = { size: 56, font: 'monogram' };
+const fontStyleRegular = { size: 48, font: 'monogram' };
+const fontStyleSmall = { size: 32, font: 'monogram' };
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 
@@ -385,4 +384,4 @@ loadSprite('tree', './img/tree-full.png', {
 });
 
 
-export { k, scoreStats, fontStyleBig, fontStyleBold, fontStyleMedium, fontStyleRegular, fontStyleMention };
+export { k, scoreStats, fontStyleBold, fontStyleMedium, fontStyleRegular, fontStyleSmall };

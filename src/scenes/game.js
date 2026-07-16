@@ -37,7 +37,7 @@ scene('game', () => {
     fruitCombo({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
 
     // COUNTDOWN TIMER : LOSES THE GAME AT 0
-    const timer = createTimer(180, () => {
+    const timer = createTimer(120, () => {
         scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
         player.enterState('lose');
         player.paused = true;

@@ -1,15 +1,15 @@
-import { fontStyleBold } from '../../appInit.js';
+import { fontStyleBold, fontStyleMedium } from '../../appInit.js';
 import { palette } from '../../lib/colorpalette.js';
 
 // COMBO TILE POPUP : shown at the bottom center of the screen when a combo is made
 const COMBO_BOX = {
-    w: 400,
+    w: 484,
     h: 96,          // same height as the fruit boxes
     cx: 720,        // horizontally centered on the screen (1440 wide)
     bottomY: 768,   // aligned with the fruit boxes' bottom edge (top 672 + height 96)
     radius: 24,
     z: 100,         // above the static "Fruit Combo" label
-    delay: 2,       // visible time before the fade-out (matches the combo inventory clear)
+    delay: 2,       // visible time before the fade-out
     fadeTime: 0.5,  // fade-out duration
 };
 
@@ -33,7 +33,7 @@ export function showComboTile(name) {
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
         ]);
         const label = add([
-            text(name, fontStyleBold),
+            text(name, { ...fontStyleBold, letterSpacing: 10 }),
             pos(COMBO_BOX.cx, cy - 2), anchor('center'),
             color(Color.fromHex(palette.green.lighter)),
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),

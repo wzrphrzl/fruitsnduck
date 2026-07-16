@@ -1,8 +1,8 @@
-import { fontStyleMention } from '../../appInit.js';
+import { fontStyleSmall } from '../../appInit.js';
 import { palette } from '../../lib/colorpalette.js';
 
 // FLOATING SCORE TILES
-const SCORE_TILE = { x: 32, topY: 64, w: 56, h: 32, gap: 6, life: 3, max: 3 };
+const SCORE_TILE = { x: 32, topY: 72, w: 56, h: 32, gap: 6, life: 3, max: 3 };
 
 // MOST RECENT TILE FIRST : index 0 = top slot
 let scoreTiles = [];
@@ -56,7 +56,7 @@ export function showScoreTile(amount) {
     ]);
 
     const textObj = add([
-        text(labelText, fontStyleMention),
+        text(labelText, fontStyleSmall),
         pos(SCORE_TILE.x + SCORE_TILE.w / 2, SCORE_TILE.topY + SCORE_TILE.h / 2), anchor('center'),
         color(Color.fromHex(textColor)), opacity(1),
         fixed(), layer('ui'),

@@ -1,25 +1,30 @@
-import { scoreStats, fontStyleMedium } from '../appInit.js';
+import { scoreStats, fontStyleRegular } from '../appInit.js';
 import { addRect, addButton } from '../lib/helpers.js';
 import { formatTime } from '../systems/timer.js';
 import { palette } from '../lib/colorpalette.js';
 
 scene('lose', () => {
 
-    addRect(1440, 800, 0, 0, 0, palette.green.darkest, 'bg', { fixed: true, area: false });
+    addRect(1440, 800, 0, 0, 0, palette.cyan.darker, 'bg', { fixed: true, area: false });
 
 
     // SET A DIFFERENT ENDING BASED ON SCORE (POSITIVE OR NEGATIVE)
     function personalizedScore(param1, param2) {
 
+        // SCORE MENU GEOMETRY : the duck circle is centered on the menu's top edge
+        const menuWidth = 640;
+        const menuHeight = 344;
+        const menuTop = height() / 2 - menuHeight / 2;
+
         // DISPLAY THE DUCK SPRITE
 
-        const posX = width() / 4; 
-        const posY = height() / 2;
+        const posX = 378;
+        const posY = menuTop;
 
         add([
-            ellipse(120, 120),
+            ellipse(120, 120),   // SEMI-AXES : RENDERS A 240x240 CIRCLE
             pos(posX, posY),
-            color(Color.fromHex(palette.green.darker)),
+            color(Color.fromHex(palette.yellowOrange.lightest)),
             anchor('center'),
             layer('game'),
         ]);
@@ -38,35 +43,28 @@ scene('lose', () => {
         // SCORE DISPLAY
 
         const scoreMenu = add([
-            rect(392, 328, { radius: 8 }),
-            pos(width() /2 - 196, height() /2 - 164),
+            rect(menuWidth, menuHeight, { radius: 24 }),
+            pos(width() / 2 - menuWidth / 2, menuTop),
             anchor('topleft'),
-            color(Color.fromHex(palette.green.darker)),
-            outline(4, Color.fromHex(palette.green.default) ),
+            color(Color.fromHex(palette.cyan.dark)),
+            outline(8, Color.fromHex(palette.cyan.default) ),
             body({ isStatic: true }),
             layer('bg'),
             'scoreMenu',
         ]);
-        
+          
         scoreMenu.add([
-            text(param2, fontStyleMedium),
-            pos(32, 40),
-            anchor('topleft'),
-            layer('ui'),
-        ]);
-    
-        scoreMenu.add([
-            text('Score : ' + scoreStats.savedScore, fontStyleMedium),
-            pos(32, 112),
+            text('Score : ' + scoreStats.savedScore, fontStyleRegular),
+            pos(128, 40),
             scale(1),
             anchor('topleft'),
             layer('ui'),
         ]);
 
-        //VIRUS COUNT
+        //FRUIT COMBO COUNT
         scoreMenu.add([
-            text('Collected Viruses : ' + scoreStats.virusCount, fontStyleMedium),
-            pos(32, 184),
+            text('Fruit Combos : ' + scoreStats.comboCount, fontStyleRegular),
+            pos(128, 112),
             scale(1),
             anchor('topleft'),
             layer('ui'),
@@ -74,9 +72,17 @@ scene('lose', () => {
 
         //TIME SURVIVED
         scoreMenu.add([
-            text('Time survived : ' + formatTime(scoreStats.gameTime), fontStyleMedium),
-            pos(32, 256),
+            text('Time survived : ' + formatTime(scoreStats.gameTime), fontStyleRegular),
+            pos(128, 184),
             scale(1),
+            anchor('topleft'),
+            layer('ui'),
+        ]);
+
+
+        scoreMenu.add([
+            text(param2, fontStyleRegular),
+            pos(128, 256),
             anchor('topleft'),
             layer('ui'),
         ]);
@@ -86,9 +92,9 @@ scene('lose', () => {
     if (scoreStats.savedScore > 0) {
         personalizedScore('win', 'Well done!');
     } else if (scoreStats.savedScore <= 0) {
-        personalizedScore('rage', "Better luck next time...");
+        personalizedScore('rage', "One more try ?");
     }
 
-    addButton('Restart', width() / 2, height() / 2 + 216);
+    addButton('Restart', width() / 2, height() / 2 + 256);
 });
 

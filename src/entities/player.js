@@ -1,6 +1,7 @@
 import { k } from '../appInit.js';
 import { kwak, fart, armorWalks } from '../lib/audio.js';
 import { palette } from '../lib/colorpalette.js';
+import { popLastFruit } from '../systems/inventory.js';
 
 const playerStats = { speedKaplay: 10, mines: 0, armor: 0, speed: 0, superStar: 0 };
 
@@ -47,7 +48,16 @@ function createPlayer() {
 
         if (player.state === 'defaultIdle' || player.state === 'defaultRun') {
             const curState = player.state;
-            player.enterState('kwak');
+
+            // CARRYING FRUIT → SPIT THE LAST ONE COLLECTED BACK OUT, OTHERWISE JUST KWAK
+            const spatFruit = popLastFruit();
+            if (spatFruit) {
+                player.enterState('spit');
+                spitFruit(spatFruit);
+            } else {
+                player.enterState('kwak');
+            }
+
             kwak();
             wait(.7, () => {
                 player.enterState(curState);
@@ -88,6 +98,40 @@ function createPlayer() {
             player.enterState('armorIdle');
         }
     });
+
+    // SPIT
+    const SPIT_DISTANCE = 100;
+    const SPIT_TRAVEL_DURATION = 0.9;
+    const SPIT_FADE_DURATION = 1.5;
+
+    function spitFruit(spriteName) {
+        const direction = player.flipX ? -1 : 1;   // flipX = facing left
+        const spitStartX = player.pos.x;
+        const spitStartY = player.pos.y;
+
+        const spat = add([
+            sprite(spriteName),
+            pos(spitStartX, spitStartY),
+            anchor('center'),
+            scale(.65),
+            opacity(1),
+            layer('game'),
+            z(10000),
+        ]);
+
+        tween(
+            vec2(spitStartX, spitStartY),
+            vec2(spitStartX + direction * SPIT_DISTANCE, spitStartY),
+            SPIT_TRAVEL_DURATION,
+            (val) => spat.pos = val,
+            easings.easeOutQuad,
+        );
+
+        tween(.75, 0, SPIT_FADE_DURATION,
+            (o) => spat.opacity = o,
+            easings.easeInQuad,
+        ).onEnd(() => destroy(spat));
+    }
 
     // FOOTSTEPS : ONE STEP EVERY N SECONDS WHILE RUNNING (N DEPENDS ON THE ACTIVE PERK)
     const FOOTSTEP_DELAY = {   // IN SECONDS

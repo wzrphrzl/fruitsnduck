@@ -23,9 +23,9 @@ export function bumpMini(param1) {
 export function bumpHp(param1) {
     // POP: START BIGGER, THEN SPRING BACK TO THE RESTING SCALE WITH EASING
     tween(
-        vec2(.8),                       // FROM
-        vec2(.47),                      // TO (RESTING SCALE)
-        1,                            // DURATION
+        vec2(1.5),                       // FROM
+        vec2(.59),                      // TO (RESTING SCALE)
+        1.5,                            // DURATION
         (s) => param1.scale = s,        // SETTER
         easings.easeOutBack,            // SPRINGY EASING (SLIGHT OVERSHOOT)
     );

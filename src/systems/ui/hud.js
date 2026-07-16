@@ -1,4 +1,4 @@
-import { fontStyleMedium, fontStyleRegular } from '../../appInit.js';
+import { fontStyleRegular, fontStyleSmall } from '../../appInit.js';
 import { addRect } from '../../lib/helpers.js';
 import { palette } from '../../lib/colorpalette.js';
 import { resetScoreTiles } from './scoreTiles.js';
@@ -16,7 +16,7 @@ export function createUI() {
     // SCORE
     const initialScore = 0;
     const score = add([
-        text('Score : ' + initialScore, fontStyleMedium),
+        text('Score : ' + initialScore, fontStyleRegular),
         pos(32, 24),
         anchor('topleft'),
         { value: initialScore },
@@ -25,7 +25,7 @@ export function createUI() {
 
     // INVENTORY UI : "Fruit Combo" label + 3 combo boxes
     add([
-        text('Fruit Combo', fontStyleRegular),
+        text('Fruit Combo', fontStyleSmall),
         pos(1404, 632),
         anchor('topright'),
         { value: 0 },

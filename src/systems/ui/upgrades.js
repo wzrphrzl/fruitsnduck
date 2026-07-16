@@ -1,4 +1,4 @@
-import { fontStyleRegular, fontStyleMention } from '../../appInit.js';
+import { fontStyleSmall } from '../../appInit.js';
 import { palette } from '../../lib/colorpalette.js';
 import { playerStats } from '../../entities/player.js';
 
@@ -14,7 +14,7 @@ const UPGRADE_META = {
 const UPGRADE_PANEL = {
     x: 32,            // left edge (screen)
     bottomY: 768,     // bottom edge — aligned with the combo boxes' bottom (672 + 96)
-    width: 148,
+    width: 164,
     radius: 12,
     padX: 16,         // rect left edge → sprite left edge
     padTop: 16,       // rect top edge → first sprite top
@@ -64,7 +64,7 @@ function renderUpgradesPanel() {
 
     // title "Upgrades", above the panel
     track([
-        text('Upgrades', fontStyleRegular), pos(P.x, topY - P.titleGap), anchor('botleft'),
+        text('Upgrades', fontStyleSmall), pos(P.x, topY - P.titleGap), anchor('botleft'),
         color(Color.fromHex(palette.slate.lighter)),
     ]);
 
@@ -82,7 +82,7 @@ function renderUpgradesPanel() {
         // "<name> +<live value>" — value read from playerStats, refreshed each frame
         const value = () => `${meta.label} +${playerStats[meta.statKey]}`;
         const label = track([
-            text(value(), fontStyleMention),
+            text(value(), fontStyleSmall),
             pos(P.x + P.padX + meta.width + P.labelGap, itemTop + meta.height / 2), anchor('left'),
             color(Color.fromHex(palette.slate.lighter)),
         ]);
