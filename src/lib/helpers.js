@@ -78,7 +78,7 @@ export function addButton(texte, posX, posY) {
         btn.add([
             text(txt, fontStyleBig),
             anchor('center'),
-            pos(0, -4),
+            pos(4, -4),
             color(Color.fromHex(palette.yellowOrange.bright)),
             layer('ui'),
         ]);

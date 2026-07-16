@@ -23,13 +23,12 @@ const k = kaplay({
 });
 
 // FONT STYLES, GAME LAYERS AND SCORE STATE
-loadFont('CaveatRegular', './font/Caveat-Regular.ttf');
-loadFont('Nunito', './font/Nunito-SemiBold.ttf');
-const fontStyleBig = { size: 48, font: 'Nunito' };
-const fontStyleCaveat = { size: 56, font: 'CaveatRegular' };
-const fontStyleMedium = { size: 28, font: 'Nunito' };
-const fontStyleRegular = { size: 24, font: 'Nunito' };
-const fontStyleMention = { size: 18, font: 'Nunito' };
+loadFont('monogram', './font/monogram-extended.ttf');
+const fontStyleBig = { size: 72, font: 'monogram' };
+const fontStyleBold = { size: 56, font: 'monogram' };
+const fontStyleMedium = { size: 48, font: 'monogram' };
+const fontStyleRegular = { size: 28, font: 'monogram' };
+const fontStyleMention = { size: 28, font: 'monogram' };
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 
@@ -254,6 +253,12 @@ loadSprite('duck', './img/duck.png', {
             from: 15,
             to: 15,
             loop: false,
+        }, 
+        'spit': {
+            from: 16,
+            to: 17,
+            loop: false,
+            speed: 8,        
         },                  
     },
 });
@@ -380,4 +385,4 @@ loadSprite('tree', './img/tree-full.png', {
 });
 
 
-export { k, scoreStats, fontStyleBig, fontStyleCaveat, fontStyleMedium, fontStyleRegular, fontStyleMention };
+export { k, scoreStats, fontStyleBig, fontStyleBold, fontStyleMedium, fontStyleRegular, fontStyleMention };

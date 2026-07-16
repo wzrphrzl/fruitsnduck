@@ -1,4 +1,4 @@
-import { fontStyleCaveat } from '../../appInit.js';
+import { fontStyleBold } from '../../appInit.js';
 import { palette } from '../../lib/colorpalette.js';
 
 // COMBO TILE POPUP : shown at the bottom center of the screen when a combo is made
@@ -33,7 +33,7 @@ export function showComboTile(name) {
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
         ]);
         const label = add([
-            text(name, fontStyleCaveat),
+            text(name, fontStyleBold),
             pos(COMBO_BOX.cx, cy - 2), anchor('center'),
             color(Color.fromHex(palette.green.lighter)),
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),

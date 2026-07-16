@@ -5,7 +5,7 @@ scene('menu', () => {
 
     // ANIMATED animatedBackground (inspired by Kaplay's logo demo)
     // A CHECKERBOARD OF FRUIT TILES SCROLLS DIAGONALLY OVER A SOLID animatedBackground.
-    const bgColor = palette.green.darkest;
+    const bgColor = palette.cyan.darker;
     const bgWidth = 1440;  
     const bgHeight = 800;
     const tileSize = 120; 

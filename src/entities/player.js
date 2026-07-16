@@ -10,7 +10,7 @@ let poop;
 function createPlayer() {
 
     // PLAYER SPRITES AND STATES
-    const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop', 'lose', 'rage', 'vicious'];
+    const playerStateList = ['defaultIdle', 'defaultRun', 'kwak', 'stressIdle', 'stressRun', 'orangeIdle', 'orangeRun', 'orangePoop', 'armorIdle', 'armorRun', 'armorPoop', 'lose', 'rage', 'vicious', 'spit'];
 
 
     player = k.add([
@@ -49,7 +49,7 @@ function createPlayer() {
             const curState = player.state;
             player.enterState('kwak');
             kwak();
-            wait(.35, () => {
+            wait(.7, () => {
                 player.enterState(curState);
             });
         }
@@ -124,7 +124,7 @@ function createPlayer() {
         setCamPos(player.pos);
 
         // DON'T MOVE WHILE KWAKING OR POOPING
-        if (player.state == 'kwak' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
+        if (player.state == 'kwak' || player.state == 'spit' || player.state == 'orangePoop' || player.state == 'armorPoop') return;
 
         // BOOLEANS COERCE TO 0/1 : EACH AXIS BECOMES -1, 0 OR 1
         moveDir.x = isButtonDown('right') - isButtonDown('left');
