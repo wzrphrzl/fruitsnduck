@@ -17,7 +17,7 @@ export function createUI() {
     const initialScore = 0;
     const score = add([
         text('Score : ' + initialScore, fontStyleRegular),
-        pos(32, 24),
+        pos(32, 4),
         anchor('topleft'),
         { value: initialScore },
         fixed(), layer('ui'),
