@@ -83,3 +83,17 @@ export function addDustTrail(player) {
 
     return trail;
 }
+
+// TEXT EFFECTS 
+
+export const wavy = (idx) => ({
+    pos: vec2(0, wave(-4, 4, time() * 6 + idx * 0.5)),
+});
+
+export const rainbow = (idx) => ({
+    color: hsl2rgb((time() * 0.2 + idx * 0.1) % 1, 0.7, 0.8),
+});
+
+export function combineEffects(...effects) {
+    return (idx, ch, param) => Object.assign({}, ...effects.map(fn => fn(idx, ch, param)));
+}

@@ -1,9 +1,10 @@
-import { fontStyleBold, fontStyleMedium } from '../../appInit.js';
+import { fontStyleBold } from '../../appInit.js';
 import { palette } from '../../lib/colorpalette.js';
+import { combineEffects, wavy, rainbow } from '../../lib/effects.js';
 
 // COMBO TILE POPUP : shown at the bottom center of the screen when a combo is made
 const COMBO_BOX = {
-    w: 484,
+    w: 560,
     h: 96,          // same height as the fruit boxes
     cx: 720,        // horizontally centered on the screen (1440 wide)
     bottomY: 768,   // aligned with the fruit boxes' bottom edge (top 672 + height 96)
@@ -33,9 +34,9 @@ export function showComboTile(name) {
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
         ]);
         const label = add([
-            text(name, { ...fontStyleBold, letterSpacing: 10 }),
+            text(name, { ...fontStyleBold, letterSpacing: 10, transform: combineEffects(wavy, rainbow) }),
             pos(COMBO_BOX.cx, cy - 2), anchor('center'),
-            color(Color.fromHex(palette.green.lighter)),
+            color(Color.fromHex(palette.green.lighter)),   // RAINBOW MULTIPLIES THIS : TINTS THE HUE RANGE GREEN
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
         ]);
         comboPopup = { box, label, timer: null, fade: null };

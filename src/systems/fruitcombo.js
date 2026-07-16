@@ -42,7 +42,6 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
         if (isInventoryFull()) {
             const slots = getInventorySlots();
             const category = classifyCombo(slots);
-            debug.log('fruitCombo : ' + category);
             scoreStats.comboCount++;   // COUNTED FOR THE END SCREEN
             showComboTile(category);
             playComboSound(category);

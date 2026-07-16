@@ -17,7 +17,7 @@ export function healthPointsUI(bumpIndex) {
         const heart = add([
             sprite('heartUI', { anim: index < player.hp ? 'heartFull' : 'heartEmpty' }),
             scale(0.59),
-            pos(1386, 48),
+            pos(1386, 40),
             opacity(1),
             anchor('center'),
             fixed(), layer('ui'),
