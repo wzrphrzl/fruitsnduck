@@ -1,5 +1,5 @@
-import { objectList } from './objects.js';
-import { addObject, addDandelionChrono, addThistle } from './generators.js';
+import { objects } from './objects.js';
+import { addObject, addPlant } from './generators.js';
 import { setFreePos } from '../lib/helpers.js';
 
 // CLASSIFY A COMPLETED TRIO (3 non-null sprite names) INTO A COMBO CATEGORY:
@@ -11,7 +11,7 @@ export function classifyCombo(slots) {
     const allIdentical = slots.every(s => s === slots[0]);
 
     if (allIdentical) {
-        return objectList[slots[0]].objectType === 'commonFruit' ? 'nearPerfectCombo' : 'perfectCombo';
+        return objects[slots[0]].objectType === 'commonFruit' ? 'nearPerfectCombo' : 'perfectCombo';
     }
 
     // NOT ALL IDENTICAL → a matching pair means "2 same + 1 different", otherwise all 3 differ
@@ -28,10 +28,10 @@ const COMBO_REWARDS = {
         addObject('superFruitT1');
         for (let i = 0; i < 2; i++) {
             const spot = setFreePos(player, 100);
-            addThistle(spot.x, spot.y);
+            addPlant('thistle', spot.x, spot.y);
         }
         const spot = setFreePos(player, 100);
-        addDandelionChrono(spot.x, spot.y);
+        addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
     },
 
     // 2 SAME + 1 DIFFERENT — same drop as baseCombo for now
@@ -40,19 +40,19 @@ const COMBO_REWARDS = {
         addObject('superFruitT1');
         for (let i = 0; i < 2; i++) {
             const spot = setFreePos(player, 100);
-            addThistle(spot.x, spot.y);
+            addPlant('thistle', spot.x, spot.y);
         }
         play('thistleGrows');
 
         const spot = setFreePos(player, 100);
-        addDandelionChrono(spot.x, spot.y);
+        addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
     },
 
     // 3 IDENTICAL COMMON FRUITS — a heart and a dandelion (time bonus)
     nearPerfectCombo: ({ player }) => {
         addObject('heartIngame');
         const spot = setFreePos(player, 100);
-        addDandelionChrono(spot.x, spot.y);
+        addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
     },
 
     // 3 IDENTICAL SUPER FRUITS (T1) — handled per-fruit in fruitcombo.js

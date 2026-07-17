@@ -79,7 +79,6 @@ scene('lose', () => {
             layer('ui'),
         ]);
 
-
         scoreMenu.add([
             text(param2, fontStyleRegular),
             pos(128, 256),

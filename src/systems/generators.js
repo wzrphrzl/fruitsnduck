@@ -1,6 +1,6 @@
 import { k } from '../appInit.js';
 import { player } from '../entities/player.js';
-import { objectList } from './objects.js';
+import { objects } from './objects.js';
 import { setFreePos } from '../lib/helpers.js';
 import { treeGrows } from '../lib/audio.js';
 import { palette } from '../lib/colorpalette.js';
@@ -10,7 +10,7 @@ import { palette } from '../lib/colorpalette.js';
 
 // TREE CREATION
 // Each new tree gets a z one lower than the previous (1000, 999, 998...),
-let treeZ = 1000;
+let plantZ = 1000;
 let objectZ = 1000;
 
 
@@ -25,11 +25,11 @@ export function addTree(x, y) {
         body({ isStatic: true }),
         state('fruity', ['fruity', 'default']),
         layer('game'),
-        z(treeZ),
+        z(plantZ),
         'tree',
     ]);
 
-    treeZ--;
+    plantZ--;
 
     tree.add([
         ellipse(tree.width / 2, 10),
@@ -64,63 +64,38 @@ export function addTree(x, y) {
 
 }
 
-export function addThistle(x, y) {
+export function addPlant(spriteName, x, y, sound) {
 
-        // AREA : hitbox scale + optional manual fine-tuning (kept at 0 = auto-centered)
-        const THISTLE_AREA_SCALE = 0.65;
-        const THISTLE_AREA_OFFSET_X = 0;
-        const THISTLE_AREA_OFFSET_Y = 0;
+        const PLANT_AREA_SCALE = 0.65;
 
-        const thistle = k.add([
-            sprite('thistle'),
+        const plant = k.add([
+            sprite(spriteName),
             pos(x, y),
             scale(.75),
             anchor('center'),
-            area({ scale: THISTLE_AREA_SCALE }),
+            area({ scale: PLANT_AREA_SCALE }),
             body({ isStatic: true }),
             state('default', ['default']),
             layer('game'),
-            z(treeZ),
-            'thistle',
+            z(plantZ),
+            spriteName,
         ]);
 
-        thistle.onStateEnter('default', () => {
-            thistle.play('default');
+        plant.onStateEnter('default', () => {
+            plant.play('default');
         });
 
         // AREA : adapt hitbox shape to sprite outline (grown frame), auto-centered
-        thistle.area.shape = getSpriteOutline('thistle', 3, true, 1);
-        thistle.area.shape.pts = buildConvexHull(thistle.area.shape.pts);
-        thistle.area.offset = vec2(
-            -thistle.width / 2 * THISTLE_AREA_SCALE + THISTLE_AREA_OFFSET_X,
-            -thistle.height / 2 * THISTLE_AREA_SCALE + THISTLE_AREA_OFFSET_Y,
+        plant.area.shape = getSpriteOutline(spriteName, 3, true, 1);
+        plant.area.shape.pts = buildConvexHull(plant.area.shape.pts);
+        plant.area.offset = vec2(
+            -plant.width / 2 * PLANT_AREA_SCALE,
+            -plant.height / 2 * PLANT_AREA_SCALE,
         );
 
-        return thistle;
+        if (sound) play(sound);
 
-}
-
-export function addDandelionChrono(x, y) {
-
-        const dandelionChrono = k.add([
-            sprite('dandelionChrono'),
-            pos(x, y),
-            scale(.75),
-            anchor('center'),
-            area(),
-            body({ isStatic: true }),
-            state('default', ['default']),
-            layer('game'),
-            z(treeZ),
-            'dandelionChrono',
-        ]);
-
-        dandelionChrono.onStateEnter('default', () => {
-            dandelionChrono.play('default');
-        });
-
-        play('dandelionChronoGrows')
-        return dandelionChrono;
+        return plant;
 
 }
 
@@ -134,7 +109,7 @@ export function addObject(objectType) {
     const OBJECT_AREA_OFFSET_Y = 0;
 
     // FILTERS GAMEOBJECTLIST AND RETURNS AN ARRAY OF THE SPECIFIED OBJECT TYPE
-    const filteredObject = Object.keys(objectList).filter(filterParam => objectList[filterParam].objectType === objectType);
+    const filteredObject = Object.keys(objects).filter(filterParam => objects[filterParam].objectType === objectType);
     // SELECTS A RANDOM OBJECT FROM THE FILTERED ARRAY
     const getRandomObjectFromList = Math.floor(Math.random() * filteredObject.length);
     const spriteName = filteredObject[getRandomObjectFromList];
@@ -146,8 +121,7 @@ export function addObject(objectType) {
 
     const duration = rand(1.25, 1.85);
 
-
-    // A TRANSPARENT CONTAINER WHICH GATHERS THE POSITION AND THE SPRITE'S AREA
+    // INITIAL TRANSPARENT CONTAINER (GATHERS POSITION AND THE SPRITE'S AREA)
     const objectContainer = add([
         sprite(spriteName),
         pos(posX_Final, posY_Final),
@@ -211,28 +185,6 @@ export function addObject(objectType) {
         layer('bg'),
     ]);
 
-}
-
-// ACORN SPAWNING (GENERATES A TREE WHEN COLLECTED)
-export function acornBonus() {
-    const acorn = add([
-        sprite('acorn'),
-        pos(setFreePos(player, 100)),
-        rotate(0),
-        scale(.75),
-        anchor('center'),
-        area(),
-        body(),
-        layer('game'),
-        'acorn',
-    ]);
-
-    // AREA : adapt hitbox shape to sprite outline
-    acorn.area.shape = getSpriteOutline('acorn', 0, true, 1);
-    acorn.area.shape.pts = buildConvexHull(acorn.area.shape.pts);
-    acorn.area.offset = vec2(-acorn.width / 2, -acorn.height / 2);
-
-    return acorn;
 }
 
 // FLOWER SPAWNING (POPS WHEN A VIRUS IS COLLECTED IN ARMOR MODE)

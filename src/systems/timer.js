@@ -8,6 +8,15 @@ export function formatTime(totalSeconds) {
     return String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
 }
 
+// REFERENCE TO THE TIMER CREATED FOR THE CURRENT GAME, so other modules (e.g. objects.js)
+// can affect it without it being passed around. Set by createTimer.
+let currentTimer = null;
+
+// ADD TIME TO THE CURRENT GAME'S TIMER (no-op if none / already stopped)
+export function addGameTime(seconds) {
+    currentTimer?.addTime(seconds);
+}
+
 export function createTimer(startSeconds, onTimeout) {
 
     // ALIGNED WITH THE SCORE (SAME Y / FONT SIZE), HORIZONTALLY CENTERED
@@ -49,5 +58,6 @@ export function createTimer(startSeconds, onTimeout) {
         timer.text = formatTime(timer.remaining);
     });
 
+    currentTimer = timer;
     return timer;
 }

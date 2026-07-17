@@ -4,10 +4,13 @@ import { k } from '../appInit.js';
 
 // BUMP EFFECTS
 export function bump(param1) {
-    param1.scale = vec2(1.1);
-    wait(0.185, () => {
-        param1.scale = vec2(1);
-    });
+    tween(
+        vec2(1.12),                      // FROM
+        vec2(1),                        // TO
+        0.185,                          // DURATION
+        (s) => param1.scale = s,        // SETTER
+        easings.easeInCubic,
+    );
 }
 
 export function bumpMini(param1) {

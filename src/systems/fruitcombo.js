@@ -1,5 +1,5 @@
 import { scoreStats } from '../appInit.js';
-import { objectList } from './objects.js';
+import { objects } from './objects.js';
 import { addFlower } from './generators.js';
 import { bump } from '../lib/effects.js';
 import { showScoreTile, showComboTile } from './ui.js';
@@ -18,10 +18,10 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
     // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'objectContainer' TAG
     player.onCollide('objectContainer', (objectContainer) => {
 
-        const objectCollided = objectList[objectContainer.sprite];
+    const objectCollided = objects[objectContainer.sprite];
 
         updateCombo(objectContainer, objectCollided);
-        getDefinitiveBonus(objectContainer, objectCollided);
+        getDefinitiveUpgrade(objectContainer, objectCollided);
         maybeSpawnFlower(objectContainer);
         applyScore(objectCollided);
         buffEnemy();
@@ -38,17 +38,15 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
         // ADD THE NEW FRUIT TO THE NEXT AVAILABLE SLOT (also redraws the boxes)
         addFruit(objectContainer.sprite);
 
-        // TRIO COMPLETE → CLASSIFY, TRIGGER ITS OUTCOME, THEN CLEAR
         if (isInventoryFull()) {
             const slots = getInventorySlots();
             const category = classifyCombo(slots);
-            scoreStats.comboCount++;   // COUNTED FOR THE END SCREEN
+            scoreStats.comboCount++; 
             showComboTile(category);
             playComboSound(category);
 
             if (category === 'perfectCombo') {
-                // 3 identical super fruits (T1) → that fruit's own event
-                objectList[slots[0]].objectEvent();
+                objects[slots[0]].objectEvent();
             } else {
                 // baseCombo / unPerfectCombo / nearPerfectCombo → loot from the category table
                 resolveCombo(category, { player });
@@ -60,7 +58,7 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
     }
 
     // PLAYER UPGRADES
-    function getDefinitiveBonus(objectContainer, objectCollided) {
+    function getDefinitiveUpgrade(objectContainer, objectCollided) {
         if (upgrades.includes(objectContainer.sprite)) {
             objectCollided.objectEvent();
         }
