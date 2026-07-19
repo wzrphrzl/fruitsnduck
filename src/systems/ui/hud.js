@@ -15,10 +15,20 @@ export function createUI() {
 
     // SCORE
     const initialScore = 0;
+    // STATIC LABEL : never moves, never bumped
+    const scoreLabel = add([
+        text('Score :', fontStyleRegular),
+        pos(32, 32),
+        anchor('left'),
+        fixed(), layer('ui'),
+    ]);
+
+    // VALUE : updated and bumped independently of the label
     const score = add([
-        text('Score : ' + initialScore, fontStyleRegular),
-        pos(32, 4),
-        anchor('topleft'),
+        text('' + initialScore, fontStyleRegular),
+        pos(172, 32),
+        scale(1),
+        anchor('left'),
         { value: initialScore },
         fixed(), layer('ui'),
     ]);

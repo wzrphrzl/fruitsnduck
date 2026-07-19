@@ -1,6 +1,5 @@
 import { scoreStats } from '../appInit.js';
 import { objects } from './objects.js';
-import { addFlower } from './generators.js';
 import { bump } from '../lib/effects.js';
 import { showScoreTile, showComboTile } from './ui.js';
 import { classifyCombo, resolveCombo, playComboSound } from './loots.js';
@@ -10,20 +9,17 @@ import { initInventory, addFruit, isInventoryFull, getInventorySlots, clearInven
 export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
 
     initInventory(boxes);
-    scoreStats.comboCount = 0;   // FRESH COUNT EACH GAME (scoreStats is module-level and survives scenes)
+    scoreStats.comboCount = 0;   // RESETS COMBO COUNT AT THE BEGINNING OF THE GAME
 
-    const upgrades = ['heartIngame', 'superHeart', 'superTomatoArmor', 'superPiment', 'samaraSpeed', 'superStar'];
-    const viruses = ['virus3Red', 'virus4Blue', 'virus5Brown'];
+    const COMBO_TYPES = ['commonFruit', 'superFruitT1'];
 
-    // EACH OBJECT SPRITE IS BOTH REFRENCED BY ITS OWN NAME AND AS 'objectContainer' TAG
     player.onCollide('objectContainer', (objectContainer) => {
 
-    const objectCollided = objects[objectContainer.sprite];
+        const objectCollided = objects[objectContainer.sprite];
 
         updateCombo(objectContainer, objectCollided);
-        getDefinitiveUpgrade(objectContainer, objectCollided);
-        maybeSpawnFlower(objectContainer);
-        applyScore(objectCollided);
+        triggerObjectEvent(objectContainer, objectCollided);
+        updateScore(objectCollided);
         buffEnemy();
 
         bump(player);
@@ -33,7 +29,7 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
 
     // FRUIT COMBO : fill 3 slots; a complete trio triggers its combo, then clears right away
     function updateCombo(objectContainer, objectCollided) {
-        if (objectCollided.objectType !== 'commonFruit' && objectCollided.objectType !== 'superFruitT1') return;
+        if (!COMBO_TYPES.includes(objectCollided.objectType)) return;
 
         // ADD THE NEW FRUIT TO THE NEXT AVAILABLE SLOT (also redraws the boxes)
         addFruit(objectContainer.sprite);
@@ -57,21 +53,15 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
         }
     }
 
-    // PLAYER UPGRADES
-    function getDefinitiveUpgrade(objectContainer, objectCollided) {
-        if (upgrades.includes(objectContainer.sprite)) {
-            objectCollided.objectEvent();
-        }
+    // Any non-combo object with an objectEvent fires it on pickup
+    // (upgrades, acorn, virus...). Combo fruits are excluded — their objectEvent,
+    // when they have one, only fires on a completed perfectCombo (see updateCombo).
+    function triggerObjectEvent(objectContainer, objectCollided) {
+        if (COMBO_TYPES.includes(objectCollided.objectType)) return;
+        if (objectCollided.objectEvent) objectCollided.objectEvent(objectContainer);
     }
 
-    // ARMOR MODE : collecting a virus pops a flower where it was caught
-    function maybeSpawnFlower(objectContainer) {
-        if (player.state === 'armorRun' && viruses.includes(objectContainer.sprite)) {
-            addFlower(objectContainer.pos.x, objectContainer.pos.y);
-        }
-    }
-
-    function applyScore(objectCollided) {
+    function updateScore(objectCollided) {
         const scoreChange = objectCollided.scoreValue;
 
         if (scoreChange > 0) {
@@ -84,8 +74,8 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
             play('debuff');
         }
 
-        score.text = 'Score : ' + score.value;
-        bump(score);
+        score.text = '' + score.value;   // label 'Score :' is a separate static element
+        bump(score)
     }
 
     function buffEnemy() {

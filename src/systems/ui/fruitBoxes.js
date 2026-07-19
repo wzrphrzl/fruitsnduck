@@ -1,4 +1,4 @@
-import { bumpMini } from '../../lib/effects.js';
+import { bumpFruit } from '../../lib/effects.js';
 
 // FRUIT BOXES : (re)draw the fruits currently held in the 3 inventory boxes.
 export function renderFruitBoxes(boxes, fruitSlots, previousSprites, bumpIndex) {
@@ -20,7 +20,7 @@ export function renderFruitBoxes(boxes, fruitSlots, previousSprites, bumpIndex) 
         ]);
 
         // POP THE FRUIT THAT WAS JUST COLLECTED
-        if (index === bumpIndex) bumpMini(fruit);
+        if (index === bumpIndex) bumpFruit(fruit);
 
         return fruit;
     });

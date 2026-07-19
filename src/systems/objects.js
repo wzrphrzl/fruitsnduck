@@ -1,9 +1,8 @@
 import { player, playerStats } from '../entities/player.js';
 import { addDustTrail } from '../lib/effects.js';
-import { addObject, addTree } from './generators.js';
-import { addUpgrade_UI, healthPointsUI } from './ui.js';
-import { setFreePos } from '../lib/helpers.js';
-import { virusStress } from './objectEffects.js';
+import { addObject, addTree, addFlower } from './generators.js';
+import { addUpgrade_UI, healthPoints_UI } from './ui.js';
+import { setPos } from '../lib/helpers.js';
 import { addGameTime } from './timer.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
@@ -116,7 +115,7 @@ export const objects = {
         objectEvent: () => {
             play('pickedSuperHeart'); 
             player.maxHP += 1;
-            healthPointsUI(player.maxHP - 1);
+            healthPoints_UI(player.maxHP - 1);
         }
     },
     superTomatoArmor: {
@@ -176,7 +175,7 @@ export const objects = {
         objectType: 'acorn', scoreValue: 0,
         objectEvent: () => {
             play('pickedAcorn');
-            const spot = setFreePos(player, 140);
+            const spot = setPos(player, 140);
             addTree(spot.x, spot.y);
         }
     },
@@ -191,10 +190,34 @@ export const objects = {
     },
     thistle: {
         objectType: 'thistle', scoreValue: 0,
-        objectEvent: () => {
+        objectEvent: (source) => {
+            // ARMOR : crush the thistle into a flower (at the thistle) instead of taking damage
+            if (player.state.startsWith('armor')) {
+                addFlower(source.pos.x, source.pos.y);
+                return;
+            }
             play('soundStress');
             player.hp -= 1;
         }
     },
 
 };
+
+
+//
+//  ADDITIONAL FUNCTIONS
+//
+function virusStress(virus) {
+    if (virus.isActive) return;
+    // ARMOR MAKES THE PLAYER IMMUNE
+    if (player.state.startsWith('armor')) return;
+
+    virus.isActive = true;
+    const previousState = player.state;
+    player.enterState('stressRun');
+    play('soundStress');
+    wait(1.5, () => {
+        player.enterState(previousState);
+        virus.isActive = false;
+    });
+}

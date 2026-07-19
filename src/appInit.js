@@ -31,7 +31,7 @@ const fontStyleSmall = { size: 32, font: 'monogram' };
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 
-const scoreStats = { savedScore: '', virusCount: '', gameTime: 0, };
+const scoreStats = { savedScore: '', virusCount: '', gameTime: 0, comboCount: 0, };
 
 // SOUND EFFECTS
 loadSound('fallen-precious-object', './sound/bonus/fallen-precious-object.mp3');
@@ -367,7 +367,19 @@ loadSprite('titleScreen', './img/title-screen.png', {
     }
 });
 
-loadSprite('tree', './img/tree-full.png', {
+loadSprite('treeSmall', './img/tree-small.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 12,
+            loop: false,
+        },
+    }
+});
+
+loadSprite('treeFull', './img/tree-full.png', {
     sliceX: 5,
     anims: {
         'default': {

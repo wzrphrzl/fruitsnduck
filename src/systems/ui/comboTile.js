@@ -35,7 +35,7 @@ export function showComboTile(name) {
         ]);
         const label = add([
             text(name, { ...fontStyleBold, letterSpacing: 10, transform: combineEffects(wavy, rainbow) }),
-            pos(COMBO_BOX.cx, cy - 2), anchor('center'),
+            pos(COMBO_BOX.cx +2, cy - 8), anchor('center'),
             color(Color.fromHex(palette.green.lighter)),   // RAINBOW MULTIPLIES THIS : TINTS THE HUE RANGE GREEN
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
         ]);

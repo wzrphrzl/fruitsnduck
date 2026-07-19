@@ -10,7 +10,7 @@ export function formatTime(totalSeconds) {
 
 // REFERENCE TO THE TIMER CREATED FOR THE CURRENT GAME, so other modules (e.g. objects.js)
 // can affect it without it being passed around. Set by createTimer.
-let currentTimer = null;
+let currentTimer;
 
 // ADD TIME TO THE CURRENT GAME'S TIMER (no-op if none / already stopped)
 export function addGameTime(seconds) {
@@ -56,6 +56,18 @@ export function createTimer(startSeconds, onTimeout) {
         }
 
         timer.text = formatTime(timer.remaining);
+    });
+
+    // COUNTDOWN WARNING : 'timerShort' EVERY 2s FROM 15s, THEN SPEEDS UP TO EVERY 1s IN THE LAST 5s
+    loop(2, () => {
+        if (!timer.stopped && timer.remaining <= 15 && timer.remaining > 5) {
+            play('timerShort', { volume: .25 });
+        }
+    });
+    loop(1, () => {
+        if (!timer.stopped && timer.remaining <= 5) {
+            play('timerShort', { volume: .25 });
+        }
     });
 
     currentTimer = timer;

@@ -1,7 +1,7 @@
 import { k } from '../appInit.js';
 import { player } from '../entities/player.js';
 import { objects } from './objects.js';
-import { setFreePos } from '../lib/helpers.js';
+import { setPos } from '../lib/helpers.js';
 import { treeGrows } from '../lib/audio.js';
 import { palette } from '../lib/colorpalette.js';
 
@@ -12,93 +12,6 @@ import { palette } from '../lib/colorpalette.js';
 // Each new tree gets a z one lower than the previous (1000, 999, 998...),
 let plantZ = 1000;
 let objectZ = 1000;
-
-
-export function addTree(x, y) {
-
-    const tree = k.add([
-        sprite('tree'),
-        pos(x, y),
-        scale(1),
-        anchor('center'),
-        area({ isSensor: false, scale: 0.85 }),
-        body({ isStatic: true }),
-        state('fruity', ['fruity', 'default']),
-        layer('game'),
-        z(plantZ),
-        'tree',
-    ]);
-
-    plantZ--;
-
-    tree.add([
-        ellipse(tree.width / 2, 10),
-        pos(0, 56),
-        color(Color.fromHex(palette.blue.darkest)),
-        anchor('top'),
-        opacity(0.25),
-        layer('bg'),
-    ]);
-
-    tree.onStateEnter('default', () => {
-        tree.play('default');
-
-    });
-
-    tree.onStateEnter('fruity', () => {
-        tree.play('fruity');
-    });
-
-    // AREA : adapt hitbox shape to sprite getSpriteOutline
-
-    wait(0.2, () => {
-        tree.area.shape = getSpriteOutline('tree', 4, true, 1);
-        tree.area.shape.pts = buildConvexHull(tree.area.shape.pts);
-        tree.area.offset = vec2(-tree.width / 2 + 8, -tree.height / 2 + 8);
-        tree.area.isSensor = true;
-    });
-
-    treeGrows();
-
-    return tree;
-
-}
-
-export function addPlant(spriteName, x, y, sound) {
-
-        const PLANT_AREA_SCALE = 0.65;
-
-        const plant = k.add([
-            sprite(spriteName),
-            pos(x, y),
-            scale(.75),
-            anchor('center'),
-            area({ scale: PLANT_AREA_SCALE }),
-            body({ isStatic: true }),
-            state('default', ['default']),
-            layer('game'),
-            z(plantZ),
-            spriteName,
-        ]);
-
-        plant.onStateEnter('default', () => {
-            plant.play('default');
-        });
-
-        // AREA : adapt hitbox shape to sprite outline (grown frame), auto-centered
-        plant.area.shape = getSpriteOutline(spriteName, 3, true, 1);
-        plant.area.shape.pts = buildConvexHull(plant.area.shape.pts);
-        plant.area.offset = vec2(
-            -plant.width / 2 * PLANT_AREA_SCALE,
-            -plant.height / 2 * PLANT_AREA_SCALE,
-        );
-
-        if (sound) play(sound);
-
-        return plant;
-
-}
-
 
 // OBJECT SPAWNING
 export function addObject(objectType) {
@@ -114,7 +27,7 @@ export function addObject(objectType) {
     const getRandomObjectFromList = Math.floor(Math.random() * filteredObject.length);
     const spriteName = filteredObject[getRandomObjectFromList];
 
-    const spawnPos = setFreePos(player, 100);
+    const spawnPos = setPos(player, 100);
     const posX_Final = spawnPos.x;
     const posY_Final = spawnPos.y;
     const posY_Spawn = -height();
@@ -187,7 +100,98 @@ export function addObject(objectType) {
 
 }
 
-// FLOWER SPAWNING (POPS WHEN A VIRUS IS COLLECTED IN ARMOR MODE)
+export function addTree(x, y) {
+
+    const tree = k.add([
+        sprite('treeFull'),
+        pos(x, y),
+        scale(1),
+        anchor('center'),
+        area({ isSensor: false, scale: 0.85 }),
+        body({ isStatic: true }),
+        state('fruity', ['fruity', 'default']),
+        layer('game'),
+        z(plantZ),
+        'tree',
+    ]);
+
+    plantZ--;
+
+    tree.add([
+        ellipse(tree.width / 2, 10),
+        pos(0, 56),
+        color(Color.fromHex(palette.blue.darkest)),
+        anchor('top'),
+        opacity(0.25),
+        layer('bg'),
+    ]);
+
+    tree.onStateEnter('default', () => {
+        tree.play('default');
+
+    });
+
+    tree.onStateEnter('fruity', () => {
+        tree.play('fruity');
+    });
+
+    // AREA : adapt hitbox shape to sprite getSpriteOutline
+
+    wait(0.2, () => {
+        tree.area.shape = getSpriteOutline('treeFull', 4, true, 1);
+        tree.area.shape.pts = buildConvexHull(tree.area.shape.pts);
+        tree.area.offset = vec2(-tree.width / 2 + 8, -tree.height / 2 + 8);
+        tree.area.isSensor = true;
+    });
+
+    treeGrows();
+
+    return tree;
+
+}
+
+// PLANTS
+export function addPlant(spriteName, x, y, sound) {
+
+        let scaleValue = .75;
+
+        if ( spriteName == 'treeSmall') {
+            scaleValue = 1;
+        }
+
+        const PLANT_AREA_SCALE = 0.65;
+
+        const plant = k.add([
+            sprite(spriteName),
+            pos(x, y),
+            scale(scaleValue),
+            anchor('center'),
+            area({ scale: PLANT_AREA_SCALE }),
+            body({ isStatic: true }),
+            state('default', ['default']),
+            layer('game'),
+            z(plantZ),
+            spriteName,
+        ]);
+
+        plant.onStateEnter('default', () => {
+            plant.play('default');
+        });
+
+        // AREA : adapt hitbox shape to sprite outline (grown frame), auto-centered
+            plant.area.shape = getSpriteOutline(spriteName, 3, true, 1);
+            plant.area.shape.pts = buildConvexHull(plant.area.shape.pts);
+            plant.area.offset = vec2(
+                -plant.width / 2 * PLANT_AREA_SCALE,
+                -plant.height / 2 * PLANT_AREA_SCALE,
+            );
+        if (sound) play(sound);
+
+        return plant;
+
+}
+
+// FLOWER SPAWNING
 export function addFlower(posX, posY) {
     const flowerList = ['flower-1', 'flower-2', 'flower-3'];
     const randomFlower = Math.floor(Math.random() * flowerList.length);
@@ -196,6 +200,7 @@ export function addFlower(posX, posY) {
         sprite(flowerList[randomFlower]),
         pos(posX, posY),
         scale(.75),
+        anchor('center'),
         layer('game'),
         'flower',
     ]);

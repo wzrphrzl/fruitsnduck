@@ -1,6 +1,6 @@
 import { objects } from './objects.js';
 import { addObject, addPlant } from './generators.js';
-import { setFreePos } from '../lib/helpers.js';
+import { setPos } from '../lib/helpers.js';
 
 // CLASSIFY A COMPLETED TRIO (3 non-null sprite names) INTO A COMBO CATEGORY:
 //   baseCombo        : 3 different fruits
@@ -22,16 +22,19 @@ export function classifyCombo(slots) {
 // WHAT EACH COMBO CATEGORY DROPS WHEN IT COMPLETES.
 // ctx : { player } — used to spawn drops near the player.
 const COMBO_REWARDS = {
-    // 3 DIFFERENT FRUITS — 2 super fruits (T1), 6 thistles and a dandelion
+    // 3 DIFFERENT FRUITS — 2 super fruits (T1), 2 thistles, a dandelion and a small tree
     baseCombo: ({ player }) => {
         addObject('superFruitT1');
         addObject('superFruitT1');
         for (let i = 0; i < 2; i++) {
-            const spot = setFreePos(player, 100);
+            const spot = setPos(player, 100);
             addPlant('thistle', spot.x, spot.y);
         }
-        const spot = setFreePos(player, 100);
+        const spot = setPos(player, 100);
         addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
+
+        const treeSpot = setPos(player, 100);
+        addPlant('treeSmall', treeSpot.x, treeSpot.y);
     },
 
     // 2 SAME + 1 DIFFERENT — same drop as baseCombo for now
@@ -39,19 +42,19 @@ const COMBO_REWARDS = {
         addObject('superFruitT1');
         addObject('superFruitT1');
         for (let i = 0; i < 2; i++) {
-            const spot = setFreePos(player, 100);
+            const spot = setPos(player, 100);
             addPlant('thistle', spot.x, spot.y);
         }
         play('thistleGrows');
 
-        const spot = setFreePos(player, 100);
+        const spot = setPos(player, 100);
         addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
     },
 
     // 3 IDENTICAL COMMON FRUITS — a heart and a dandelion (time bonus)
     nearPerfectCombo: ({ player }) => {
         addObject('heartIngame');
-        const spot = setFreePos(player, 100);
+        const spot = setPos(player, 100);
         addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
     },
 

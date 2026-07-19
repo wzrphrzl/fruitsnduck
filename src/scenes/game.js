@@ -2,18 +2,18 @@ import { addTiledMap } from '../lib/map.js';
 import { scoreStats } from '../appInit.js';
 import { createPlayer, playerStats } from '../entities/player.js';
 import { createEnemy } from '../entities/enemy.js';
-import { createUI, healthPointsUI } from '../systems/ui.js';
+import { createUI, healthPoints_UI } from '../systems/ui.js';
 import { createTimer } from '../systems/timer.js';
 import { palette } from '../lib/colorpalette.js';
-import { addTree, addObject } from '../systems/generators.js';
-import { setFreePos, addRect } from '../lib/helpers.js';
+import { addTree, addObject, addPlant } from '../systems/generators.js';
+import { setPos, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
 import { fruitCombo } from '../systems/fruitcombo.js';
 import { objects } from '../systems/objects.js';
 
 scene('game', () => {
 
-    //debug.inspect = true;
+    debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, palette.green.darker, 'bg', { fixed: true, area: false });
@@ -28,35 +28,7 @@ scene('game', () => {
     const { score, box1, box2, box3 } = createUI();
     const player = createPlayer();
     const { enemy, enemyStats } = createEnemy(player, score);
-    healthPointsUI();
-
-    // FRUIT COMBO SYSTEM
-    fruitCombo({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
-
-    //
-    // COUNTDOWN TIMER : LOSES THE GAME AT 0
-    //
-    const timer = createTimer(120, () => {
-        scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
-        player.enterState('lose');
-        player.paused = true;
-        enemy.paused = true;
-        wait(2, () => {
-            play('lose');
-            go('lose');
-        });
-    });
-
-    loop(2, () => {
-        if (!timer.stopped && timer.remaining <= 15 && timer.remaining > 5) {
-            play('timerShort', {volume: .25 });
-        }
-    });
-    loop(1, () => {
-        if (!timer.stopped && timer.remaining <= 5) {
-            play('timerShort', {volume: .25 });
-        }
-    });
+    healthPoints_UI();
 
     //
     // ADD THE FIRST TREE & OBJECTS
@@ -64,6 +36,11 @@ scene('game', () => {
     wait(2, () => {
         addTree(920, player.pos.y);
         addObject('acorn')
+
+        for (let i = 0; i < 3; i++) {
+            const spot = setPos(player, 140);
+            addPlant('treeSmall', spot.x, spot.y);
+        }
     });
 
     for (let i = 0; i < 0; i++) {
@@ -73,6 +50,9 @@ scene('game', () => {
     //
     // COLLISIONS 
     //
+
+    fruitCombo({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
+
     player.onCollide('tree', (touchedTree) => {
 
         if (touchedTree.state == 'fruity') {
@@ -91,26 +71,23 @@ scene('game', () => {
         else if (touchedTree.state == 'default') return
 
         wait(1, () => {
-            const spot = setFreePos(player, 140);
+            const spot = setPos(player, 140);
             addTree(spot.x, spot.y);
         });
     });
 
     // PLANTS : the effect lives in each object's objectEvent (objects.js); destroy stays here
     ['thistle', 'dandelionChrono'].forEach((tag) => {
-
-        player.onCollide(tag, (objectCollided) => {
-            objects[tag].objectEvent();
-            destroy(objectCollided);
+        player.onCollide(tag, (gameObject) => {
+            objects[tag].objectEvent(gameObject);
+            destroy(gameObject);
         });
-
     });
 
     player.onCollide('enemy', () => {
+        play('hitByVirus');
         scoreStats.savedScore = score.value;
         player.hp -= 1;
-        play('hitByVirus');
-        debug.log(player.hp);
     });
 
     //
@@ -120,11 +97,11 @@ scene('game', () => {
     // HP SYSTEM
     // ON HURT : flash red + refresh hearts; enter 'stressRun' for 5s, then revert — but never while in armor
     const ARMOR_STATES = ['armorRun', 'armorIdle', 'armorPoop'];
-    let stressRevertState = null;
-    let stressTimer = null;
+    let stressRevertState;
+    let stressTimer;
 
     player.onHurt(() => {
-        tween(RED, WHITE, .85, (p) => player.color = p);
+        tween(Color.fromHex(palette.red.bright), WHITE, .85, (p) => player.color = p);
         // ARMOR ABSORBS THE HIT WITHOUT STRESS
         if (ARMOR_STATES.includes(player.state)) return;
         // REMEMBER WHERE TO RETURN TO (skip if already stressed, so we never capture 'stressRun')
@@ -139,18 +116,19 @@ scene('game', () => {
             if (player.state.startsWith('stress')) player.enterState(stressRevertState);
         });
 
-        healthPointsUI(player.hp);   // POP THE HEART THAT JUST EMPTIED (player.hp already lowered)
+        healthPoints_UI(player.hp);   // POP THE HEART THAT JUST EMPTIED (player.hp already lowered)
     });
 
     player.onHeal(() => {
-        healthPointsUI(player.hp - 1);   // POP THE HEART THAT JUST FILLED (player.hp already raised)
+        healthPoints_UI(player.hp - 1);   // POP THE HEART THAT JUST FILLED (player.hp already raised)
     });
 
-    player.onDeath(() => {
-        timer.stop();
-        scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
- 
+    //
+    // GAME ENDING AND TIMER
+    //
+    function gameEnds() {
         play('playerDeath'); 
+        scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
         player.enterState('lose');
         player.paused = true;
         enemy.paused = true;
@@ -158,6 +136,15 @@ scene('game', () => {
             play('lose');
             go('lose');
         });
+    }
+
+    const timer = createTimer(180, () => {
+        gameEnds();
+    });
+
+    player.onDeath(() => {
+        timer.stop();
+        gameEnds(); 
     })
 
 });

@@ -3,33 +3,33 @@ import { k } from '../appInit.js';
 // COSMETIC VISUAL EFFECTS
 
 // BUMP EFFECTS
-export function bump(param1) {
+export function bump(sprite) {
     tween(
         vec2(1.12),                      // FROM
         vec2(1),                        // TO
         0.185,                          // DURATION
-        (s) => param1.scale = s,        // SETTER
+        (s) => sprite.scale = s,        // SETTER
         easings.easeInCubic,
     );
 }
 
-export function bumpMini(param1) {
+export function bumpFruit(sprite) {
     tween(
         vec2(2),                       // FROM
         vec2(.65),                       // TO
         .5,                            // DURATION
-        (s) => param1.scale = s,        // SETTER
+        (s) => sprite.scale = s,        // SETTER
         easings.easeOutBack,            // SPRINGY EASING (SLIGHT OVERSHOOT)
     );
 }
 
-export function bumpHp(param1) {
+export function bumpHp(sprite) {
     // POP: START BIGGER, THEN SPRING BACK TO THE RESTING SCALE WITH EASING
     tween(
         vec2(1.5),                       // FROM
         vec2(.59),                      // TO (RESTING SCALE)
         1.5,                            // DURATION
-        (s) => param1.scale = s,        // SETTER
+        (s) => sprite.scale = s,        // SETTER
         easings.easeOutBack,            // SPRINGY EASING (SLIGHT OVERSHOOT)
     );
 }

@@ -100,20 +100,21 @@ function createPlayer() {
     });
 
     // SPIT
-    const SPIT_DISTANCE = 100;
-    const SPIT_TRAVEL_DURATION = 0.9;
-    const SPIT_FADE_DURATION = 1.5;
+    const SPIT_DISTANCE = 72;
+    const SPIT_TRAVEL_DURATION = .4;
+    const SPIT_FADE_DURATION = .3;
+    const SPIT_START_OFFSET = 24;   // NUDGE THE START POINT SIDEWAYS, IN THE FACING DIRECTION
 
     function spitFruit(spriteName) {
         const direction = player.flipX ? -1 : 1;   // flipX = facing left
-        const spitStartX = player.pos.x;
+        const spitStartX = player.pos.x + direction * SPIT_START_OFFSET;
         const spitStartY = player.pos.y;
 
         const spat = add([
             sprite(spriteName),
-            pos(spitStartX, spitStartY),
+            pos(),
             anchor('center'),
-            scale(.65),
+            scale(.70),
             opacity(1),
             layer('game'),
             z(10000),
@@ -127,10 +128,13 @@ function createPlayer() {
             easings.easeOutQuad,
         );
 
-        tween(.75, 0, SPIT_FADE_DURATION,
+        wait(.3, () => {
+            tween(.75, 0, SPIT_FADE_DURATION,
             (o) => spat.opacity = o,
             easings.easeInQuad,
         ).onEnd(() => destroy(spat));
+        });
+
     }
 
     // FOOTSTEPS : ONE STEP EVERY N SECONDS WHILE RUNNING (N DEPENDS ON THE ACTIVE PERK)

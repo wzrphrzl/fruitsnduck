@@ -2,7 +2,7 @@ import { bumpHp } from '../../lib/effects.js';
 import { player } from '../../entities/player.js';
 
 // HEALTH POINTS : one heart per max HP, filled up to the current HP
-export function healthPointsUI(bumpIndex) {
+export function healthPoints_UI(bumpIndex) {
 
     // CLEAR EXISTING HEARTS
     destroyAll('hp');
