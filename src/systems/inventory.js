@@ -8,13 +8,27 @@ const SLOT_COUNT = 3;
 
 let inventorySlots = new Array(SLOT_COUNT).fill(null);   // sprite names currently held
 let fruitSprites   = new Array(SLOT_COUNT).fill(null);   // the sprite objects drawn in the boxes
-let inventoryBoxes = null;                               // the 3 UI boxes, provided by createUI()
+let inventoryBoxes;                               // the 3 UI boxes, provided by createUI()
+
+// DISPLAY LOCK : after a combo completes, the boxes keep showing the finished trio for a
+// moment while the state has already reset — so the player can start the next combo right
+// away. While frozen, state changes are silent; the display catches up when it unfreezes.
+let displayFrozen = false;
+let holdTimer;
+
+// DRAWS `slots` INTO THE BOXES (bumpIndex = the slot to pop, -1 for none)
+function render(slots, bumpIndex = -1) {
+    fruitSprites = renderFruitBoxes(inventoryBoxes, slots, fruitSprites, bumpIndex);
+}
 
 // CALLED ONCE PER GAME SCENE : binds the UI boxes and wipes any state left by a previous run
 export function initInventory(boxes) {
     inventoryBoxes = boxes;
     inventorySlots = new Array(SLOT_COUNT).fill(null);
     fruitSprites   = new Array(SLOT_COUNT).fill(null);
+    holdTimer?.cancel();
+    holdTimer = null;
+    displayFrozen = false;
 }
 
 export function getInventorySlots() {
@@ -31,7 +45,7 @@ export function addFruit(spriteName) {
     if (index === -1) return -1;
 
     inventorySlots[index] = spriteName;
-    fruitSprites = renderFruitBoxes(inventoryBoxes, inventorySlots, fruitSprites, index);
+    if (!displayFrozen) render(inventorySlots, index);
     return index;
 }
 
@@ -42,12 +56,26 @@ export function popLastFruit() {
 
     const spriteName = inventorySlots[index];
     inventorySlots[index] = null;
-    fruitSprites = renderFruitBoxes(inventoryBoxes, inventorySlots, fruitSprites, -1);
+    if (!displayFrozen) render(inventorySlots);
     return spriteName;
 }
 
-// EMPTIES THE INVENTORY (STATE + UI)
-export function clearInventory() {
+// A TRIO IS COMPLETE : the state resets immediately (the next combo can start right away)
+// while the boxes keep showing the finished trio for `holdTime` seconds.
+// `onDisplayClear` runs just before the trio is wiped — hook for a VFX on the boxes.
+export function completeCombo(holdTime = 1, onDisplayClear) {
+    const completed = [...inventorySlots];
     inventorySlots = new Array(SLOT_COUNT).fill(null);
-    fruitSprites = renderFruitBoxes(inventoryBoxes, inventorySlots, fruitSprites, -1);
+
+    render(completed);          // FREEZE THE FINISHED TRIO ON SCREEN
+    displayFrozen = true;
+
+    // A NEW TRIO MAY COMPLETE WHILE THIS ONE IS STILL SHOWN : drop the pending catch-up
+    holdTimer?.cancel();
+    holdTimer = wait(holdTime, () => {
+        holdTimer = null;
+        displayFrozen = false;
+        onDisplayClear?.();       // VFX FIRES WHILE THE TRIO IS STILL ON SCREEN
+        render(inventorySlots);   // CATCH UP WITH WHATEVER WAS COLLECTED MEANWHILE
+    });
 }

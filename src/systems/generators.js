@@ -209,3 +209,21 @@ export function addFlower(posX, posY) {
         flower.play('default');
     });
 }
+
+// `parent` (optional) : attach the explosion to a game object — posX/posY then become
+// coordinates local to it, and it inherits its context (needed for fixed() UI elements).
+// `spriteName` must have a 'default' anim with loop: false, or it will never self-destruct.
+export function addExplosion(posX, posY, parent, spriteName = 'explosion1') {
+
+    const explosion = (parent ?? k).add([
+        sprite(spriteName),
+        pos(posX, posY),
+        scale(.8),
+        anchor('center'),
+        layer(parent ? 'ui' : 'game'),
+        'explosion',
+    ]);
+
+    // SELF-DESTRUCT ONCE THE ANIMATION IS OVER (only fires because the anim is loop: false)
+    explosion.play('default', { onEnd: () => destroy(explosion) });
+}

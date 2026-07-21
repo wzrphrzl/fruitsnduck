@@ -279,6 +279,18 @@ loadSprite('enemy', './img/enemy.png', {
     },
 });
 
+loadSprite('explosion1', './img/explosion-1.png', {
+    sliceX: 6,
+    anims: {
+        'default': {
+            from: 0,
+            to: 5,
+            speed: 16,
+            loop: false,
+        },
+    }
+});
+
 loadSprite('flower-1', './img/flower-1.png', {
     sliceX: 4,
     anims: {

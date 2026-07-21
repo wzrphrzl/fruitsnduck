@@ -81,3 +81,17 @@ export function playComboSound(category) {
     const sound = COMBO_SOUNDS[category];
     if (sound) play(sound);
 }
+
+// EXPLOSION SPRITE POPPED IN THE INVENTORY BOXES WHEN A COMBO COMPLETES.
+// Each sprite needs a 'default' anim with loop: false (see addExplosion).
+const COMBO_EXPLOSIONS = {
+    baseCombo: 'explosion1',
+    unPerfectCombo: 'explosion1',
+    nearPerfectCombo: 'explosion1',
+    perfectCombo: 'explosion1',
+};
+
+// SPRITE NAME FOR A COMBO CATEGORY'S EXPLOSION.
+export function comboExplosion(category) {
+    return COMBO_EXPLOSIONS[category] ?? 'explosion1';
+}

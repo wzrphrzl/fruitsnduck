@@ -5,7 +5,7 @@ import { createEnemy } from '../entities/enemy.js';
 import { createUI, healthPoints_UI } from '../systems/ui.js';
 import { createTimer } from '../systems/timer.js';
 import { palette } from '../lib/colorpalette.js';
-import { addTree, addObject, addPlant } from '../systems/generators.js';
+import { addTree, addObject, addPlant, addExplosion } from '../systems/generators.js';
 import { setPos, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
 import { fruitCombo } from '../systems/fruitcombo.js';
@@ -46,6 +46,7 @@ scene('game', () => {
     for (let i = 0; i < 0; i++) {
         addObject('superFruitT1');
     }
+
 
     //
     // COLLISIONS 

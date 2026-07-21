@@ -1,9 +1,10 @@
 import { scoreStats } from '../appInit.js';
 import { objects } from './objects.js';
 import { bump } from '../lib/effects.js';
+import { addExplosion } from './generators.js';
 import { showScoreTile, showComboTile } from './ui.js';
-import { classifyCombo, resolveCombo, playComboSound } from './loots.js';
-import { initInventory, addFruit, isInventoryFull, getInventorySlots, clearInventory } from './inventory.js';
+import { classifyCombo, resolveCombo, playComboSound, comboExplosion } from './loots.js';
+import { initInventory, addFruit, isInventoryFull, getInventorySlots, completeCombo } from './inventory.js';
 
 
 export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
@@ -48,8 +49,12 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
                 resolveCombo(category, { player });
             }
 
-            // EMPTY THE INVENTORY RIGHT AWAY SO THE NEXT FRUIT STARTS A FRESH TRIO
-            clearInventory();
+            // STATE RESETS NOW (next trio can start) — the boxes keep showing this one briefly,
+            // then each box pops an explosion as the trio is wiped
+            completeCombo(1, () => {
+                const explosionSprite = comboExplosion(category);
+                boxes.forEach((box) => addExplosion(box.width / 2, box.height / 2, box, explosionSprite));
+            });
         }
     }
 
