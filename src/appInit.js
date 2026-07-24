@@ -65,6 +65,7 @@ loadSound('fart-2', './sound/fart/fart-2.mp3');
 loadSound('fart-3', './sound/fart/fart-3.mp3');
 loadSound('fart-4', './sound/fart/fart-4.mp3');
 loadSound('fart-5', './sound/fart/fart-5.mp3');
+loadSound('grandma', './sound/grandma.wav');
 // fruit combos
 loadSound('baseCombo', './sound/fruitcombos/basecombo.mp3');
 loadSound('unPerfectCombo', './sound/fruitcombos/unperfectcombo.mp3');
@@ -406,6 +407,15 @@ loadSprite('treeFull', './img/tree-full.png', {
         },
     }
 });
+
+// INTTRO
+loadSprite('1Landscape', './intro/1-landscape.png');
+loadSprite('2Grandma', './intro/2-grandma.png');
+loadSprite('2TagBlackbird', './intro/2-tag-blackbird.png');
+loadSprite('2TagFruits', './intro/2-tag-fruits.png');
+loadSprite('2TagVirus', './intro/2-tag-virus.png');
+loadSprite('3ThrownAcorn', './intro/3-thrown-acorn.png');
+
 
 
 export { k, scoreStats, fontStyleBold, fontStyleMedium, fontStyleRegular, fontStyleSmall };

@@ -13,7 +13,7 @@ import { objects } from '../systems/objects.js';
 
 scene('game', () => {
 
-    debug.inspect = true;
+    //debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, palette.green.darker, 'bg', { fixed: true, area: false });
