@@ -60,7 +60,7 @@ export function addRect(width, height, radiusVal, posX, posY, colorName, layerNa
 }
 
 // BUTTON CREATION
-export function addButton(texte, posX, posY) {
+export function addButton(texte, posX, posY, scene) {
     function addButton(txt, f) {
         const btn = k.add([
             rect(272, 80, { radius: 12 }),
@@ -99,6 +99,6 @@ export function addButton(texte, posX, posY) {
     }
 
     addButton(texte, () => {
-        go('game');
+        go(scene);
     });
 }

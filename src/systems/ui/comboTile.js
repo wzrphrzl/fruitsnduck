@@ -4,7 +4,7 @@ import { combineEffects, wavy, rainbow } from '../../lib/effects.js';
 
 // COMBO TILE POPUP : shown at the bottom center of the screen when a combo is made
 const COMBO_BOX = {
-    w: 600,
+    w: 400,
     h: 96,          // same height as the fruit boxes
     cx: 720,        // horizontally centered on the screen (1440 wide)
     bottomY: 768,   // aligned with the fruit boxes' bottom edge (top 672 + height 96)

@@ -32,7 +32,7 @@ scene('menu', () => {
         easing: easings.easeInOutQuad,
     });
 
-    addButton('Start', width() / 2, 488);
+    addButton('Start', width() / 2, 488, 'intro');
 
     add([
         sprite('gameRules'),

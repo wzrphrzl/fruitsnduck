@@ -5,4 +5,4 @@ import './scenes/intro.js';
 import './scenes/game.js';
 import './scenes/end.js';
 
-go('intro');
+go('menu');

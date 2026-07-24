@@ -33,14 +33,12 @@ scene('game', () => {
     //
     // ADD THE FIRST TREE & OBJECTS
     //
-    wait(2, () => {
-        addTree(920, player.pos.y);
-        addObject('acorn')
 
-        for (let i = 0; i < 3; i++) {
-            const spot = setPos(player, 140);
-            addPlant('treeSmall', spot.x, spot.y);
-        }
+
+    wait(0, () => {
+            addObject('acorn', 920, player.pos.y + 24);
+
+
     });
 
     for (let i = 0; i < 0; i++) {
@@ -58,22 +56,27 @@ scene('game', () => {
 
         if (touchedTree.state == 'fruity') {
 
+        for (let i = 0; i < 1 ; i++) {
+            const spot = setPos(player, 140);
+            addPlant('treeSmall', spot.x, spot.y);
+        }
+    
             play('treeHit');
             bump(touchedTree);
 
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 6; i++) {
                 addObject('commonFruit');
             }
-            for (let i = 0; i < 2; i++) {
+            for (let i = 0; i < 3; i++) {
                 addObject('superFruitT1');
             }
             touchedTree.enterState('default');
         }
         else if (touchedTree.state == 'default') return
 
-        wait(1, () => {
-            const spot = setPos(player, 140);
-            addTree(spot.x, spot.y);
+        wait(0, () => {
+            const spot = setPos(player, player);
+            addObject('acorn', spot.x, spot.y);
         });
     });
 

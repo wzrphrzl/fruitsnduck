@@ -40,8 +40,10 @@ loadSound('debuff', './sound/bonus/debuff.mp3');
 loadSound('soundStress', './sound/bonus/sound-stress.mp3');
 loadSound('buff', './sound/bonus/buff.mp3');
 loadSound('lose', './sound/game-state/lose.mp3');
-loadSound('OtherworldlyFoe', './sound/OtherworldlyFoe.mp3');
-play('OtherworldlyFoe', { volume: .05, loop: true, paused: false });
+loadSound('mainTheme', './sound/fnd-main-theme.mp3');
+play('mainTheme', { volume: .33, loop: true, paused: false });
+
+
 
 loadSound('treeHit', './sound/tree/tree-hit.mp3');
 loadSound('footstep-1', './sound/footsteps/footstep-1.mp3');

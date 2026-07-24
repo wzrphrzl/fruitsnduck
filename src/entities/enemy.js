@@ -23,7 +23,7 @@ export function createEnemy(player) {
 
     enemy.onStateEnter('idle', async () => {
         enemy.play('idle');
-        await wait(5)
+        await wait(20)
         enemy.enterState('run');
     });
 

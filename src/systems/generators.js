@@ -14,7 +14,7 @@ let plantZ = 1000;
 let objectZ = 1000;
 
 // OBJECT SPAWNING
-export function addObject(objectType) {
+export function addObject(objectType, x, y) {
 
     // AREA : hitbox scale + optional manual fine-tuning (kept at 0 = auto-centered)
     const OBJECT_AREA_SCALE = 0.6;
@@ -27,7 +27,8 @@ export function addObject(objectType) {
     const getRandomObjectFromList = Math.floor(Math.random() * filteredObject.length);
     const spriteName = filteredObject[getRandomObjectFromList];
 
-    const spawnPos = setPos(player, 100);
+    // Explicit coordinates override the random landing spot (fallback : setPos)
+    const spawnPos = (x !== undefined && y !== undefined) ? vec2(x, y) : setPos(player, 100);
     const posX_Final = spawnPos.x;
     const posY_Final = spawnPos.y;
     const posY_Spawn = -height();

@@ -94,6 +94,6 @@ scene('lose', () => {
         personalizedScore('rage', "One more try ?");
     }
 
-    addButton('Restart', width() / 2, height() / 2 + 256);
+    addButton('Restart', width() / 2, height() / 2 + 256, 'game');
 });
 

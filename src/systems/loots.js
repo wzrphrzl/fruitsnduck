@@ -95,3 +95,16 @@ const COMBO_EXPLOSIONS = {
 export function comboExplosion(category) {
     return COMBO_EXPLOSIONS[category] ?? 'explosion1';
 }
+
+// LABEL SHOWN IN THE COMBO TILE FOR EACH CATEGORY (decoupled from the code name).
+const COMBO_LABELS = {
+    baseCombo: 'Salad',
+    unPerfectCombo: 'Compote',
+    nearPerfectCombo: 'Crumble',
+    perfectCombo: 'Smoothie',
+};
+
+// DISPLAY LABEL FOR A COMBO CATEGORY (falls back to the raw category name).
+export function comboLabel(category) {
+    return COMBO_LABELS[category] ?? category;
+}

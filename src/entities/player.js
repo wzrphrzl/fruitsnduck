@@ -70,6 +70,9 @@ function createPlayer() {
 
             if (player.state === 'orangeIdle' || player.state === 'orangeRun') {
                 player.enterState('orangePoop');
+                // While pooping (mines > 0) the orange duck cancels its last fruit,
+                // but without the spit visual (no flying sprite in orange state)
+                popLastFruit();
             }
             else if (player.state === 'armorIdle' || player.state === 'armorRun') {
                 player.enterState('armorPoop');
