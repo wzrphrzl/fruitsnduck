@@ -56,7 +56,18 @@ export function addRect(width, height, radiusVal, posX, posY, colorName, layerNa
         rectangle.push(fixed());
     }
 
-    return k.add(rectangle);
+    const rectangleObj = k.add(rectangle);
+
+    if (options.tiledSprite) {
+        rectangleObj.add([
+            sprite(options.tiledSprite, { tiled: true, width, height }),
+            pos(0, 0),
+            anchor('topleft'),
+            layer(layerName),
+        ]);
+    }
+
+    return rectangleObj;
 }
 
 // BUTTON CREATION

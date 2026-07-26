@@ -18,11 +18,25 @@ scene('game', () => {
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, palette.green.darker, 'bg', { fixed: true, area: false });
     addTiledMap();
+    //OUTER BLACK FILL (extends far beyond the map, hides everything past the walls)
+    /*TOP*/   addRect(9360, 1080, 0, -3960, -2728, '#000000', 'game', { area: true });
+    /*RIGHT*/ addRect(1080, 9360, 0, 3280, -4280, '#000000', 'game', { area: true });
+    /*BOTTOM*/addRect(9360, 1080, 0, -3960, 2448, '#000000', 'game', { area: true });
+    /*LEFT*/  addRect(1080, 9360, 0, -2920, -4280, '#000000', 'game', { area: true });
     //WALLS
-    /*TOP*/   addRect(9360, 1080, 0, -3960, -2680, '#000000', 'ui', { area: true });
-    /*RIGHT*/ addRect(1080, 9360, 0, 3240, -4280, '#000000', 'ui', { area: true });
-    /*BOTTOM*/addRect(9360, 1080, 0, -3960, 2400, '#000000', 'ui', { area: true });
-    /*LEFT*/  addRect(1080, 9360, 0, -2880, -4280, '#000000', 'ui', { area: true });
+    /*TOP*/   addRect(5120, 512, 0, -1840, -2160, '#000000', 'game', { area: true, tiledSprite: 'moutainTop' });
+    /*RIGHT*/ addRect(512, 4096, 0, 3280, -1648, '#000000', 'game', { area: true, tiledSprite: 'moutainRight' });
+    /*BOTTOM*/addRect(5120, 512, 0, -1840, 2448, '#000000', 'game', { area: true, tiledSprite: 'moutainBottom' });
+    /*LEFT*/  addRect(512, 4096, 0, -2352, -1648, '#000000', 'game', { area: true, tiledSprite: 'moutainLeft' });
+    //CORNERS
+    /*TOPLEFT*/    addRect(512, 512, 0, -2352, -2160, '#000000', 'game', { area: true, tiledSprite: 'moutainTopLeft' });
+    /*TOPRIGHT*/   addRect(512, 512, 0, 3280, -2160, '#000000', 'game', { area: true, tiledSprite: 'moutainTopRight' });
+    /*BOTTOMRIGHT*/addRect(512, 512, 0, 3280, 2448, '#000000', 'game', { area: true, tiledSprite: 'moutainBottomRight' });
+    /*BOTTOMLEFT*/ addRect(512, 512, 0, -2352, 2448, '#000000', 'game', { area: true, tiledSprite: 'moutainBottomLeft' });
+
+
+
+
 
     // INITIALIZES THE GAME ELEMENTS
     const { score, box1, box2, box3 } = createUI();

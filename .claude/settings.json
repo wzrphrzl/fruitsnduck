@@ -17,7 +17,16 @@
       "Bash(sips -g pixelWidth -g pixelHeight public/intro/1-landscape.png)",
       "Bash(git log *)",
       "Bash(git filter-repo *)",
-      "Bash(sips -g pixelWidth -g pixelHeight public/intro/2-grandma.png)"
+      "Bash(sips -g pixelWidth -g pixelHeight public/intro/2-grandma.png)",
+      "Bash(gh pr *)",
+      "Bash(ls /opt/homebrew/bin/gh /usr/local/bin/gh 2>/dev/null; which -a gh git curl 2>/dev/null; echo \"PATH=$PATH\")",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(git ls-remote *)",
+      "Bash(curl -sS -m 30 \"https://api.github.com/repos/wzrphrzl/fruitsnduck\")",
+      "Bash(curl -sS -m 30 \"https://api.github.com/repos/wzrphrzl/fruitsnduck/forks?per_page=100\")",
+      "Bash(curl -sS -m 30 \"https://api.github.com/repos/wzrphrzl/fruitsnduck/pulls?state=all&per_page=100\")",
+      "Bash(curl -sS -m 30 \"https://api.github.com/repos/wzrphrzl/fruitsnduck/branches\")",
+      "Bash(git reflog *)"
     ]
   }
 }

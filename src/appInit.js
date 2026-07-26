@@ -418,6 +418,16 @@ loadSprite('2TagFruits', './intro/2-tag-fruits.png');
 loadSprite('2TagVirus', './intro/2-tag-virus.png');
 loadSprite('3ThrownAcorn', './intro/3-thrown-acorn.png');
 
+// MAP MOUNTAINS 
+loadSprite('moutainTop', './img/mountains/mountain-top.png');
+loadSprite('moutainTopRight', './img/mountains/mountain-topright.png');
+loadSprite('moutainRight', './img/mountains/mountain-right.png');
+loadSprite('moutainBottomRight', './img/mountains/mountain-bottomright.png');
+loadSprite('moutainBottom', './img/mountains/mountain-bottom.png');
+loadSprite('moutainBottomLeft', './img/mountains/mountain-bottomleft.png');
+loadSprite('moutainLeft', './img/mountains/mountain-left.png');
+loadSprite('moutainTopLeft', './img/mountains/mountain-topleft.png');
+
 
 
 export { k, scoreStats, fontStyleBold, fontStyleMedium, fontStyleRegular, fontStyleSmall };
