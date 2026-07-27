@@ -1,11 +1,11 @@
 import { addTiledMap } from '../lib/map.js';
 import { scoreStats } from '../appInit.js';
 import { createPlayer, playerStats } from '../entities/player.js';
-import { createEnemy } from '../entities/enemy.js';
+import { createBoss } from '../entities/boss.js';
 import { createUI, healthPoints_UI } from '../systems/ui.js';
 import { createTimer } from '../systems/timer.js';
 import { palette } from '../lib/colorpalette.js';
-import { addTree, addObject, addPlant, addExplosion } from '../systems/generators.js';
+import { addObject, addPlant } from '../systems/generators.js';
 import { setPos, addRect } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
 import { fruitCombo } from '../systems/fruitcombo.js';
@@ -41,7 +41,7 @@ scene('game', () => {
     // INITIALIZES THE GAME ELEMENTS
     const { score, box1, box2, box3 } = createUI();
     const player = createPlayer();
-    const { enemy, enemyStats } = createEnemy(player, score);
+    const { boss, bossStats } = createBoss(player, score);
     healthPoints_UI();
 
     //
@@ -64,7 +64,7 @@ scene('game', () => {
     // COLLISIONS 
     //
 
-    fruitCombo({ player, score, boxes: [box1, box2, box3], enemy, enemyStats });
+    fruitCombo({ player, score, boxes: [box1, box2, box3], boss, bossStats });
 
     player.onCollide('tree', (touchedTree) => {
 
@@ -102,7 +102,7 @@ scene('game', () => {
         });
     });
 
-    player.onCollide('enemy', () => {
+    player.onCollide('boss', () => {
         play('hitByVirus');
         scoreStats.savedScore = score.value;
         player.hp -= 1;
@@ -149,7 +149,7 @@ scene('game', () => {
         scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
         player.enterState('lose');
         player.paused = true;
-        enemy.paused = true;
+        boss.paused = true;
         wait(2, () => {
             play('lose');
             go('lose');

@@ -265,7 +265,7 @@ loadSprite('duck', './img/duck.png', {
     },
 });
 
-loadSprite('enemy', './img/enemy.png', {
+loadSprite('boss', './img/boss.png', {
     sliceX: 2,
     anims: {
         'idle': {

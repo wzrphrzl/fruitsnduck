@@ -7,7 +7,7 @@ import { classifyCombo, resolveCombo, playComboSound, comboExplosion, comboLabel
 import { initInventory, addFruit, isInventoryFull, getInventorySlots, completeCombo } from './inventory.js';
 
 
-export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
+export function fruitCombo({ player, score, boxes, boss, bossStats }) {
 
     initInventory(boxes);
     scoreStats.comboCount = 0;   // RESETS COMBO COUNT AT THE BEGINNING OF THE GAME
@@ -21,7 +21,7 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
         updateCombo(objectContainer, objectCollided);
         triggerObjectEvent(objectContainer, objectCollided);
         updateScore(objectCollided);
-        buffEnemy();
+        buffBoss();
 
         bump(player);
         destroy(objectContainer);
@@ -83,11 +83,11 @@ export function fruitCombo({ player, score, boxes, enemy, enemyStats }) {
         bump(score)
     }
 
-    function buffEnemy() {
-        if (enemy.exists() === true) {
-            enemyStats.size += 0.04;
-            enemy.scale = vec2(enemyStats.size);
-            enemyStats.speed += 4;
+    function buffBoss() {
+        if (boss.exists() === true) {
+            bossStats.size += 0.04;
+            boss.scale = vec2(bossStats.size);
+            bossStats.speed += 4;
         }
     }
 }
