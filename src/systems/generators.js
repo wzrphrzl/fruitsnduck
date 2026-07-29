@@ -21,8 +21,10 @@ export function addObject(objectType, x, y) {
     const OBJECT_AREA_OFFSET_X = 0;
     const OBJECT_AREA_OFFSET_Y = 0;
 
-    // FILTERS GAMEOBJECTLIST AND RETURNS AN ARRAY OF THE SPECIFIED OBJECT TYPE
-    const filteredObject = Object.keys(objects).filter(filterParam => objects[filterParam].objectType === objectType);
+    // AN OBJECT KEY (e.g. 'sPiment1') SPAWNS THAT EXACT OBJECT ; AN OBJECT TYPE (e.g. 'superFruitT1') PICKS ONE AT RANDOM
+    const filteredObject = objects[objectType]
+        ? [objectType]
+        : Object.keys(objects).filter(filterParam => objects[filterParam].objectType === objectType);
     // SELECTS A RANDOM OBJECT FROM THE FILTERED ARRAY
     const getRandomObjectFromList = Math.floor(Math.random() * filteredObject.length);
     const spriteName = filteredObject[getRandomObjectFromList];
@@ -95,7 +97,7 @@ export function addObject(objectType, x, y) {
         pos(0, objectContainer.height / 2 -8),
         color(Color.fromHex(palette.blue.darkest)),
         anchor('center'),
-        opacity(0.3),
+        opacity(0.4),
         layer('bg'),
     ]);
 

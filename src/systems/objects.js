@@ -137,7 +137,7 @@ export const objects = {
         count: 0,
         objectEvent: () => {
             play('pickedSuperPiment');
-            playerStats.mines += 5;
+            playerStats.mines += 8;
             addUpgrade_UI('superPiment');
             if (player.state == 'defaultRun' || player.state == 'defaultIdle' || player.state == 'stressRun' || player.state == 'stressIdle') {
                 player.enterState('orangeIdle');

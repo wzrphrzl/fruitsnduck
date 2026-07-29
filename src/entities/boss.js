@@ -10,7 +10,7 @@ export function createBoss(player) {
 
     const boss = add([
         sprite('boss'),
-        pos(400, 400),
+        pos(3060, 2340),
         anchor('center'),
         area({ scale: 0.75 }),
         body(),
@@ -18,12 +18,13 @@ export function createBoss(player) {
         state('idle', ['idle', 'run']),
         layer('game'),
         z(10),
+        health(3),
         'boss',
     ]);
 
     boss.onStateEnter('idle', async () => {
         boss.play('idle');
-        await wait(20)
+        await wait(7)
         boss.enterState('run');
     });
 
@@ -50,6 +51,15 @@ export function createBoss(player) {
             boss.move(dir.scale(bossStats.speed));
         }
         if (!player.exists()) return;
+    });
+
+    boss.onHurt(() => {
+        virus.color = RED;
+        wait(.1, () => { virus.color = null; });
+    });
+
+    boss.onDeath(() => {
+        destroy(virus);   // l'ombre enfant part avec le parent
     });
 
     boss.onCollide('poop', (poop) => {

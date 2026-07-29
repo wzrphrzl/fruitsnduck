@@ -3,23 +3,47 @@ import { palette } from './colorpalette.js';
 
 // GENERIC HELPERS
 
-// SPAWNED-OBJECT TAGS CHECKED FOR OVERLAP WHEN PICKING A FREE SPOT
- function setXs(player) {
-    if (Math.random() < 0.5) {
-        return rand(player.pos.x - 600, player.pos.x - 64);
-    } else {
-        return rand(player.pos.x + 64, player.pos.x + 600);
-    }
+// MAP BOUNDARIES FOR CLAMPING
+const SPRITE_MARGIN = 80;
+const SPAWN_MIN_X = -1840 + SPRITE_MARGIN;   
+const SPAWN_MAX_X = 3280 - SPRITE_MARGIN;  
+const SPAWN_MIN_Y = -1648 + SPRITE_MARGIN;  
+const SPAWN_MAX_Y = 2448 - SPRITE_MARGIN;     
+
+export function setXm(player) {
+    return rand(
+        player.pos.x - width() / 2 - SPRITE_MARGIN,
+        player.pos.x + width() / 2 + SPRITE_MARGIN,
+    );
 }
-function setYs(player) {
+
+// EITHER EXTREME, NEVER IN BETWEEN : lands just above or just below the viewport
+export function setYm(player) {
     if (Math.random() < 0.5) {
-        return rand(player.pos.y - 320, player.pos.y - 40);
+        return player.pos.y - height() / 2 - SPRITE_MARGIN;
     } else {
-        return rand(player.pos.y + 40, player.pos.y + 320);
+        return player.pos.y + height() / 2 + SPRITE_MARGIN;
     }
 }
 
-const SPAWN_TAGS = ['objectContainer', 'tree', 'thistle', 'acorn', 'dandelionChrono'];
+function setXs(player) {
+    if (Math.random() < 0.5) {
+        return clamp(rand(player.pos.x - 640, player.pos.x - 64), SPAWN_MIN_X, SPAWN_MAX_X);
+    } else {
+        return clamp(rand(player.pos.x + 64, player.pos.x + 640), SPAWN_MIN_X, SPAWN_MAX_X);
+    }
+}
+
+function setYs(player) {
+    if (Math.random() < 0.5) {
+        return clamp(rand(player.pos.y - 320, player.pos.y - 40), SPAWN_MIN_Y, SPAWN_MAX_Y);
+    } else {
+        return clamp(rand(player.pos.y + 40, player.pos.y + 320), SPAWN_MIN_Y, SPAWN_MAX_Y);
+    }
+}
+
+// ENEMIES ARE IN THE LIST TOO : nothing should grow on top of the boss or a virus
+const SPAWN_TAGS = ['objectContainer', 'tree', 'thistle', 'acorn', 'dandelionChrono', 'boss', 'virus'];
 
 // PICK A RANDOM POSITION NEAR THE PLAYER THAT IS AT LEAST minDist AWAY FROM
 // EVERY SPAWNED OBJECT (rejection sampling : retry up to maxTries, then give up

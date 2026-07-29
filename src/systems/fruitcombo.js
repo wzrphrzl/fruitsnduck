@@ -5,12 +5,14 @@ import { addExplosion } from './generators.js';
 import { showScoreTile, showComboTile } from './ui.js';
 import { classifyCombo, resolveCombo, playComboSound, comboExplosion, comboLabel } from './loots.js';
 import { initInventory, addFruit, isInventoryFull, getInventorySlots, completeCombo } from './inventory.js';
+import { virusStats, resetVirusStats } from '../entities/virus.js';
 
 
 export function fruitCombo({ player, score, boxes, boss, bossStats }) {
 
     initInventory(boxes);
     scoreStats.comboCount = 0;   // RESETS COMBO COUNT AT THE BEGINNING OF THE GAME
+    resetVirusStats();           // virusStats is module-level : clear the previous game's ramp-up
 
     const COMBO_TYPES = ['commonFruit', 'superFruitT1'];
 
@@ -21,7 +23,7 @@ export function fruitCombo({ player, score, boxes, boss, bossStats }) {
         updateCombo(objectContainer, objectCollided);
         triggerObjectEvent(objectContainer, objectCollided);
         updateScore(objectCollided);
-        buffBoss();
+        buffEnemies();
 
         bump(player);
         destroy(objectContainer);
@@ -83,11 +85,21 @@ export function fruitCombo({ player, score, boxes, boss, bossStats }) {
         bump(score)
     }
 
-    function buffBoss() {
+    // ENEMY RAMP-UP : every object picked up makes the hunters tougher.
+    // The boss grows AND accelerates; viruses only accelerate (all of them at once).
+    const BOSS_SIZE_STEP = 0.04;
+    const BOSS_SPEED_STEP = 4;
+    const VIRUS_SPEED_STEP = 4;
+
+    function buffEnemies() {
         if (boss.exists() === true) {
-            bossStats.size += 0.04;
+            bossStats.size += BOSS_SIZE_STEP;
             boss.scale = vec2(bossStats.size);
-            bossStats.speed += 4;
+            bossStats.speed += BOSS_SPEED_STEP;
+        }
+        // Only ramp while at least one virus is out, so the first wave doesn't arrive pre-buffed
+        if (get('virus').length > 0) {
+            virusStats.speed += VIRUS_SPEED_STEP;
         }
     }
 }

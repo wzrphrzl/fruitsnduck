@@ -2,11 +2,12 @@ import { addTiledMap } from '../lib/map.js';
 import { scoreStats } from '../appInit.js';
 import { createPlayer, playerStats } from '../entities/player.js';
 import { createBoss } from '../entities/boss.js';
+import { createVirus } from '../entities/virus.js';
 import { createUI, healthPoints_UI } from '../systems/ui.js';
 import { createTimer } from '../systems/timer.js';
 import { palette } from '../lib/colorpalette.js';
 import { addObject, addPlant } from '../systems/generators.js';
-import { setPos, addRect } from '../lib/helpers.js';
+import { setPos, addRect, setXm, setYm } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
 import { fruitCombo } from '../systems/fruitcombo.js';
 import { objects } from '../systems/objects.js';
@@ -41,7 +42,25 @@ scene('game', () => {
     // INITIALIZES THE GAME ELEMENTS
     const { score, box1, box2, box3 } = createUI();
     const player = createPlayer();
+
     const { boss, bossStats } = createBoss(player, score);
+
+    // VIRUS WAVES : one extra virus every time a 50-point step is crossed (50, 100, 150...).
+    // The counter only ever goes up, so losing points to a debuff and earning them back
+    // doesn't re-trigger a step already paid for.
+    const VIRUS_SCORE_STEP = 50;
+    let virusesSpawned = 0;
+
+
+    onUpdate(() => {
+        const stepsReached = Math.floor(score.value / VIRUS_SCORE_STEP);
+        // `while` and not `if` : a big combo can cross several steps in one go
+        while (virusesSpawned < stepsReached) {
+            virusesSpawned++;
+            createVirus(player, setXm(player), setYm(player));
+        }
+    });
+
     healthPoints_UI();
 
     //
@@ -51,12 +70,10 @@ scene('game', () => {
 
     wait(0, () => {
             addObject('acorn', 920, player.pos.y + 24);
-
-
     });
 
-    for (let i = 0; i < 0; i++) {
-        addObject('superFruitT1');
+    for (let i = 0; i < 2; i++) {
+
     }
 
 
@@ -78,18 +95,20 @@ scene('game', () => {
             play('treeHit');
             bump(touchedTree);
 
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 2; i++) {
                 addObject('commonFruit');
             }
             for (let i = 0; i < 3; i++) {
                 addObject('superFruitT1');
+
+                addObject('sPiment1');
             }
             touchedTree.enterState('default');
         }
         else if (touchedTree.state == 'default') return
 
         wait(0, () => {
-            const spot = setPos(player, player);
+            const spot = setPos(player, 100);
             addObject('acorn', spot.x, spot.y);
         });
     });
@@ -102,10 +121,36 @@ scene('game', () => {
         });
     });
 
-    player.onCollide('boss', () => {
-        play('hitByVirus');
-        scoreStats.savedScore = score.value;
-        player.hp -= 1;
+
+
+    
+    // KNOCKBACK : pushes the player away from whatever just hit them.
+    // Spread over a few frames (not a teleport) so walls and other solids still block it.
+    const KNOCKBACK_DISTANCE = 175;    // total pixels travelled
+    const KNOCKBACK_DURATION = 0.2;  // seconds
+    let knockback = null;
+
+    const applyKnockback = (dir) => {
+        if (dir.len() === 0) return;   // attacker exactly on the player : no usable direction
+        knockback = { dir: dir.unit(), timeLeft: KNOCKBACK_DURATION };
+    };
+
+    player.onUpdate(() => {
+        if (!knockback) return;
+        // Speed decays linearly to 0 (ease-out feel), total distance = KNOCKBACK_DISTANCE
+        const speed = (2 * KNOCKBACK_DISTANCE / KNOCKBACK_DURATION) * (knockback.timeLeft / KNOCKBACK_DURATION);
+        player.moveBy(knockback.dir.scale(speed * dt()));
+        knockback.timeLeft -= dt();
+        if (knockback.timeLeft <= 0) knockback = null;
+    });
+
+    ['boss', 'virus'].forEach((tag) => {
+        player.onCollide(tag, (attacker) => {
+            play('hitByVirus');
+            scoreStats.savedScore = score.value;
+            player.hp -= 1;
+            applyKnockback(player.pos.sub(attacker.pos));  
+        });
     });
 
     //
@@ -120,6 +165,7 @@ scene('game', () => {
 
     player.onHurt(() => {
         tween(Color.fromHex(palette.red.bright), WHITE, .85, (p) => player.color = p);
+        healthPoints_UI(player.hp);   // POP THE HEART THAT JUST EMPTIED (player.hp already lowered)
         // ARMOR ABSORBS THE HIT WITHOUT STRESS
         if (ARMOR_STATES.includes(player.state)) return;
         // REMEMBER WHERE TO RETURN TO (skip if already stressed, so we never capture 'stressRun')
@@ -133,8 +179,6 @@ scene('game', () => {
             stressTimer = null;
             if (player.state.startsWith('stress')) player.enterState(stressRevertState);
         });
-
-        healthPoints_UI(player.hp);   // POP THE HEART THAT JUST EMPTIED (player.hp already lowered)
     });
 
     player.onHeal(() => {

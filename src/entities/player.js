@@ -21,7 +21,7 @@ function createPlayer() {
         area({ shape: new Circle(vec2(0), 45), offset: vec2(0, 16) }),
         body(),
         z(10),
-        health(3),
+        health(10),
         state('defaultIdle', playerStateList),
         layer('game'),
         z(9999),
