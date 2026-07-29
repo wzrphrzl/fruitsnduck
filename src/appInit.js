@@ -148,11 +148,11 @@ loadSprite('superstarLegend', './img/superstar-legend.png');
 loadSprite('superTomatoArmor', './img/supertomato-armor.png');
 loadSprite('superTomatoArmorLegend', './img/supertomato-armor-legend.png');
 loadSprite('treeSmall', './img/tree-small.png');
+loadSprite('virus1Pink', './img/virus-1-pink.png');
+loadSprite('virus2Yellow', './img/virus-2-yellow.png');
 loadSprite('virus3Red', './img/virus-3-red.png');
 loadSprite('virus4Blue', './img/virus-4-blue.png');
 loadSprite('virus5Brown', './img/virus-5-brown.png');
-loadSprite('virusPink', './img/virus-1-pink.png');
-loadSprite('virusYellow', './img/virus-2-yellow.png');
 
 // ANIMATED SPRITES
 loadSprite('dandelionChrono', './img/dandelion-chrono.png', {

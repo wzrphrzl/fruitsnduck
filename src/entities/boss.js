@@ -6,7 +6,7 @@ export function createBoss(player) {
         size: 1,
         previousPosX: width() + 212,
     };
-   const SOUND_boss = null/* = play('roomba')*/;
+   const SOUND_boss = null;
 
     const boss = add([
         sprite('boss'),
