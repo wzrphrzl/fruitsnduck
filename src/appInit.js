@@ -15,9 +15,9 @@ const k = kaplay({
     letterbox: true,
     pixelDensity: window.devicePixelRatio,
     buttons: {
-        up:    { keyboard: ['up', 'w', 'z'], gamepad: ['dpad-up'] },
-        left:  { keyboard: ['left', 'a', 'q'], gamepad: ['dpad-left'] },
-        down:  { keyboard: ['down', 's'], gamepad: ['dpad-down'] },
+        up: { keyboard: ['up', 'w', 'z'], gamepad: ['dpad-up'] },
+        left: { keyboard: ['left', 'a', 'q'], gamepad: ['dpad-left'] },
+        down: { keyboard: ['down', 's'], gamepad: ['dpad-down'] },
         right: { keyboard: ['right', 'd'], gamepad: ['dpad-right'] },
     },
 });
@@ -41,7 +41,7 @@ loadSound('soundStress', './sound/bonus/sound-stress.mp3');
 loadSound('buff', './sound/bonus/buff.mp3');
 loadSound('lose', './sound/game-state/lose.mp3');
 loadSound('mainTheme', './sound/fnd-main-theme.mp3');
-play('mainTheme', { volume: .33, loop: true, paused: false });
+const musicPlaying = play('mainTheme', { volume: .33, loop: true, paused: false });
 
 
 
@@ -255,13 +255,13 @@ loadSprite('duck', './img/duck.png', {
             from: 15,
             to: 15,
             loop: false,
-        }, 
+        },
         'spit': {
             from: 16,
             to: 17,
             loop: false,
-            speed: 8,        
-        },                  
+            speed: 8,
+        },
     },
 });
 
@@ -430,4 +430,4 @@ loadSprite('moutainTopLeft', './img/mountains/mountain-topleft.png');
 
 
 
-export { k, scoreStats, fontStyleBold, fontStyleMedium, fontStyleRegular, fontStyleSmall };
+export { k, scoreStats, musicPlaying, fontStyleBold, fontStyleMedium, fontStyleRegular, fontStyleSmall };

@@ -69,7 +69,7 @@ scene('game', () => {
 
 
     wait(0, () => {
-            addObject('acorn', 920, player.pos.y + 24);
+        addObject('acorn', 920, player.pos.y + 24);
     });
 
     for (let i = 0; i < 2; i++) {
@@ -87,11 +87,11 @@ scene('game', () => {
 
         if (touchedTree.state == 'fruity') {
 
-        for (let i = 0; i < 1 ; i++) {
-            const spot = setPos(player, 140);
-            addPlant('treeSmall', spot.x, spot.y);
-        }
-    
+            for (let i = 0; i < 1; i++) {
+                const spot = setPos(player, 140);
+                addPlant('treeSmall', spot.x, spot.y);
+            }
+
             play('treeHit');
             bump(touchedTree);
 
@@ -123,7 +123,7 @@ scene('game', () => {
 
 
 
-    
+
     // KNOCKBACK : pushes the player away from whatever just hit them.
     // Spread over a few frames (not a teleport) so walls and other solids still block it.
     const KNOCKBACK_DISTANCE = 175;    // total pixels travelled
@@ -149,14 +149,14 @@ scene('game', () => {
             play('hitByVirus');
             scoreStats.savedScore = score.value;
             player.hp -= 1;
-            applyKnockback(player.pos.sub(attacker.pos));  
+            applyKnockback(player.pos.sub(attacker.pos));
         });
     });
 
     //
     // PLAYER STATES
     //
-    playerStats.speedKaplay = 600;    
+    playerStats.speedKaplay = 600;
     // HP SYSTEM
     // ON HURT : flash red + refresh hearts; enter 'stressRun' for 5s, then revert — but never while in armor
     const ARMOR_STATES = ['armorRun', 'armorIdle', 'armorPoop'];
@@ -189,7 +189,7 @@ scene('game', () => {
     // GAME ENDING AND TIMER
     //
     function gameEnds() {
-        play('playerDeath'); 
+        play('playerDeath');
         scoreStats.gameTime = timer.elapsed;   // SNAPSHOT SURVIVAL TIME FOR THE END SCREEN
         player.enterState('lose');
         player.paused = true;
@@ -200,13 +200,13 @@ scene('game', () => {
         });
     }
 
-    const timer = createTimer(180, () => {
+    const timer = createTimer(20, () => {
         gameEnds();
     });
 
     player.onDeath(() => {
         timer.stop();
-        gameEnds(); 
+        gameEnds();
     })
 
 });

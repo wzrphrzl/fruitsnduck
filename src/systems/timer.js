@@ -1,4 +1,4 @@
-import { fontStyleBold } from '../appInit.js';
+import { musicPlaying, fontStyleBold } from '../appInit.js';
 
 // FORMAT A TIME IN SECONDS AS XX:XX (e.g. 60 → '01:00', 59 → '00:59')
 export function formatTime(totalSeconds) {
@@ -51,11 +51,16 @@ export function createTimer(startSeconds, onTimeout) {
             timer.remaining = 0;
             timer.stopped = true;
             timer.text = formatTime(0);
+            musicPlaying.speed = 1;
             onTimeout();
             return;
         }
 
         timer.text = formatTime(timer.remaining);
+
+        // SPEED THE MUSIC UP IN THE LAST 15s (back to normal if time is won back)
+        const targetSpeed = timer.remaining <= 15 ? 1.15 : 1;
+        if (musicPlaying.speed !== targetSpeed) musicPlaying.speed = targetSpeed;
     });
 
     // COUNTDOWN WARNING : 'timerShort' EVERY 2s FROM 15s, THEN SPEEDS UP TO EVERY 1s IN THE LAST 5s
