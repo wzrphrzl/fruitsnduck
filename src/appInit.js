@@ -346,6 +346,18 @@ loadSprite('heartUI', './img/heart-ui.png', {
     }
 });
 
+loadSprite('pastaboxScreen', './intro/pastabox-screen.png', {
+    sliceX: 4,
+    anims: {
+        'default': {
+            from: 0,
+            to: 3,
+            speed: 8,
+            loop: true,
+        },
+    }
+});
+
 loadSprite('poop', './img/poop.png', {
     sliceX: 2,
     anims: {
@@ -410,13 +422,16 @@ loadSprite('treeFull', './img/tree-full.png', {
     }
 });
 
-// INTTRO
-loadSprite('1Landscape', './intro/1-landscape.png');
-loadSprite('2Grandma', './intro/2-grandma.png');
-loadSprite('2TagBlackbird', './intro/2-tag-blackbird.png');
-loadSprite('2TagFruits', './intro/2-tag-fruits.png');
-loadSprite('2TagVirus', './intro/2-tag-virus.png');
-loadSprite('3ThrownAcorn', './intro/3-thrown-acorn.png');
+// INTRO 
+loadSprite('kaplayScreen', './intro/kaplay-screen.png');
+
+// CUTSCENE
+loadSprite('1Landscape', './cutscene/1-landscape.png');
+loadSprite('2Grandma', './cutscene/2-grandma.png');
+loadSprite('2TagBlackbird', './cutscene/2-tag-blackbird.png');
+loadSprite('2TagFruits', './cutscene/2-tag-fruits.png');
+loadSprite('2TagVirus', './cutscene/2-tag-virus.png');
+loadSprite('3ThrownAcorn', './cutscene/3-thrown-acorn.png');
 
 // MAP MOUNTAINS 
 loadSprite('moutainTop', './img/mountains/mountain-top.png');

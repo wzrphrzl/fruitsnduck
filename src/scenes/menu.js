@@ -3,12 +3,27 @@ import { palette } from '../lib/colorpalette.js';
 
 scene('menu', () => {
 
+    // BLACK LAYER COVERING THE WHOLE SCENE, FADED OUT ON LOAD
+    const fadeOutLayer = add([
+        rect(width(), height()),
+        pos(0, 0),
+        color(Color.fromHex('#000000')),
+        anchor('topleft'),
+        fixed(),
+        opacity(1),   // fadeOut() tweens from the current opacity down to 0
+        layer('ui'),
+        z(100),
+    ]);
+
+    fadeOutLayer.fadeOut(2).then(() => fadeOutLayer.destroy());
+
+
     // ANIMATED animatedBackground (inspired by Kaplay's logo demo)
     // A CHECKERBOARD OF FRUIT TILES SCROLLS DIAGONALLY OVER A SOLID animatedBackground.
     const bgColor = palette.cyan.darker;
-    const bgWidth = 1440;  
+    const bgWidth = 1440;
     const bgHeight = 800;
-    const tileSize = 120; 
+    const tileSize = 120;
     const fruitSize = 128;
     const tilesSpeed = 80;
     const fruits = ['cbanana', 'sTomato1', 'cpear'];
@@ -32,11 +47,11 @@ scene('menu', () => {
         easing: easings.easeInOutQuad,
     });
 
-    addButton('Start', width() / 2, 488, 'intro');
+    addButton('Start', width() / 2, 488, 'cutscene');
 
     add([
         sprite('gameRules'),
-        pos(width() / 2, height()-40),
+        pos(width() / 2, height() - 40),
         scale(1),
         anchor('bot'),
         layer('ui'),
