@@ -2,7 +2,6 @@ import { k } from '../appInit.js';
 import { player } from '../entities/player.js';
 import { objects } from './objects.js';
 import { setPos } from '../lib/helpers.js';
-import { treeGrows } from '../lib/audio.js';
 import { palette } from '../lib/colorpalette.js';
 
 
@@ -44,7 +43,7 @@ export function addObject(objectType, x, y) {
         opacity(0),
         anchor('center'),
         'objectContainer',
-     ]);
+    ]);
 
     const fallingObject = objectContainer.add([
         sprite(spriteName),
@@ -75,7 +74,7 @@ export function addObject(objectType, x, y) {
             //INTERPOLATION FUNCTION
             easings.easeOutBounce,
         );
-                
+
         objectContainer.use(area({ scale: OBJECT_AREA_SCALE, isSensor: true }));
 
         // TIGHT SPRITE AREA : adapt hitbox shape to sprite outline
@@ -93,8 +92,8 @@ export function addObject(objectType, x, y) {
 
     // ADDS A SHADOW BELOW THE OBJECT
     objectContainer.add([
-        ellipse(objectContainer.width /2 *.85, 10),
-        pos(0, objectContainer.height / 2 -8),
+        ellipse(objectContainer.width / 2 * .85, 10),
+        pos(0, objectContainer.height / 2 - 8),
         color(Color.fromHex(palette.blue.darkest)),
         anchor('center'),
         opacity(0.4),
@@ -147,7 +146,9 @@ export function addTree(x, y) {
         tree.area.isSensor = true;
     });
 
+    /* plays the growing plant sound 
     treeGrows();
+    */
 
     return tree;
 
@@ -156,41 +157,41 @@ export function addTree(x, y) {
 // PLANTS
 export function addPlant(spriteName, x, y, sound) {
 
-        let scaleValue = .75;
+    let scaleValue = .75;
 
-        if ( spriteName == 'treeSmall') {
-            scaleValue = 1;
-        }
+    if (spriteName == 'treeSmall') {
+        scaleValue = 1;
+    }
 
-        const PLANT_AREA_SCALE = 0.65;
+    const PLANT_AREA_SCALE = 0.65;
 
-        const plant = k.add([
-            sprite(spriteName),
-            pos(x, y),
-            scale(scaleValue),
-            anchor('center'),
-            area({ scale: PLANT_AREA_SCALE }),
-            body({ isStatic: true }),
-            state('default', ['default']),
-            layer('game'),
-            z(plantZ),
-            spriteName,
-        ]);
+    const plant = k.add([
+        sprite(spriteName),
+        pos(x, y),
+        scale(scaleValue),
+        anchor('center'),
+        area({ scale: PLANT_AREA_SCALE }),
+        body({ isStatic: true }),
+        state('default', ['default']),
+        layer('game'),
+        z(plantZ),
+        spriteName,
+    ]);
 
-        plant.onStateEnter('default', () => {
-            plant.play('default');
-        });
+    plant.onStateEnter('default', () => {
+        plant.play('default');
+    });
 
-        // AREA : adapt hitbox shape to sprite outline (grown frame), auto-centered
-            plant.area.shape = getSpriteOutline(spriteName, 3, true, 1);
-            plant.area.shape.pts = buildConvexHull(plant.area.shape.pts);
-            plant.area.offset = vec2(
-                -plant.width / 2 * PLANT_AREA_SCALE,
-                -plant.height / 2 * PLANT_AREA_SCALE,
-            );
-        if (sound) play(sound);
+    // AREA : adapt hitbox shape to sprite outline (grown frame), auto-centered
+    plant.area.shape = getSpriteOutline(spriteName, 3, true, 1);
+    plant.area.shape.pts = buildConvexHull(plant.area.shape.pts);
+    plant.area.offset = vec2(
+        -plant.width / 2 * PLANT_AREA_SCALE,
+        -plant.height / 2 * PLANT_AREA_SCALE,
+    );
+    if (sound) play(sound);
 
-        return plant;
+    return plant;
 
 }
 

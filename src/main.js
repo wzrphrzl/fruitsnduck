@@ -6,4 +6,4 @@ import './scenes/cutscene.js';
 import './scenes/game.js';
 import './scenes/end.js';
 
-go('intro');
+go('cutscene');

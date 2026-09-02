@@ -24,7 +24,7 @@ const k = kaplay({
 
 // FONT STYLES, GAME LAYERS AND SCORE STATE
 loadFont('monogram', './font/monogram-extended.ttf');
-const fontStyleBold = { size: 72, font: 'monogram' };
+const fontStyleBold = { size: 80, font: 'monogram' };
 const fontStyleMedium = { size: 56, font: 'monogram' };
 const fontStyleRegular = { size: 48, font: 'monogram' };
 const fontStyleSmall = { size: 32, font: 'monogram' };

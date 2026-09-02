@@ -15,7 +15,7 @@ scene('cutscene', () => {
     add([
         rect(1440, 800),
         pos(0, 0),
-        color(Color.fromHex(palette.blue.darkest)),
+        color(Color.fromHex(palette.magenta.darkest2)),
         anchor('topleft'),
         fixed(),
         layer('bg'),
@@ -59,9 +59,9 @@ scene('cutscene', () => {
     // The frame (mask), its sprite and the border all resize/reposition to it.
     // A line without `sprite` keeps the previous visual on screen.
     const dialogs = [
-        { text: "[default][/default]", sprite: "1Landscape", anchor: "top", pos: vec2(center().x, 56), width: 792, height: 496 },
+        { text: "[default][/default]", sprite: "1Landscape", anchor: "topleft", pos: vec2(164, -8), width: 1112, height: 696 },
         { text: "[default]Mon petit Qurkee bien aimé, je suis fatiguée... Le jour est venu pour moi de te confier l'héritage de notre verger d'arbres fruitiers...[/default]" },
-        { text: "[default]Autrefois, ses arbres magiques donnaient tous les fruits du monde. C'était le cadeau de la nature aux animaux.[/default]", sprite: "2Grandma", anchor: "topleft", pos: vec2(200, -71), width: 520, height: 710 },
+        { text: "[default]Autrefois, ses arbres magiques donnaient tous les fruits du monde. C'était le cadeau de la nature aux animaux.[/default]", sprite: "2Grandma", anchor: "topleft", pos: vec2(168, -104), width: 552, height: 754 },
         { text: "[default]Mais le Merle jaloux découpe nos arbres pour vendre ses nids à la chaîne... Aujourd'hui, il n'y a presque plus d'arbres magiques...[/default]", tags: [{ sprite: "2TagBlackbird", pos: vec2(800, 320), width: 218, height: 202 }] },
         { text: "[default]...et là où les arbres disparaissent, les virus prolifèrent...[/default]", tags: [{ sprite: "2TagVirus", pos: vec2(1052, 240), width: 207, height: 206 }] },
         { text: "[default]Qurkee, fais refleurir notre verger, tu es notre dernier espoir.[/default]" },
@@ -75,25 +75,25 @@ scene('cutscene', () => {
     let writing = null;      // handle on the running typewriter loop
     let curLen = 0;          // full length of the line being typed
 
-    // LANDSCAPE ILLUSTRATION : centered horizontally, 56px from the top,
-    // rounded corners (radius 8) clipped via mask + cyan outline
+    // LANDSCAPE ILLUSTRATION : matches dialogs[0] (size + pos),
+    // rounded corners (radius 16) clipped via mask + cyan outline
 
 
-    const frameW = 792;
-    const frameH = 496;
+    const frameW = 1112;
+    const frameH = 696;
     const frameRadius = 16;
-    const framePos = vec2(center().x, 56);
+    const framePos = vec2(164, -8);
 
     const frame = add([
         rect(frameW, frameH, { radius: frameRadius }),
         pos(framePos),
-        anchor('top'),
+        anchor('topleft'),
         mask(),
         z(0),
     ]);
     const avatar = frame.add([
-        sprite('1Landscape'),
-        anchor('top'),
+        sprite('1Landscape', { width: frameW, height: frameH }),
+        anchor('topleft'),
         pos(0, 0),
         opacity(1),
     ]);
@@ -101,7 +101,7 @@ scene('cutscene', () => {
     const frameBorder = add([
         rect(frameW, frameH, { radius: frameRadius, fill: false }),
         pos(framePos),
-        anchor('top'),
+        anchor('topleft'),
         outline(4, Color.fromHex(palette.cyan.default)),
         opacity(1),
         z(1),
@@ -112,14 +112,14 @@ scene('cutscene', () => {
         anchor('center'),
         // bottom edge 56px above the screen bottom (anchor center, height 144 → -56 -72)
         pos(center().x, height() - 56 - 72),
-        color(Color.fromHex(palette.blue.dark)),
+        color(Color.fromHex(palette.blue.darkest)),
         outline(4, Color.fromHex(palette.cyan.default)),
         opacity(1),
         z(10),
     ]);
 
     // 2s fade-in on the dialog box and the first visual when the scene starts
-    textbox.fadeIn(4);
+    textbox.fadeIn(0);
     avatar.fadeIn(2);
     frameBorder.fadeIn(2);
 

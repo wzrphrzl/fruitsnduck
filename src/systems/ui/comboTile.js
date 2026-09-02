@@ -10,7 +10,7 @@ const COMBO_BOX = {
     bottomY: 768,   // aligned with the fruit boxes' bottom edge (top 672 + height 96)
     radius: 24,
     z: 100,         // above the static "Fruit Combo" label
-    delay: 2,       // visible time before the fade-out
+    delay: 2.5,       // visible time before the fade-out
     fadeTime: 0.5,  // fade-out duration
 };
 
@@ -35,7 +35,7 @@ export function showComboTile(name) {
         ]);
         const label = add([
             text(name, { ...fontStyleBold, letterSpacing: 10, transform: combineEffects(wavy, rainbow) }),
-            pos(COMBO_BOX.cx +2, cy - 8), anchor('center'),
+            pos(COMBO_BOX.cx + 2, cy - 8), anchor('center'),
             color(Color.fromHex(palette.green.lighter)),   // RAINBOW MULTIPLIES THIS : TINTS THE HUE RANGE GREEN
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
         ]);

@@ -87,30 +87,32 @@ scene('game', () => {
 
         if (touchedTree.state == 'fruity') {
 
-            for (let i = 0; i < 1; i++) {
-                const spot = setPos(player, 140);
-                addPlant('treeSmall', spot.x, spot.y);
-            }
-
+            touchedTree.enterState('default');
             play('treeHit');
             bump(touchedTree);
 
-            for (let i = 0; i < 2; i++) {
-                addObject('commonFruit');
-            }
-            for (let i = 0; i < 3; i++) {
-                addObject('superFruitT1');
+            wait(0, () => {
+                const spot = setPos(player, 100);
+                addObject('acorn', spot.x, spot.y);
+            });
 
-                addObject('sPiment1');
-            }
-            touchedTree.enterState('default');
+            wait(1, () => {
+                const spot = setPos(player, 100);
+                addPlant('treeSmall', spot.x, spot.y);
+
+                for (let i = 0; i < 2; i++) {
+                    addObject('commonFruit');
+                }
+                for (let i = 0; i < 3; i++) {
+                    addObject('superFruitT1');
+                }
+
+            });
+
         }
+
         else if (touchedTree.state == 'default') return
 
-        wait(0, () => {
-            const spot = setPos(player, 100);
-            addObject('acorn', spot.x, spot.y);
-        });
     });
 
     // PLANTS : the effect lives in each object's objectEvent (objects.js); destroy stays here
