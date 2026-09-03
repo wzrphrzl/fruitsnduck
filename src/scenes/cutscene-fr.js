@@ -60,14 +60,14 @@ scene('cutscene', () => {
     // A line without `sprite` keeps the previous visual on screen.
     const dialogs = [
         { text: "[default][/default]", sprite: "1Landscape", anchor: "topleft", pos: vec2(298, 40), width: 843, height: 528 },
-        { text: "[default]My dearest little Qurkee, I am growing tired... The day has come for me to pass on the legacy of our fruit tree orchard...[/default]" },
-        { text: "[default]Long ago, its magic trees bore every fruit in the world. It was nature's gift to the animals.[/default]", sprite: "2Grandma", anchor: "topleft", pos: vec2(168, -104), width: 552, height: 754 },
-        { text: "[default]But the jealous Blackbird cuts down our trees to mass-produce his nests... Today, there are almost no magic trees left...[/default]", tags: [{ sprite: "2TagBlackbird", pos: vec2(800, 320), width: 218, height: 202 }] },
-        { text: "[default]...and where the trees vanish, the viruses spread...[/default]", tags: [{ sprite: "2TagVirus", pos: vec2(1052, 240), width: 207, height: 206 }] },
-        { text: "[default]Qurkee, make our orchard bloom again, you are our last hope.[/default]" },
-        { text: "[default]Remember my recipes, gather 3 fruits and the magic happens: Salad, Compote, Crumble... and my famous [/default][kaboom]Smoothie[/kaboom][default]![/default]", tags: [{ sprite: "2TagFruits", pos: vec2(795, 40), width: 365, height: 250 }] },
-        { text: "[default]Here... my last acorn. Plant it, my little duck.[/default]", sprite: "3ThrownAcorn", anchor: "top", pos: vec2(center().x, 56), width: 904, height: 496 },
-        { text: "[default][kaboom]Good luck!!![/kaboom]  [/default]" },
+        { text: "[default]Mon petit Qurkee bien aimé, je suis fatiguée... Le jour est venu pour moi de te confier l'héritage de notre verger d'arbres fruitiers...[/default]" },
+        { text: "[default]Autrefois, ses arbres magiques donnaient tous les fruits du monde. C'était le cadeau de la nature aux animaux.[/default]", sprite: "2Grandma", anchor: "topleft", pos: vec2(168, -104), width: 552, height: 754 },
+        { text: "[default]Mais le Merle jaloux découpe nos arbres pour vendre ses nids à la chaîne... Aujourd'hui, il n'y a presque plus d'arbres magiques...[/default]", tags: [{ sprite: "2TagBlackbird", pos: vec2(800, 320), width: 218, height: 202 }] },
+        { text: "[default]...et là où les arbres disparaissent, les virus prolifèrent...[/default]", tags: [{ sprite: "2TagVirus", pos: vec2(1052, 240), width: 207, height: 206 }] },
+        { text: "[default]Qurkee, fais refleurir notre verger, tu es notre dernier espoir.[/default]" },
+        { text: "[default]Souviens-toi de mes recettes, réunis 3 fruits et la magie opère : Salade, Compote, Crumble... et mon fameux [/default][kaboom]Smoothie[/kaboom][default] ![/default]", tags: [{ sprite: "2TagFruits", pos: vec2(795, 40), width: 365, height: 250 }] },
+        { text: "[default]Tiens... mon dernier gland. Plante-le, mon canard.[/default]", sprite: "3ThrownAcorn", anchor: "top", pos: vec2(center().x, 56), width: 904, height: 496 },
+        { text: "[default][kaboom]Bonne chance !!![/kaboom]  [/default]" },
     ];
     let curDialog = 0;
     let isTalking = false;

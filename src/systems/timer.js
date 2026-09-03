@@ -21,7 +21,7 @@ export function createTimer(startSeconds, onTimeout) {
 
     // ALIGNED WITH THE SCORE (SAME Y / FONT SIZE), HORIZONTALLY CENTERED
     const timer = add([
-        text(formatTime(startSeconds), fontStyleBold),
+        text(formatTime(startSeconds), { size: 88, font: 'monogram' }),
         pos(width() / 2, 0),
         fixed(),
         anchor('top'),
