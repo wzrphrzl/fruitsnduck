@@ -1,10 +1,10 @@
-import { fontStyleBold } from '../../appInit.js';
+import { fontStyleBig, fontStyleMedium } from '../../appInit.js';
 import { palette } from '../../lib/colorpalette.js';
-import { combineEffects, wavy, rainbow } from '../../lib/effects.js';
+import { wavy } from '../../lib/effects.js';
 
 // COMBO TILE POPUP : shown at the bottom center of the screen when a combo is made
 const COMBO_BOX = {
-    w: 400,
+    w: 384,
     h: 96,          // same height as the fruit boxes
     cx: 720,        // horizontally centered on the screen (1440 wide)
     bottomY: 768,   // aligned with the fruit boxes' bottom edge (top 672 + height 96)
@@ -14,6 +14,9 @@ const COMBO_BOX = {
     fadeTime: 0.5,  // fade-out duration
 };
 
+// used when showComboTile() is called without an explicit color pair
+const DEFAULT_COLORS = { bg: palette.blue.darkest, accent: palette.green.lighter };
+
 // single reusable popup : { box, label, timer, fade } — or null when hidden
 let comboPopup = null;
 
@@ -21,30 +24,36 @@ export function resetComboTile() {
     comboPopup = null;
 }
 
-export function showComboTile(name) {
+// `colors` : { bg, accent } hex strings — see comboColors() in loots.js
+export function showComboTile(name, colors = DEFAULT_COLORS) {
     const cy = COMBO_BOX.bottomY - COMBO_BOX.h / 2;
+    const bg = Color.fromHex(colors.bg);
+    const accent = Color.fromHex(colors.accent);
 
     if (!comboPopup || !comboPopup.box.exists()) {
         // CREATE
         const box = add([
             rect(COMBO_BOX.w, COMBO_BOX.h, { radius: COMBO_BOX.radius }),
             pos(COMBO_BOX.cx, cy), anchor('center'),
-            color(Color.fromHex(palette.blue.darkest)),
-            outline(2, Color.fromHex(palette.green.lighter)),
+            color(bg),
+            outline(4, accent),
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
         ]);
         const label = add([
-            text(name, { ...fontStyleBold, letterSpacing: 10, transform: combineEffects(wavy, rainbow) }),
+            text(name, { ...fontStyleBig, letterSpacing: 8, transform: wavy }),
             pos(COMBO_BOX.cx + 2, cy - 8), anchor('center'),
-            color(Color.fromHex(palette.green.lighter)),   // RAINBOW MULTIPLIES THIS : TINTS THE HUE RANGE GREEN
+            color(accent),
             opacity(1), z(COMBO_BOX.z), fixed(), layer('ui'),
         ]);
         comboPopup = { box, label, timer: null, fade: null };
     } else {
-        // REUSE : a new combo while it's still shown → update text, cancel the pending fade-out
+        // REUSE : a new combo while it's still shown → update text + colors, cancel the pending fade-out
         comboPopup.timer?.cancel();
         comboPopup.fade?.cancel();
         comboPopup.label.text = name;
+        comboPopup.box.color = bg;
+        comboPopup.box.outline.color = accent;
+        comboPopup.label.color = accent;
         comboPopup.box.opacity = 1;
         comboPopup.label.opacity = 1;
     }

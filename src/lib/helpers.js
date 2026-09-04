@@ -1,14 +1,14 @@
-import { k, fontStyleBold } from '../appInit.js';
+import { k, fontStyleBig } from '../appInit.js';
 import { palette } from './colorpalette.js';
 
 // GENERIC HELPERS
 
 // MAP BOUNDARIES FOR CLAMPING
 const SPRITE_MARGIN = 80;
-const SPAWN_MIN_X = -1840 + SPRITE_MARGIN;   
-const SPAWN_MAX_X = 3280 - SPRITE_MARGIN;  
-const SPAWN_MIN_Y = -1648 + SPRITE_MARGIN;  
-const SPAWN_MAX_Y = 2448 - SPRITE_MARGIN;     
+const SPAWN_MIN_X = -1840 + SPRITE_MARGIN;
+const SPAWN_MAX_X = 3280 - SPRITE_MARGIN;
+const SPAWN_MIN_Y = -1648 + SPRITE_MARGIN;
+const SPAWN_MAX_Y = 2448 - SPRITE_MARGIN;
 
 export function setXm(player) {
     return rand(
@@ -109,7 +109,7 @@ export function addButton(texte, posX, posY, scene) {
         ]);
 
         btn.add([
-            text(txt, fontStyleBold),
+            text(txt, fontStyleBig),
             anchor('center'),
             pos(4, -4),
             color(Color.fromHex(palette.yellowOrange.bright)),

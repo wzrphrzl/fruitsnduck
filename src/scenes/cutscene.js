@@ -1,5 +1,5 @@
 import { palette } from '../lib/colorpalette.js';
-import { fontStyleRegular, fontStyleSmall } from '../appInit.js';
+import { fontStyleText, fontStyleSmall } from '../appInit.js';
 
 scene('cutscene', () => {
 
@@ -66,7 +66,7 @@ scene('cutscene', () => {
         { text: "[default]...and where the trees vanish, the viruses spread...[/default]", tags: [{ sprite: "2TagVirus", pos: vec2(1052, 240), width: 207, height: 206 }] },
         { text: "[default]Qurkee, make our orchard bloom again, you are our last hope.[/default]" },
         { text: "[default]Remember my recipes, gather 3 fruits and the magic happens: Salad, Compote, Crumble... and my famous [/default][kaboom]Smoothie[/kaboom][default]![/default]", tags: [{ sprite: "2TagFruits", pos: vec2(795, 40), width: 365, height: 250 }] },
-        { text: "[default]Here... my last acorn. Plant it, my little duck.[/default]", sprite: "3ThrownAcorn", anchor: "top", pos: vec2(center().x, 56), width: 904, height: 496 },
+        { text: "[default]Here... my last acorn. Grab it, my little duck.[/default]", sprite: "3ThrownAcorn", anchor: "top", pos: vec2(center().x, 56), width: 904, height: 496 },
         { text: "[default][kaboom]Good luck!!![/kaboom]  [/default]" },
     ];
     let curDialog = 0;
@@ -131,7 +131,7 @@ scene('cutscene', () => {
     const txtPos = textbox.pos.sub((width() - 120) / 2, 144 / 2).add(32, 20);
     const txt = add([
         text("", {
-            ...fontStyleRegular,
+            ...fontStyleText,
             width: 1264,
             align: "left",
             styles: {

@@ -1,6 +1,7 @@
 import { objects } from './objects.js';
 import { addObject, addPlant } from './generators.js';
 import { setPos } from '../lib/helpers.js';
+import { palette } from '../lib/colorpalette.js';
 
 // CLASSIFY A COMPLETED TRIO (3 non-null sprite names) INTO A COMBO CATEGORY:
 //   baseCombo        : 3 different fruits
@@ -59,7 +60,7 @@ const COMBO_REWARDS = {
     },
 
     // 3 IDENTICAL SUPER FRUITS (T1) — handled per-fruit in fruitcombo.js
-    perfectCombo: () => {},
+    perfectCombo: () => { },
 };
 
 // RUN A COMBO CATEGORY'S REWARD (no-op if the category has none).
@@ -72,7 +73,7 @@ export function resolveCombo(category, ctx) {
 const COMBO_SOUNDS = {
     baseCombo: 'baseCombo',
     unPerfectCombo: 'unPerfectCombo',
-    nearPerfectCombo: 'unPerfectCombo',
+    nearPerfectCombo: 'perfectCombo',
     perfectCombo: 'perfectCombo',
 };
 
@@ -85,10 +86,10 @@ export function playComboSound(category) {
 // EXPLOSION SPRITE POPPED IN THE INVENTORY BOXES WHEN A COMBO COMPLETES.
 // Each sprite needs a 'default' anim with loop: false (see addExplosion).
 const COMBO_EXPLOSIONS = {
-    baseCombo: 'explosion1',
-    unPerfectCombo: 'explosion1',
-    nearPerfectCombo: 'explosion1',
-    perfectCombo: 'explosion1',
+    baseCombo: 'explosion2',
+    unPerfectCombo: 'explosion3',
+    nearPerfectCombo: 'explosion4',
+    perfectCombo: 'explosion4',
 };
 
 // SPRITE NAME FOR A COMBO CATEGORY'S EXPLOSION.
@@ -98,8 +99,8 @@ export function comboExplosion(category) {
 
 // LABEL SHOWN IN THE COMBO TILE FOR EACH CATEGORY (decoupled from the code name).
 const COMBO_LABELS = {
-    baseCombo: 'Salad',
-    unPerfectCombo: 'Compote',
+    baseCombo: 'Compote',
+    unPerfectCombo: 'Crumble',
     nearPerfectCombo: 'Crumble',
     perfectCombo: 'Smoothie',
 };
@@ -107,4 +108,18 @@ const COMBO_LABELS = {
 // DISPLAY LABEL FOR A COMBO CATEGORY (falls back to the raw category name).
 export function comboLabel(category) {
     return COMBO_LABELS[category] ?? category;
+}
+
+// COMBO TILE COLORS PER CATEGORY : `bg` fills the box, `accent` paints both the
+// outline and the label text.
+const COMBO_COLORS = {
+    baseCombo: { bg: palette.slate.darkest, accent: palette.magenta.lighter },
+    unPerfectCombo: { bg: palette.brown.darkest, accent: palette.yellowOrange.darker },
+    nearPerfectCombo: { bg: palette.blue.darkest, accent: palette.yellowOrange.bright },
+    perfectCombo: { bg: palette.blue.darkest, accent: palette.yellowOrange.bright },
+};
+
+// COLORS FOR A COMBO CATEGORY (falls back to the baseCombo pair).
+export function comboColors(category) {
+    return COMBO_COLORS[category] ?? COMBO_COLORS.baseCombo;
 }

@@ -3,7 +3,7 @@ import { objects } from './objects.js';
 import { bump } from '../lib/effects.js';
 import { addExplosion } from './generators.js';
 import { showScoreTile, showComboTile } from './ui.js';
-import { classifyCombo, resolveCombo, playComboSound, comboExplosion, comboLabel } from './loots.js';
+import { classifyCombo, resolveCombo, playComboSound, comboExplosion, comboLabel, comboColors } from './loots.js';
 import { initInventory, addFruit, isInventoryFull, getInventorySlots, completeCombo } from './inventory.js';
 import { virusStats, resetVirusStats } from '../entities/virus.js';
 
@@ -41,7 +41,7 @@ export function fruitCombo({ player, score, boxes, boss, bossStats }) {
             const slots = getInventorySlots();
             const category = classifyCombo(slots);
             scoreStats.comboCount++; 
-            showComboTile(comboLabel(category));
+            showComboTile(comboLabel(category), comboColors(category));
             playComboSound(category);
 
             if (category === 'perfectCombo') {

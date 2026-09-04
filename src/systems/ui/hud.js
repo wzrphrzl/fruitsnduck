@@ -36,7 +36,7 @@ export function createUI() {
     // INVENTORY UI : "Fruit Combo" label + 3 combo boxes
     add([
         text('Fruit Combo', fontStyleSmall),
-        pos(1404, 632),
+        pos(1404, 620),
         anchor('topright'),
         { value: 0 },
         color(palette.slate.lighter),

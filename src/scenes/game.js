@@ -103,7 +103,7 @@ scene('game', () => {
                 for (let i = 0; i < 2; i++) {
                     addObject('commonFruit');
                 }
-                for (let i = 0; i < 3; i++) {
+                for (let i = 0; i < 30; i++) {
                     addObject('superFruitT1');
                 }
 
@@ -202,7 +202,7 @@ scene('game', () => {
         });
     }
 
-    const timer = createTimer(20, () => {
+    const timer = createTimer(120, () => {
         gameEnds();
     });
 

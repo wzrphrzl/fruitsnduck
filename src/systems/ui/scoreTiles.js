@@ -1,4 +1,4 @@
-import { fontStyleSmall } from '../../appInit.js';
+import { fontStyleRegular, fontStyleSmall } from '../../appInit.js';
 import { palette } from '../../lib/colorpalette.js';
 
 // FLOATING SCORE TILES

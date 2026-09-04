@@ -25,9 +25,11 @@ const k = kaplay({
 // FONT STYLES, GAME LAYERS AND SCORE STATE
 loadFont('monogram', './font/monogram-extended.ttf');
 const fontStyleBold = { size: 80, font: 'monogram' };
-const fontStyleMedium = { size: 56, font: 'monogram' };
-const fontStyleRegular = { size: 48, font: 'monogram' };
-const fontStyleSmall = { size: 32, font: 'monogram' };
+const fontStyleBig = { size: 72, font: 'monogram' };
+const fontStyleMedium = { size: 64, font: 'monogram' };
+const fontStyleRegular = { size: 56, font: 'monogram' };
+const fontStyleText = { size: 48, font: 'monogram' };
+const fontStyleSmall = { size: 40, font: 'monogram' };
 
 setLayers(['bg', 'game', 'ui'], 'ui');
 
@@ -205,6 +207,11 @@ loadSprite('duck', './img/duck.png', {
             loop: true,
         },
         'win': {
+            from: 13,
+            to: 13,
+            loop: false,
+        },
+        'lose': {
             from: 6,
             to: 6,
             loop: false,
@@ -241,11 +248,6 @@ loadSprite('duck', './img/duck.png', {
             to: 12,
             loop: false,
         },
-        'lose': {
-            from: 13,
-            to: 13,
-            loop: false,
-        },
         'rage': {
             from: 14,
             to: 14,
@@ -260,7 +262,7 @@ loadSprite('duck', './img/duck.png', {
             from: 16,
             to: 17,
             loop: false,
-            speed: 8,
+            speed: 6,
         },
     },
 });
@@ -288,7 +290,40 @@ loadSprite('explosion1', './img/explosion-1.png', {
         'default': {
             from: 0,
             to: 5,
-            speed: 16,
+            speed: 8,
+            loop: false,
+        },
+    }
+});
+loadSprite('explosion2', './img/explosion-2.png', {
+    sliceX: 6,
+    anims: {
+        'default': {
+            from: 0,
+            to: 5,
+            speed: 8,
+            loop: false,
+        },
+    }
+});
+loadSprite('explosion3', './img/explosion-3.png', {
+    sliceX: 6,
+    anims: {
+        'default': {
+            from: 0,
+            to: 5,
+            speed: 8,
+            loop: false,
+        },
+    }
+});
+loadSprite('explosion4', './img/explosion-4.png', {
+    sliceX: 6,
+    anims: {
+        'default': {
+            from: 0,
+            to: 5,
+            speed: 8,
             loop: false,
         },
     }
@@ -445,4 +480,4 @@ loadSprite('moutainTopLeft', './img/mountains/mountain-topleft.png');
 
 
 
-export { k, scoreStats, musicPlaying, fontStyleBold, fontStyleMedium, fontStyleRegular, fontStyleSmall };
+export { k, scoreStats, musicPlaying, fontStyleBold, fontStyleBig, fontStyleMedium, fontStyleRegular, fontStyleText, fontStyleSmall };

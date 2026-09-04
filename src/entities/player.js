@@ -21,7 +21,7 @@ function createPlayer() {
         area({ shape: new Circle(vec2(0), 45), offset: vec2(0, 16) }),
         body(),
         z(10),
-        health(10),
+        health(3),
         state('defaultIdle', playerStateList),
         layer('game'),
         z(9999),
@@ -53,7 +53,9 @@ function createPlayer() {
             const spatFruit = popLastFruit();
             if (spatFruit) {
                 player.enterState('spit');
-                spitFruit(spatFruit);
+                wait(.5, () => {
+                    spitFruit(spatFruit);
+                });
             } else {
                 player.enterState('kwak');
             }
@@ -131,11 +133,11 @@ function createPlayer() {
             easings.easeOutQuad,
         );
 
-        wait(.3, () => {
-            tween(.75, 0, SPIT_FADE_DURATION,
-            (o) => spat.opacity = o,
-            easings.easeInQuad,
-        ).onEnd(() => destroy(spat));
+        wait(.5, () => {
+            tween(1, 0, SPIT_FADE_DURATION,
+                (o) => spat.opacity = o,
+                easings.easeInQuad,
+            ).onEnd(() => destroy(spat));
         });
 
     }
@@ -143,13 +145,13 @@ function createPlayer() {
     // FOOTSTEPS : ONE STEP EVERY N SECONDS WHILE RUNNING (N DEPENDS ON THE ACTIVE PERK)
     const FOOTSTEP_DELAY = {   // IN SECONDS
         defaultRun: 0.4,
-        orangeRun:  0.4,
-        armorRun:   0.60,      // ARMOR = HEAVIER, MORE SPACED-OUT STEPS
+        orangeRun: 0.4,
+        armorRun: 0.60,      // ARMOR = HEAVIER, MORE SPACED-OUT STEPS
     };
 
     let footstepTimer = 0;
     player.onUpdate(() => {
-        
+
         const delay = FOOTSTEP_DELAY[player.state];
         if (delay === undefined) {     // NOT RUNNING → NO FOOTSTEP SOUND
             footstepTimer = 0;

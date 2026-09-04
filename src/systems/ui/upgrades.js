@@ -5,16 +5,16 @@ import { playerStats } from '../../entities/player.js';
 // UPGRADES PANEL (legendary objects collected by the player)
 // Per-upgrade display size (all same width) + the playerStats key it maps to.
 const UPGRADE_META = {
-    superPiment:      { width: 24, height: 30, label: 'mines', statKey: 'mines' },
+    superPiment: { width: 24, height: 30, label: 'mines', statKey: 'mines' },
     superTomatoArmor: { width: 24, height: 32, label: 'armor', statKey: 'armor' },
-    samaraSpeed:      { width: 24, height: 30, label: 'speed', statKey: 'speed' },
-    superStar:        { width: 24, height: 22, label: 'stars', statKey: 'superStar' },
+    samaraSpeed: { width: 24, height: 30, label: 'speed', statKey: 'speed' },
+    superStar: { width: 24, height: 22, label: 'stars', statKey: 'superStar' },
 };
 
 const UPGRADE_PANEL = {
     x: 32,            // left edge (screen)
     bottomY: 768,     // bottom edge — aligned with the combo boxes' bottom (672 + 96)
-    width: 164,
+    width: 188,
     radius: 12,
     padX: 16,         // rect left edge → sprite left edge
     padTop: 16,       // rect top edge → first sprite top
