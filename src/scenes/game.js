@@ -100,10 +100,10 @@ scene('game', () => {
                 const spot = setPos(player, 100);
                 addPlant('treeSmall', spot.x, spot.y);
 
-                for (let i = 0; i < 2; i++) {
+                for (let i = 0; i < 30; i++) {
                     addObject('commonFruit');
                 }
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 0; i++) {
                     addObject('superFruitT1');
                 }
 

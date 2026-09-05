@@ -29,7 +29,7 @@ export const objects = {
         objectType: 'superFruitT1', scoreValue: 8,
         objectEvent: () => {
             addObject('superStar');
-            wait(2, () => {play('fallen-precious-object')});
+            wait(2, () => { play('fallen-precious-object') });
         }
     },
     sGrape2: {
@@ -42,7 +42,7 @@ export const objects = {
         objectType: 'superFruitT1', scoreValue: 9,
         objectEvent: () => {
             addObject('samaraSpeed');
-            wait(2, () => {play('fallen-precious-object')});
+            wait(2, () => { play('fallen-precious-object') });
         }
     },
     sKumquat2: {
@@ -55,7 +55,7 @@ export const objects = {
         objectType: 'superFruitT1', scoreValue: 12,
         objectEvent: () => {
             addObject('superPiment');
-            wait(2, () => {play('fallen-precious-object')});
+            wait(2, () => { play('fallen-precious-object') });
         }
     },
     sPiment2: {
@@ -81,7 +81,7 @@ export const objects = {
         objectEvent: () => {
             wait(.8, () => {
                 addObject('superTomatoArmor');
-                wait(2, () => {play('fallen-precious-object')});
+                wait(2, () => { play('fallen-precious-object') });
             });
         }
     },
@@ -90,6 +90,13 @@ export const objects = {
     },
     sTomato3: {
         objectType: 'superFruitT3', scoreValue: 10,
+    },
+
+    megaFruit: {
+        objectType: 'megaFruit', scoreValue: 0,
+        objectEvent: () => {
+            play('pickedHeartInGame');
+        }
     },
 
     // TEMPORARY BONUS
@@ -113,7 +120,7 @@ export const objects = {
     superHeart: {
         objectType: 'superHeart', scoreValue: 0,
         objectEvent: () => {
-            play('pickedSuperHeart'); 
+            play('pickedSuperHeart');
             player.maxHP += 1;
             healthPoints_UI(player.maxHP - 1);
         }
@@ -122,16 +129,16 @@ export const objects = {
         objectType: 'superTomatoArmor', scoreValue: 20,
         count: 0,
         objectEvent: () => {
-          play('pickedSuperTomatoArmor');
-          playerStats.armor = 1;
-          player.enterState('armorIdle');
-          addUpgrade_UI('superTomatoArmor');
+            play('pickedSuperTomatoArmor');
+            playerStats.armor = 1;
+            player.enterState('armorIdle');
+            addUpgrade_UI('superTomatoArmor');
             if (objects.superTomatoArmor.count < 1) {
                 playerStats.speedKaplay = playerStats.speedKaplay - 110;
                 objects.superTomatoArmor.count++;
             }
         }
-    },   
+    },
     superPiment: {
         objectType: 'superPiment', scoreValue: 20,
         count: 0,
@@ -158,7 +165,7 @@ export const objects = {
 
             if (objects.samaraSpeed.count < 2) {
                 playerStats.speedKaplay = playerStats.speedKaplay + 100;
-                objects.samaraSpeed.count++; 
+                objects.samaraSpeed.count++;
             }
         }
     },

@@ -123,6 +123,7 @@ loadSprite('grass-7', './img/grass-7.png');
 loadSprite('grass-8', './img/grass-8.png');
 loadSprite('grass-9', './img/grass-9.png');
 loadSprite('heartIngame', './img/heart-ingame.png');
+loadSprite('megaFruit', './img/megafruit.png');
 loadSprite('particle', './img/particle_hexagon_filled.png');
 loadSprite('samaraLegend', './img/samara-legend.png');
 loadSprite('samaraSpeed', './img/samara-speed.png');

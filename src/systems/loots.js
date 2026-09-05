@@ -20,47 +20,119 @@ export function classifyCombo(slots) {
     return hasPair ? 'unPerfectCombo' : 'baseCombo';
 }
 
+// LOOT WEIGHT CALCULATOR
+function lootWeightCalculator(actions) {
+    const total = actions.reduce((somme, a) => somme + a.chance, 0);
+    let tirage = Math.random() * total;
+
+    for (const action of actions) {
+        tirage -= action.chance;
+        if (tirage < 0) {
+            return action.run();
+        }
+    }
+}
+
 // WHAT EACH COMBO CATEGORY DROPS WHEN IT COMPLETES.
 // ctx : { player } — used to spawn drops near the player.
 const COMBO_REWARDS = {
     // 3 DIFFERENT FRUITS — 2 super fruits (T1), 2 thistles, a dandelion and a small tree
     baseCombo: ({ player }) => {
-        addObject('superFruitT1');
-        addObject('superFruitT1');
+
+        lootWeightCalculator([
+            {
+                chance: 1, run: () => {
+                    for (let i = 0; i < 3; i++) {
+                        addObject('commonFruit');
+                    }
+                }
+            },
+            {
+                chance: 2, run: () => {
+                    const spot = setPos(player, 100);
+                    addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
+                }
+            },
+        ]);
+
+        for (let i = 0; i < 1; i++) {
+            const spot = setPos(player, 100);
+            addPlant('thistle', spot.x, spot.y);
+        }
+
+        const treeSpot = setPos(player, 100);
+        addPlant('treeSmall', treeSpot.x, treeSpot.y);
+
+    },
+
+    // 2 SAME + 1 DIFFERENT — same drop as baseCombo for now
+    unPerfectCombo: ({ player }) => {
+
+        lootWeightCalculator([
+            {
+                chance: 3, run: () => {
+                    for (let i = 0; i < 2; i++) {
+                        addObject('superFruitT1');
+                    }
+                }
+            },
+            {
+                chance: 1, run: () => {
+                    addObject('heartIngame');
+                }
+            },
+        ]);
+
         for (let i = 0; i < 2; i++) {
             const spot = setPos(player, 100);
             addPlant('thistle', spot.x, spot.y);
         }
-        const spot = setPos(player, 100);
-        addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
 
         const treeSpot = setPos(player, 100);
         addPlant('treeSmall', treeSpot.x, treeSpot.y);
     },
 
-    // 2 SAME + 1 DIFFERENT — same drop as baseCombo for now
-    unPerfectCombo: ({ player }) => {
-        addObject('superFruitT1');
-        addObject('superFruitT1');
+    // 3 IDENTICAL COMMON FRUITS — a heart and a dandelion (time bonus)
+    nearPerfectCombo: ({ player }) => {
+
+        lootWeightCalculator([
+            {
+                chance: 2, run: () => {
+                    addObject('megaFruit');
+                }
+            },
+            {
+                chance: 1, run: () => {
+                    addObject('heartIngame');
+                }
+            },
+        ]);
+
         for (let i = 0; i < 2; i++) {
             const spot = setPos(player, 100);
             addPlant('thistle', spot.x, spot.y);
         }
-        play('thistleGrows');
 
-        const spot = setPos(player, 100);
-        addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
-    },
+        const treeSpot = setPos(player, 100);
+        addPlant('treeSmall', treeSpot.x, treeSpot.y);
 
-    // 3 IDENTICAL COMMON FRUITS — a heart and a dandelion (time bonus)
-    nearPerfectCombo: ({ player }) => {
-        addObject('heartIngame');
-        const spot = setPos(player, 100);
-        addPlant('dandelionChrono', spot.x, spot.y, 'dandelionChronoGrows');
     },
 
     // 3 IDENTICAL SUPER FRUITS (T1) — handled per-fruit in fruitcombo.js
-    perfectCombo: () => { },
+    perfectCombo: () => {
+
+
+
+
+        for (let i = 0; i < 2; i++) {
+            const spot = setPos(player, 100);
+            addPlant('thistle', spot.x, spot.y);
+        }
+
+        const treeSpot = setPos(player, 100);
+        addPlant('treeSmall', treeSpot.x, treeSpot.y);
+
+    },
 };
 
 // RUN A COMBO CATEGORY'S REWARD (no-op if the category has none).
@@ -116,7 +188,7 @@ const COMBO_COLORS = {
     baseCombo: { bg: palette.slate.darkest, accent: palette.magenta.lighter },
     unPerfectCombo: { bg: palette.brown.darkest, accent: palette.yellowOrange.darker },
     nearPerfectCombo: { bg: palette.blue.darkest, accent: palette.yellowOrange.bright },
-    perfectCombo: { bg: palette.blue.darkest, accent: palette.yellowOrange.bright },
+    perfectCombo: { bg: palette.magenta.darkest, accent: palette.yellowOrange.bright },
 };
 
 // COLORS FOR A COMBO CATEGORY (falls back to the baseCombo pair).
