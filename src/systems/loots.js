@@ -3,15 +3,38 @@ import { addObject, addPlant } from './generators.js';
 import { setPos } from '../lib/helpers.js';
 import { palette } from '../lib/colorpalette.js';
 
-// CLASSIFY A COMPLETED TRIO (3 non-null sprite names) INTO A COMBO CATEGORY:
+// WILDCARD FRUITS : they take on the identity of the trio's other fruits, but only
+// when those are all identical — a wildcard completes a pair, it never creates one.
+const WILDCARDS = ['megaFruit'];
+
+// REPLACE THE WILDCARDS OF A TRIO BY THE FRUIT THEY STAND FOR, so the rest of the
+// combo logic (classification, perfect-combo event, loot tables) never has to know
+// they exist. Returns the slots untouched when no substitution applies :
+//   megaFruit + 2 identical fruits  → 3 of that fruit (nearPerfect / perfect)
+//   megaFruit + 2 different fruits  → left as is → 3 different sprites → baseCombo
+//   3 megaFruits                    → left as is → megaCombo (see classifyCombo)
+export function resolveWildcards(slots) {
+    const real = slots.filter(s => !WILDCARDS.includes(s));
+    if (real.length === slots.length || real.length === 0) return slots;
+
+    const allSame = real.every(s => s === real[0]);
+    if (!allSame) return slots;
+
+    return slots.map(s => (WILDCARDS.includes(s) ? real[0] : s));
+}
+
+// CLASSIFY A COMPLETED TRIO (3 non-null sprite names) INTO A COMBO CATEGORY.
+// Expects wildcard-resolved slots (see resolveWildcards) :
 //   baseCombo        : 3 different fruits
 //   unPerfectCombo   : 2 identical fruits + 1 different
 //   nearPerfectCombo : 3 identical common fruits
 //   perfectCombo     : 3 identical super fruits (T1)
+//   megaCombo        : 3 wildcards — placeholder, no reward defined yet
 export function classifyCombo(slots) {
     const allIdentical = slots.every(s => s === slots[0]);
 
     if (allIdentical) {
+        if (WILDCARDS.includes(slots[0])) return 'megaCombo';
         return objects[slots[0]].objectType === 'commonFruit' ? 'nearPerfectCombo' : 'perfectCombo';
     }
 
@@ -133,6 +156,11 @@ const COMBO_REWARDS = {
         addPlant('treeSmall', treeSpot.x, treeSpot.y);
 
     },
+
+    // 3 MEGA FRUITS — reward still to be designed
+    megaCombo: () => {
+        debug.log('mega fruit combo');
+    },
 };
 
 // RUN A COMBO CATEGORY'S REWARD (no-op if the category has none).
@@ -147,6 +175,7 @@ const COMBO_SOUNDS = {
     unPerfectCombo: 'unPerfectCombo',
     nearPerfectCombo: 'perfectCombo',
     perfectCombo: 'perfectCombo',
+    megaCombo: 'perfectCombo',
 };
 
 // PLAY A COMBO CATEGORY'S SOUND (no-op if the category has none).
@@ -162,6 +191,7 @@ const COMBO_EXPLOSIONS = {
     unPerfectCombo: 'explosion3',
     nearPerfectCombo: 'explosion4',
     perfectCombo: 'explosion4',
+    megaCombo: 'explosion4',
 };
 
 // SPRITE NAME FOR A COMBO CATEGORY'S EXPLOSION.
@@ -175,6 +205,7 @@ const COMBO_LABELS = {
     unPerfectCombo: 'Crumble',
     nearPerfectCombo: 'Crumble',
     perfectCombo: 'Smoothie',
+    megaCombo: 'Mega',
 };
 
 // DISPLAY LABEL FOR A COMBO CATEGORY (falls back to the raw category name).
@@ -189,6 +220,7 @@ const COMBO_COLORS = {
     unPerfectCombo: { bg: palette.brown.darkest, accent: palette.yellowOrange.darker },
     nearPerfectCombo: { bg: palette.blue.darkest, accent: palette.yellowOrange.bright },
     perfectCombo: { bg: palette.magenta.darkest, accent: palette.yellowOrange.bright },
+    megaCombo: { bg: palette.magenta.darkest, accent: palette.yellowOrange.bright },
 };
 
 // COLORS FOR A COMBO CATEGORY (falls back to the baseCombo pair).

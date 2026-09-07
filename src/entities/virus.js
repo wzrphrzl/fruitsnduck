@@ -19,7 +19,7 @@ export function createVirus(player, posX, posY) {
     const VIRUS_SPRITES = ['virus1Pink', 'virus2Yellow', 'virus3Red', 'virus4Blue'];
     const virusSprite = choose(VIRUS_SPRITES);
 
-   const SOUND_virus = null;
+    const SOUND_virus = null;
 
     const virus = add([
         sprite(virusSprite),
@@ -36,8 +36,8 @@ export function createVirus(player, posX, posY) {
     ]);
 
     virus.add([
-        ellipse(virus.width /2 *.85, 8),
-        pos(0, virus.height / 2 ),
+        ellipse(virus.width / 2 * .85, 8),
+        pos(0, virus.height / 2),
         color(Color.fromHex(palette.blue.darkest)),
         anchor('center'),
         opacity(0.4),
@@ -71,11 +71,11 @@ export function createVirus(player, posX, posY) {
         virus.hp -= 1;
     });
 
-    ['objectContainer', 'thistle', 'tree'].forEach((tag) => {
-        virus.onCollide(tag, (gameObject) => {
-            destroy(gameObject);
-        });
-    });
+    /*     ['objectContainer', 'thistle', 'tree'].forEach((tag) => {
+            virus.onCollide(tag, (gameObject) => {
+                destroy(gameObject);
+            });
+        }); */
 
     return { virus, virusStats };
 }

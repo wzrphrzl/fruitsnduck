@@ -3,7 +3,7 @@ import { objects } from './objects.js';
 import { bump } from '../lib/effects.js';
 import { addExplosion } from './generators.js';
 import { showScoreTile, showComboTile } from './ui.js';
-import { classifyCombo, resolveCombo, playComboSound, comboExplosion, comboLabel, comboColors } from './loots.js';
+import { classifyCombo, resolveWildcards, resolveCombo, playComboSound, comboExplosion, comboLabel, comboColors } from './loots.js';
 import { initInventory, addFruit, isInventoryFull, getInventorySlots, completeCombo } from './inventory.js';
 import { virusStats, resetVirusStats } from '../entities/virus.js';
 
@@ -14,7 +14,7 @@ export function fruitCombo({ player, score, boxes, boss, bossStats }) {
     scoreStats.comboCount = 0;   // RESETS COMBO COUNT AT THE BEGINNING OF THE GAME
     resetVirusStats();           // virusStats is module-level : clear the previous game's ramp-up
 
-    const COMBO_TYPES = ['commonFruit', 'superFruitT1'];
+    const COMBO_TYPES = ['commonFruit', 'superFruitT1', 'megaFruit'];
 
     player.onCollide('objectContainer', (objectContainer) => {
 
@@ -38,7 +38,9 @@ export function fruitCombo({ player, score, boxes, boss, bossStats }) {
         addFruit(objectContainer.sprite);
 
         if (isInventoryFull()) {
-            const slots = getInventorySlots();
+            // WILDCARDS (megaFruit) TAKE ON THE IDENTITY OF THE FRUITS THEY COMPLETE,
+            // so everything below works on the resolved trio
+            const slots = resolveWildcards(getInventorySlots());
             const category = classifyCombo(slots);
             scoreStats.comboCount++; 
             showComboTile(comboLabel(category), comboColors(category));

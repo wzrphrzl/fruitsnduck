@@ -17,7 +17,7 @@ export function createUI() {
     const initialScore = 0;
     // STATIC LABEL : never moves, never bumped
     const scoreLabel = add([
-        text('Score :', fontStyleRegular),
+        text('Score:', fontStyleRegular),
         pos(32, 32),
         anchor('left'),
         fixed(), layer('ui'),
