@@ -4,6 +4,7 @@ import { palette } from '../../lib/colorpalette.js';
 import { resetScoreTiles } from './scoreTiles.js';
 import { resetComboTile } from './comboTile.js';
 import { resetUpgrades } from './upgrades.js';
+import { createPauseMenu } from './pauseMenu.js';
 
 // Builds the static HUD and resets every widget's state for a fresh game.
 export function createUI() {
@@ -16,10 +17,14 @@ export function createUI() {
     // SCORE
     const initialScore = 0;
     // STATIC LABEL : never moves, never bumped
+    // z above the pause menu's veil, so the score stays readable while paused
+    const HUD_Z = 9500;
+
     const scoreLabel = add([
         text('Score:', fontStyleRegular),
         pos(32, 32),
         anchor('left'),
+        z(HUD_Z),
         fixed(), layer('ui'),
     ]);
 
@@ -30,6 +35,7 @@ export function createUI() {
         scale(1),
         anchor('left'),
         { value: initialScore },
+        z(HUD_Z),
         fixed(), layer('ui'),
     ]);
 
@@ -46,6 +52,9 @@ export function createUI() {
     const box1 = addRect(96, 96, 20, 1072, 672, palette.blue.darkest, 'ui', { fixed: true });
     const box2 = addRect(96, 96, 20, 1192, 672, palette.blue.darkest, 'ui', { fixed: true });
     const box3 = addRect(96, 96, 20, 1312, 672, palette.blue.darkest, 'ui', { fixed: true });
+
+    // PAUSE MENU : built hidden, bound to P / Escape
+    createPauseMenu();
 
     return { score, box1, box2, box3 };
 }

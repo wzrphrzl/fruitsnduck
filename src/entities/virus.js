@@ -30,7 +30,7 @@ export function createVirus(player, posX, posY) {
         scale(virusStats.size),
         state('run'),
         layer('game'),
-        z(10),
+        z(9999),
         health(2),
         'virus',
     ]);

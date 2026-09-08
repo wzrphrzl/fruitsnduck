@@ -14,7 +14,7 @@ import { objects } from '../systems/objects.js';
 
 scene('game', () => {
 
-    //debug.inspect = true;
+    debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, palette.green.darker, 'bg', { fixed: true, area: false });
@@ -100,10 +100,10 @@ scene('game', () => {
                 const spot = setPos(player, 100);
                 addPlant('treeSmall', spot.x, spot.y);
 
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 3; i++) {
                     addObject('commonFruit');
                 }
-                for (let i = 0; i < 0; i++) {
+                for (let i = 0; i < 2; i++) {
                     addObject('superFruitT1');
                 }
 

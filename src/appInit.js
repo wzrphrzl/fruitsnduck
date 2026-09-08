@@ -37,6 +37,7 @@ const scoreStats = { savedScore: '', virusCount: '', gameTime: 0, comboCount: 0,
 
 // SOUND EFFECTS
 loadSound('fallen-precious-object', './sound/bonus/fallen-precious-object.mp3');
+loadSound('fireball', './sound/fireball.wav');
 loadSound('fruit-collected', './sound/bonus/fruit-collected.mp3');
 loadSound('debuff', './sound/bonus/debuff.mp3');
 loadSound('soundStress', './sound/bonus/sound-stress.mp3');

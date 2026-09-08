@@ -9,3 +9,4 @@ export { showComboTile } from './ui/comboTile.js';
 export { renderFruitBoxes } from './ui/fruitBoxes.js';
 export { healthPoints_UI } from './ui/health.js';
 export { addUpgrade_UI } from './ui/upgrades.js';
+export { createPauseMenu, togglePause, isGamePaused } from './ui/pauseMenu.js';
