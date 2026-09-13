@@ -72,11 +72,6 @@ scene('game', () => {
         addObject('acorn', 920, player.pos.y + 24);
     });
 
-    for (let i = 0; i < 2; i++) {
-
-    }
-
-
     //
     // COLLISIONS 
     //
@@ -100,8 +95,8 @@ scene('game', () => {
                 const spot = setPos(player, 100);
                 addPlant('treeSmall', spot.x, spot.y);
 
-                for (let i = 0; i < 3; i++) {
-                    addObject('commonFruit');
+                for (let i = 0; i < 10; i++) {
+                    addObject('megaFruit');
                 }
                 for (let i = 0; i < 2; i++) {
                     addObject('superFruitT1');

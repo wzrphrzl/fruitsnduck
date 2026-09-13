@@ -6,7 +6,7 @@ const VIRUS_BASE_SPEED = 80;
 
 export const virusStats = {
     speed: VIRUS_BASE_SPEED,
-    size: 1,
+    size: .85,
 };
 
 export function resetVirusStats() {

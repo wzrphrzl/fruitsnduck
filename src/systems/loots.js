@@ -1,5 +1,5 @@
 import { objects } from './objects.js';
-import { addObject, addPlant } from './generators.js';
+import { addObject, addPlant, addTree } from './generators.js';
 import { setPos } from '../lib/helpers.js';
 import { palette } from '../lib/colorpalette.js';
 
@@ -157,9 +157,15 @@ const COMBO_REWARDS = {
 
     },
 
-    // 3 MEGA FRUITS — reward still to be designed
-    megaCombo: () => {
-        debug.log('mega fruit combo');
+    // 3 MEGA FRUITS — a whole orchard : 4 trees growing one after the other
+    megaCombo: ({ player }) => {
+        for (let i = 0; i < 4; i++) {
+            // The spot is picked at spawn time, so each tree avoids the previous ones
+            wait(i * 0.25, () => {
+                const spot = setPos(player, 140);
+                addTree(spot.x, spot.y);
+            });
+        }
     },
 };
 

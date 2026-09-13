@@ -93,7 +93,7 @@ export const objects = {
     },
 
     megaFruit: {
-        objectType: 'megaFruit', scoreValue: 0,
+        objectType: 'megaFruit', scoreValue: 50,
         objectEvent: () => {
             play('pickedHeartInGame');
         }
