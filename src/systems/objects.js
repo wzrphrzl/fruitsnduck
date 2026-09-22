@@ -4,6 +4,7 @@ import { addObject, addTree, addFlower } from './generators.js';
 import { addUpgrade_UI, healthPoints_UI } from './ui.js';
 import { setPos } from '../lib/helpers.js';
 import { addGameTime } from './timer.js';
+import { advanceTier } from './progression.js';
 
 // GAME OBJECT CENTRALIZATION WITH THEIR ATTRIBUTES : scores, combos, effets
 export const objects = {
@@ -24,73 +25,27 @@ export const objects = {
     cwatermelon: {
         objectType: 'commonFruit', scoreValue: 9,
     },
-    // SUPER FRUIT
-    sGrape1: {
-        objectType: 'superFruitT1', scoreValue: 8,
-        objectEvent: () => {
-            addObject('superStar');
-            wait(2, () => { play('fallen-precious-object') });
-        }
-    },
-    sGrape2: {
-        objectType: 'superFruitT2', scoreValue: 10,
-    },
-    sGrape3: {
-        objectType: 'superFruitT3', scoreValue: 10,
-    },
-    sKumquat1: {
-        objectType: 'superFruitT1', scoreValue: 9,
-        objectEvent: () => {
-            addObject('samaraSpeed');
-            wait(2, () => { play('fallen-precious-object') });
-        }
-    },
-    sKumquat2: {
-        objectType: 'superFruitT2', scoreValue: 10,
-    },
-    sKumquat3: {
-        objectType: 'superFruitT3', scoreValue: 10,
-    },
-    sPiment1: {
-        objectType: 'superFruitT1', scoreValue: 12,
-        objectEvent: () => {
-            addObject('superPiment');
-            wait(2, () => { play('fallen-precious-object') });
-        }
-    },
-    sPiment2: {
-        objectType: 'superFruitT2', scoreValue: 10,
-    },
-    sPiment3: {
-        objectType: 'superFruitT3', scoreValue: 10,
-    },
-    sPlum1: {
-        objectType: 'superFruitT1', scoreValue: 13,
-        objectEvent: () => {
-            addObject('superHeart');
-        }
-    },
-    sPlum2: {
-        objectType: 'superFruitT2', scoreValue: 10,
-    },
-    sPlum3: {
-        objectType: 'superFruitT3', scoreValue: 10,
-    },
-    sTomato1: {
-        objectType: 'superFruitT1', scoreValue: 14,
-        objectEvent: () => {
-            wait(.8, () => {
-                addObject('superTomatoArmor');
-                wait(2, () => { play('fallen-precious-object') });
-            });
-        }
-    },
-    sTomato2: {
-        objectType: 'superFruitT2', scoreValue: 10,
-    },
-    sTomato3: {
-        objectType: 'superFruitT3', scoreValue: 10,
-    },
+    // SUPER FRUIT — `family` + `tier` drive the spawn progression (see progression.js).
+    // A perfectCombo runs the family's event whatever the tier (SUPER_FRUIT_EVENTS below).
+    sGrape1: { objectType: 'superFruitT1', family: 'grape', tier: 1, scoreValue: 8, objectEvent: () => SUPER_FRUIT_EVENTS.grape() },
+    sGrape2: { objectType: 'superFruitT2', family: 'grape', tier: 2, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.grape() },
+    sGrape3: { objectType: 'superFruitT3', family: 'grape', tier: 3, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.grape() },
+
+    sKumquat1: { objectType: 'superFruitT1', family: 'kumquat', tier: 1, scoreValue: 9, objectEvent: () => SUPER_FRUIT_EVENTS.kumquat() },
+    sKumquat2: { objectType: 'superFruitT2', family: 'kumquat', tier: 2, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.kumquat() },
+    sKumquat3: { objectType: 'superFruitT3', family: 'kumquat', tier: 3, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.kumquat() },
+
+    sPiment1: { objectType: 'superFruitT1', family: 'piment', tier: 1, scoreValue: 12, objectEvent: () => SUPER_FRUIT_EVENTS.piment() },
+    sPiment2: { objectType: 'superFruitT2', family: 'piment', tier: 2, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.piment() },
+    sPiment3: { objectType: 'superFruitT3', family: 'piment', tier: 3, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.piment() },
+
+    sPlum1: { objectType: 'superFruitT1', family: 'plum', tier: 1, scoreValue: 13, objectEvent: () => SUPER_FRUIT_EVENTS.plum() },
+    sPlum2: { objectType: 'superFruitT2', family: 'plum', tier: 2, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.plum() },
+    sPlum3: { objectType: 'superFruitT3', family: 'plum', tier: 3, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.plum() },
+
+    sTomato1: { objectType: 'superFruitT1', family: 'tomato', tier: 1, scoreValue: 14, objectEvent: () => SUPER_FRUIT_EVENTS.tomato() },
+    sTomato2: { objectType: 'superFruitT2', family: 'tomato', tier: 2, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.tomato() },
+    sTomato3: { objectType: 'superFruitT3', family: 'tomato', tier: 3, scoreValue: 10, objectEvent: () => SUPER_FRUIT_EVENTS.tomato() },
 
     megaFruit: {
         objectType: 'megaFruit', scoreValue: 50,
@@ -112,6 +67,7 @@ export const objects = {
     superStar: {
         objectType: 'superStar', scoreValue: 0,
         objectEvent: () => {
+            advanceTier('grape');
             playerStats.superStar += 1;
             addUpgrade_UI('superStar');
         }
@@ -120,6 +76,7 @@ export const objects = {
     superHeart: {
         objectType: 'superHeart', scoreValue: 0,
         objectEvent: () => {
+            advanceTier('plum');
             play('pickedSuperHeart');
             player.maxHP += 1;
             healthPoints_UI(player.maxHP - 1);
@@ -129,6 +86,7 @@ export const objects = {
         objectType: 'superTomatoArmor', scoreValue: 20,
         count: 0,
         objectEvent: () => {
+            advanceTier('tomato');
             play('pickedSuperTomatoArmor');
             playerStats.armor = 1;
             player.enterState('armorIdle');
@@ -143,6 +101,7 @@ export const objects = {
         objectType: 'superPiment', scoreValue: 20,
         count: 0,
         objectEvent: () => {
+            advanceTier('piment');
             play('pickedSuperPiment');
             playerStats.mines += 8;
             addUpgrade_UI('superPiment');
@@ -155,6 +114,7 @@ export const objects = {
         objectType: 'samaraSpeed', scoreValue: 20,
         count: 0,
         objectEvent: () => {
+            advanceTier('kumquat');
             play('pickedSamaraSpeed');
             playerStats.speed += 1;
             addUpgrade_UI('samaraSpeed');
@@ -210,6 +170,31 @@ export const objects = {
 
 };
 
+
+// PERFECT COMBO OF A SUPER FRUIT FAMILY (any tier) : drops that family's super object
+const SUPER_FRUIT_EVENTS = {
+    grape: () => {
+        addObject('superStar');
+        wait(2, () => { play('fallen-precious-object') });
+    },
+    kumquat: () => {
+        addObject('samaraSpeed');
+        wait(2, () => { play('fallen-precious-object') });
+    },
+    piment: () => {
+        addObject('superPiment');
+        wait(2, () => { play('fallen-precious-object') });
+    },
+    plum: () => {
+        addObject('superHeart');
+    },
+    tomato: () => {
+        wait(.8, () => {
+            addObject('superTomatoArmor');
+            wait(2, () => { play('fallen-precious-object') });
+        });
+    },
+};
 
 //
 //  ADDITIONAL FUNCTIONS

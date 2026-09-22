@@ -9,7 +9,7 @@ const FIREBALL = {
     fadeDuration: .3,
     scale: .9,
     areaScale: .9,
-    damage: 1,
+    damage: 2,
     volume: .8,
 };
 

@@ -6,6 +6,7 @@ import { showScoreTile, showComboTile } from './ui.js';
 import { classifyCombo, resolveWildcards, resolveCombo, playComboSound, comboExplosion, comboLabel, comboColors } from './loots.js';
 import { initInventory, addFruit, isInventoryFull, getInventorySlots, completeCombo } from './inventory.js';
 import { virusStats, resetVirusStats } from '../entities/virus.js';
+import { resetProgression } from './progression.js';
 
 
 export function fruitCombo({ player, score, boxes, boss, bossStats }) {
@@ -13,8 +14,9 @@ export function fruitCombo({ player, score, boxes, boss, bossStats }) {
     initInventory(boxes);
     scoreStats.comboCount = 0;   // RESETS COMBO COUNT AT THE BEGINNING OF THE GAME
     resetVirusStats();           // virusStats is module-level : clear the previous game's ramp-up
+    resetProgression();          // super fruits start back at tier 1 every game
 
-    const COMBO_TYPES = ['commonFruit', 'superFruitT1', 'megaFruit'];
+    const COMBO_TYPES = ['commonFruit', 'superFruitT1', 'superFruitT2', 'superFruitT3', 'megaFruit'];
 
     player.onCollide('objectContainer', (objectContainer) => {
 

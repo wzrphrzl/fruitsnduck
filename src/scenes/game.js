@@ -11,6 +11,7 @@ import { setPos, addRect, setXm, setYm } from '../lib/helpers.js';
 import { bump } from '../lib/effects.js';
 import { fruitCombo } from '../systems/fruitcombo.js';
 import { objects } from '../systems/objects.js';
+import { pickSuperFruit } from '../systems/progression.js';
 
 scene('game', () => {
 
@@ -95,11 +96,11 @@ scene('game', () => {
                 const spot = setPos(player, 100);
                 addPlant('treeSmall', spot.x, spot.y);
 
-                for (let i = 0; i < 10; i++) {
-                    addObject('megaFruit');
-                }
                 for (let i = 0; i < 2; i++) {
-                    addObject('superFruitT1');
+                    addObject('commonFruit');
+                }
+                for (let i = 0; i < 3; i++) {
+                    addObject(pickSuperFruit());
                 }
 
             });

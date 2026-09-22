@@ -2,6 +2,7 @@ import { objects } from './objects.js';
 import { addObject, addPlant, addTree } from './generators.js';
 import { setPos } from '../lib/helpers.js';
 import { palette } from '../lib/colorpalette.js';
+import { pickSuperFruit } from './progression.js';
 
 // WILDCARD FRUITS : they take on the identity of the trio's other fruits, but only
 // when those are all identical — a wildcard completes a pair, it never creates one.
@@ -28,7 +29,7 @@ export function resolveWildcards(slots) {
 //   baseCombo        : 3 different fruits
 //   unPerfectCombo   : 2 identical fruits + 1 different
 //   nearPerfectCombo : 3 identical common fruits
-//   perfectCombo     : 3 identical super fruits (T1)
+//   perfectCombo     : 3 identical super fruits (any tier)
 //   megaCombo        : 3 wildcards — placeholder, no reward defined yet
 export function classifyCombo(slots) {
     const allIdentical = slots.every(s => s === slots[0]);
@@ -95,7 +96,7 @@ const COMBO_REWARDS = {
             {
                 chance: 3, run: () => {
                     for (let i = 0; i < 2; i++) {
-                        addObject('superFruitT1');
+                        addObject(pickSuperFruit());
                     }
                 }
             },
