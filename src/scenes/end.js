@@ -47,12 +47,12 @@ scene('lose', () => {
             pos(width() / 2 - menuWidth / 2, menuTop),
             anchor('topleft'),
             color(Color.fromHex(palette.cyan.dark)),
-            outline(8, Color.fromHex(palette.cyan.default) ),
+            outline(8, Color.fromHex(palette.cyan.default)),
             body({ isStatic: true }),
             layer('bg'),
             'scoreMenu',
         ]);
-          
+
         scoreMenu.add([
             text('Score : ' + scoreStats.savedScore, fontStyleRegular),
             pos(128, 40),

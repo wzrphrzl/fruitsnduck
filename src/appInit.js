@@ -43,6 +43,7 @@ loadSound('debuff', './sound/bonus/debuff.mp3');
 loadSound('soundStress', './sound/bonus/sound-stress.mp3');
 loadSound('buff', './sound/bonus/buff.mp3');
 loadSound('lose', './sound/game-state/lose.mp3');
+loadSound('loseScreen', './sound/game-state/lose-screen.mp3');
 loadSound('mainTheme', './sound/fnd-main-theme.mp3');
 const musicPlaying = play('mainTheme', { volume: .33, loop: true, paused: false });
 

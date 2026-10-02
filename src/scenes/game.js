@@ -1,5 +1,5 @@
 import { addTiledMap } from '../lib/map.js';
-import { scoreStats } from '../appInit.js';
+import { scoreStats, musicPlaying } from '../appInit.js';
 import { createPlayer, playerStats } from '../entities/player.js';
 import { createBoss } from '../entities/boss.js';
 import { createVirus } from '../entities/virus.js';
@@ -15,7 +15,7 @@ import { pickSuperFruit } from '../systems/progression.js';
 
 scene('game', () => {
 
-    debug.inspect = true;
+    //debug.inspect = true;
 
     // MAP SETTINGS
     addRect(1440, 800, 0, 0, 0, palette.green.darker, 'bg', { fixed: true, area: false });
@@ -192,8 +192,14 @@ scene('game', () => {
         player.enterState('lose');
         player.paused = true;
         boss.paused = true;
+        musicPlaying.paused = true;
         wait(2, () => {
-            play('lose');
+            // THE LOSE JINGLE PLAYS ALONE : the main theme steps aside, then picks
+            // back up at normal speed once the jingle has played through once
+            play('loseScreen').onEnd(() => {
+                musicPlaying.speed = 1;
+                musicPlaying.paused = false;
+            });
             go('lose');
         });
     }
